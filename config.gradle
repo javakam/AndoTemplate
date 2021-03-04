@@ -1,0 +1,32 @@
+ext {
+
+    android = [
+            applicationId    : "ando.repo",
+            compileSdkVersion: 30,
+            buildToolsVersion: '30.0.3',
+            minSdkVersion    : 21,
+            targetSdkVersion : 30,
+            versionCode      : 1,
+            versionName      : "1.0.0"
+    ]
+
+    version =
+            [
+                    kotlin_coroutines   : '1.4.2-native-mt',
+                    core_ktx            : "1.3.2",
+                    core_testing        : '2.1.0',
+                    room                : '2.2.5',
+                    lifecycle           : "2.2.0",
+                    lifecycle_save_state: '2.2.0',
+                    work                : "2.4.0",
+                    paging              : '3.0.0-alpha06',
+
+                    //
+                    retrofit            : "2.9.0",
+                    okhttp              : '4.9.1',
+                    glide               : '4.12.0',
+                    eventbus            : '3.2.0'
+
+            ]
+
+}
