@@ -1,5 +1,6 @@
-package ando.repo
+package ando.repo.ui
 
+import ando.repo.R
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 

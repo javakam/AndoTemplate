@@ -1,5 +1,7 @@
-package ando.repo
+package ando.repo.ui
 
+import ando.repo.config.AppRouter
+import ando.repo.R
 import ando.toolkit.ext.doAsyncDelay
 import android.content.Intent
 import android.os.Bundle

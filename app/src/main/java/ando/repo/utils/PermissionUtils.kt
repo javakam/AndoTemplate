@@ -1,4 +1,4 @@
-package ando.repo
+package ando.repo.utils
 
 import android.Manifest
 import android.os.Build
@@ -11,7 +11,7 @@ import com.permissionx.guolindev.PermissionX
  *
  * com.permissionx.guolindev.PermissionX
  */
-object PermissionManager {
+object PermissionUtils {
 
     /**
      * 相应的清单文件中配置 (The corresponding listing file configuration):
@@ -29,7 +29,10 @@ object PermissionManager {
      *      tools:ignore="ScopedStorage" />
      */
     private val STORAGE_PERMISSION = if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P)
-        arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
+        arrayOf(
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.READ_EXTERNAL_STORAGE
+        )
     else arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
 
     fun requestStoragePermission(

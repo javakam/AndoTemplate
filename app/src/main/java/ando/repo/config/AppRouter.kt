@@ -1,5 +1,6 @@
-package ando.repo
+package ando.repo.config
 
+import ando.repo.ui.MainActivity
 import android.app.Activity
 import android.content.Intent
 
@@ -14,6 +15,5 @@ object AppRouter {
     fun toMain(activity: Activity) {
         activity.startActivity(Intent(activity, MainActivity::class.java))
     }
-
 
 }
