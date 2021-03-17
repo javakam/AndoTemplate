@@ -8,7 +8,8 @@ ext {
             targetSdkVersion : 30,
             versionCode      : 1,
             versionName      : "1.0.0",
-            versionAndo      : "1.6.6"
+            versionAndo      : "1.6.6",
+            versionAndoIndicator: "1.0.0"
     ]
 
     version =

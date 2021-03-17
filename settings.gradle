@@ -1,3 +1,4 @@
+include ':ando_ui_indicator'
 include ':ando_toolkit'
 include ':ando_library'
 include ':app'

@@ -1,5 +1,8 @@
 # Ando Template
 
+## ando_ui_indicator
+比`Google TabLayout`好用的方案, 参考自 <https://github.com/hackware1993/MagicIndicator>
+
 ## ando_library/ando_toolkit
 ```
 repositories {
@@ -20,7 +23,6 @@ https://github.com/novoda/bintray-release/wiki/%E4%B8%AD%E6%96%87%E6%96%87%E6%A1
 apply plugin: 'com.novoda.bintray-release'
 
 gradlew clean build bintrayUpload -PbintrayUser=javakam -PbintrayKey=xxx -PdryRun=false
-
 
 ```
 panpf

@@ -7,6 +7,7 @@ plugins {
 }
 
 def config = rootProject.ext.android
+def version = rootProject.ext.version
 
 android {
     compileSdkVersion config.compileSdkVersion
@@ -14,12 +15,9 @@ android {
     defaultConfig {
         minSdkVersion config.minSdkVersion
         targetSdkVersion config.targetSdkVersion
-        versionCode config.versionCode
-        versionName config.versionName
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
-        //vectorDrawables.useSupportLibrary = true
     }
 
     buildTypes {
@@ -45,7 +43,6 @@ android {
     }
 }
 
-def version = rootProject.ext.version
 dependencies {
     api fileTree(dir: "libs", include: ["*.jar"])
 

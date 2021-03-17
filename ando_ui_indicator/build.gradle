@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.library'
     id 'kotlin-android'
+    id 'kotlin-kapt'
     //id 'com.novoda.bintray-release'
     id 'com.github.panpf.bintray-publish'
 }
@@ -44,18 +45,17 @@ dependencies {
     compileOnly 'androidx.appcompat:appcompat:1.2.0'
     compileOnly "androidx.annotation:annotation:1.1.0"
     compileOnly "com.google.android.material:material:1.2.1"
-
+    compileOnly "androidx.viewpager2:viewpager2:1.0.0"
 }
 
-//https://github.com/novoda/bintray-release/wiki/%E4%B8%AD%E6%96%87%E6%96%87%E6%A1%A3HOME
-//https://github.com/panpf/bintray-publish
 publish {
     repoName = 'maven'
     userOrg = 'javakam'
-    groupId = 'ando.toolkit'
-    artifactId = 'toolkit'
-    publishVersion = config.versionAndo
-    desc = 'Ando ToolKit Library.'
+    groupId = 'ando.widget.indicator'
+    artifactId = 'indicator'
+    publishVersion = config.versionAndoIndicator
+    desc = 'Ando Widget Banner.'
     website = "https://github.com/javakam/${rootProject.name}"
+    //true 上传前测试 ; false 正常上传
     //dryRun = true
 }
