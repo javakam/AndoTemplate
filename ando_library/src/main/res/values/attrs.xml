@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--=============================== Loader ======================================-->
+    <declare-styleable name="Loader">
+        <attr name="state">
+            <enum name="loading" value="2" />
+            <enum name="error" value="3" />
+            <enum name="empty" value="4" />
+            <enum name="success" value="5" />
+        </attr>
+    </declare-styleable>
+
+</resources>

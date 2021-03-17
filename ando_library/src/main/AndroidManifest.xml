@@ -1,0 +1,56 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="ando.library">
+
+    <!--  适配全面屏 & 刘海屏  -->
+    <application>
+        <!--
+       关于全面屏
+       在manifest加入如下配置，四选其一，或者都写
+
+       ① 在manifest的Application节点下加入
+          <meta-data
+            android:name="android.max_aspect"
+            android:value="2.4" />
+
+       ② 在manifest的Application节点中加入
+          android:resizeableActivity="true"
+
+       ③ 在manifest的Application节点中加入
+          android:maxAspectRatio="2.4"
+
+       ④ 升级targetSdkVersion为25以上版本
+
+       播放器
+       允许绘制到 oppo、vivo 刘海屏机型的刘海区域
+       -->
+
+        <meta-data
+            android:name="android.max_aspect"
+            android:value="2.4" />
+
+        <!--
+        关于刘海屏
+        在manifest的Application节点下加入，vivo和oppo没有找到相关配置信息
+
+        适配华为（huawei）刘海屏
+        允许绘制到华为刘海屏机型的刘海区域
+        <meta-data
+            android:name="android.notch_support"
+            android:value="true" />
+
+        适配小米（xiaomi）刘海屏
+        <meta-data
+            android:name="notch.config"
+            android:value="portrait|landscape" />
+        -->
+
+        <meta-data
+            android:name="android.notch_support"
+            android:value="true" />
+        <meta-data
+            android:name="notch.config"
+            android:value="portrait|landscape" />
+
+    </application>
+
+</manifest>

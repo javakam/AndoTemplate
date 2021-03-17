@@ -1,0 +1,25 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="ando.toolkit">
+
+    <!-- https://stackoverflow.com/questions/62535856/intent-resolveactivity-returns-null-in-api-30 -->
+    <queries>
+        <!-- WebView -->
+        <intent>
+            <action android:name="android.intent.action.VIEW" />
+            <!--suppress AndroidElementNotAllowed -->
+            <category android:name="android.intent.category.BROWSABLE" />
+            <data android:scheme="http" />
+        </intent>
+
+        <!-- Camera -->
+        <intent>
+            <action android:name="android.media.action.IMAGE_CAPTURE" />
+        </intent>
+
+        <!-- Gallery -->
+        <intent>
+            <action android:name="android.intent.action.GET_CONTENT" />
+        </intent>
+    </queries>
+
+</manifest>

@@ -21,6 +21,11 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
+
+//      ndk {
+//          // 'armeabi', 'armeabi-v7a', 'arm64-v8a' , 'x86' , 'x86_64', 'mips','mips64'
+//          abiFilters 'armeabi-v7a'
+//      }
     }
 
     buildTypes {
@@ -32,6 +37,14 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    android.applicationVariants.all { variant ->
+        variant.outputs.all {
+            def buildType = variant.getBuildType().getName()
+            def releaseTime = new Date().format("yyyyMMddHHmmss", TimeZone.getTimeZone("GMT+08:00"))
+            outputFileName = "ando_template_v${defaultConfig.versionName}_${releaseTime}_${buildType}.apk"
+        }
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -39,13 +52,24 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
-
     lintOptions {
         checkReleaseBuilds false
         abortOnError false
     }
     packagingOptions {
         exclude 'META-INF/*.kotlin_module'
+
+        exclude 'META-INF/rxjava.properties'
+        exclude 'META-INF/DEPENDENCIES.txt'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/dependencies.txt'
+        exclude 'META-INF/LGPL2.1'
     }
 }
 
@@ -61,31 +85,51 @@ dependencies {
     implementation 'androidx.activity:activity-ktx:1.2.0-beta02'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation "androidx.annotation:annotation:1.1.0"
+    implementation "androidx.viewpager2:viewpager2:1.0.0"
     //implementation "androidx.cardview:cardview:1.0.0"
 
     //Permission
     implementation 'com.permissionx.guolindev:permissionx:1.4.0'
-    //Glide
+    //Glide        https://github.com/wasabeef/glide-transformations
     implementation "com.github.bumptech.glide:glide:$version.glide"
     kapt "com.github.bumptech.glide:compiler:$version.glide"
-    //OkHttp + retrofit
-    implementation "com.google.code.gson:gson:2.8.6"
-    implementation "com.squareup.okhttp3:okhttp:$version.okhttp"
-    implementation "com.squareup.okhttp3:logging-interceptor:$version.okhttp"
-    implementation "com.squareup.retrofit2:retrofit:$version.retrofit"
-    implementation "com.squareup.retrofit2:converter-gson:$version.retrofit"
+    implementation 'jp.wasabeef:glide-transformations:4.3.0'
+    //Pull Refresh 57KB
+    implementation 'com.scwang.smart:refresh-layout-kernel:2.0.1'
+    implementation 'com.scwang.smart:refresh-header-material:2.0.1'
+    implementation 'com.scwang.smart:refresh-footer-classics:2.0.1'
+    // ImageView    round & circle
+    //implementation 'com.makeramen:roundedimageview:2.3.0'
+    //implementation 'de.hdodenhof:circleimageview:3.1.0'
+    // GreenDao
+    //implementation 'org.greenrobot:greendao:3.3.0'
+
+    // OkHttp + retrofit + rxjava2
+    api "com.squareup.okhttp3:okhttp:$version.okhttp"
+    api "com.squareup.okhttp3:logging-interceptor:$version.okhttp"
+    api "com.squareup.retrofit2:retrofit:$version.retrofit"
+    api "com.squareup.retrofit2:converter-gson:$version.retrofit"
+    //api 'io.reactivex.rxjava2:rxjava:2.2.21'
+    //api 'io.reactivex.rxjava2:rxandroid:2.1.1'
+    //api 'com.jakewharton.rxbinding2:rxbinding:2.2.0'
+    //api "com.google.code.gson:gson:2.8.6"
 
     //My Architecture 1305KB
-    implementation 'ando.toolkit:toolkit:1.3.0'
-    implementation 'ando.library:library:1.3.0'
+    //implementation 'ando.toolkit:toolkit:1.6.6'
+    //implementation 'ando.library:library:1.6.6'
+    //implementation "ando.file:core:$version.file_operator"
+    implementation 'androidx.documentfile:documentfile:1.0.1'
     implementation 'ando.webview:webview:3.0.0'
     implementation 'ando.dialog:core:1.3.0'
     implementation 'ando.dialog:usage:1.3.0'
+    implementation 'ando.gallery:gallery:1.5.0'
     implementation 'ando.file:core:1.3.8'
     implementation 'ando.file:selector:1.3.8'
     implementation 'ando.file:compressor:1.3.8'
     implementation 'ando.file:android-q:1.3.8'
-    implementation 'androidx.documentfile:documentfile:1.0.1'
+
+    implementation project(':ando_library')
+    implementation project(':ando_toolkit')
 
 }
 
