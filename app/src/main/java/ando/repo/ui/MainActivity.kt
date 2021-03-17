@@ -23,6 +23,7 @@ class MainActivity : AppCompatActivity() {
         click(R.id.bt_widget_indicator) {
             AppRouter.toWidgetIndicator(this)
         }
+
     }
 
 }
