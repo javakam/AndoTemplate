@@ -1,6 +1,8 @@
 package ando.repo.config
 
+import ando.repo.ui.IndicatorActivity
 import ando.repo.ui.MainActivity
+import ando.repo.ui.TabLayoutActivity
 import android.app.Activity
 import android.content.Intent
 
@@ -14,6 +16,14 @@ object AppRouter {
 
     fun toMain(activity: Activity) {
         activity.startActivity(Intent(activity, MainActivity::class.java))
+    }
+
+    fun toWidgetTabLayout(activity: Activity) {
+        activity.startActivity(Intent(activity, TabLayoutActivity::class.java))
+    }
+
+    fun toWidgetIndicator(activity: Activity) {
+        activity.startActivity(Intent(activity, IndicatorActivity::class.java))
     }
 
 }

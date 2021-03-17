@@ -10,4 +10,9 @@
         <item name="android:windowDisablePreview">true</item>
     </style>
 
+    <!-- com.google.android.material.tabs.TabLayout 👉 tabTextAppearance -->
+    <style name="TabLayoutTextStyle">
+        <item name="android:textSize">15sp</item>
+    </style>
+
 </resources>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:descendantFocusability="blocksDescendants"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/dp_10"
+    android:paddingTop="@dimen/dp_5"
+    android:paddingRight="@dimen/dp_10"
+    android:paddingBottom="@dimen/dp_5"
+    tools:background="#eff">
+
+    <ImageView
+        android:id="@+id/title_img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        android:scaleType="centerCrop"
+        tools:src="@drawable/ic_nav_home" />
+
+    <TextView
+        android:id="@+id/title_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_3"
+        android:textColor="@color/font_gray"
+        android:textSize="@dimen/font_13"
+        android:visibility="gone"
+        tools:text="首页" />
+
+</LinearLayout>
