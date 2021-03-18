@@ -3,6 +3,9 @@
 ## ando_ui_indicator
 比`Google TabLayout`好用的方案, 参考自 <https://github.com/hackware1993/MagicIndicator>
 
+### 沉浸式状态栏
+https://juejin.cn/post/6844903518982111245
+
 ## ando_library/ando_toolkit
 ```
 repositories {

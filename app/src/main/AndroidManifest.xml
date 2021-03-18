@@ -53,7 +53,6 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.TabLayoutActivity"
-            android:configChanges="uiMode|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.IndicatorActivity"
