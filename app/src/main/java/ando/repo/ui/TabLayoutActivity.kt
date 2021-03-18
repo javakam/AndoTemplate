@@ -19,7 +19,6 @@ import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
-
 /**
  * # TabLayout + ViewPager2
  *
@@ -31,14 +30,18 @@ import com.google.android.material.tabs.TabLayoutMediator
 open class TabLayoutActivity : AppCompatActivity() {
 
     private val mTabLayout: TabLayout by lazy { findViewById(R.id.tabLayout) }
-    private val mViewPager: ViewPager2 by lazy { findViewById(R.id.viewpager) }
+    private val mViewPager: ViewPager2 by lazy { findViewById(R.id.viewpager2) }
     private val mViewPagerAdapter: TabFragmentStateAdapter<TabItem> by lazy { TabFragmentStateAdapter() }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        supportRequestWindowFeature(Window.FEATURE_NO_TITLE)
+    private fun initImmersive() {
         StatusBarUtils.transparentStatusBar(window)
         //window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         //window?.statusBarColor = Color.parseColor("#E0000000")
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        supportRequestWindowFeature(Window.FEATURE_NO_TITLE)
+        initImmersive()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_widget_tablayout)
         AndroidBug5497Workaround.assistActivity(findViewById(android.R.id.content))

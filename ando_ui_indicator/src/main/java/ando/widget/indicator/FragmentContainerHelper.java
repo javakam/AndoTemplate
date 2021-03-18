@@ -19,13 +19,13 @@ import ando.widget.indicator.navigator.PositionData;
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class FragmentContainerHelper {
 
-    private List<MagicIndicator> mMagicIndicators = new ArrayList<MagicIndicator>();
+    private final List<MagicIndicator> mMagicIndicators = new ArrayList<MagicIndicator>();
     private ValueAnimator mScrollAnimator;
     private int mLastSelectedIndex;
     private int mDuration = 150;
     private Interpolator mInterpolator = new AccelerateDecelerateInterpolator();
 
-    private Animator.AnimatorListener mAnimatorListener = new AnimatorListenerAdapter() {
+    private final Animator.AnimatorListener mAnimatorListener = new AnimatorListenerAdapter() {
         @Override
         public void onAnimationEnd(Animator animation) {
             dispatchPageScrollStateChanged(ScrollState.SCROLL_STATE_IDLE);
@@ -33,7 +33,7 @@ public class FragmentContainerHelper {
         }
     };
 
-    private ValueAnimator.AnimatorUpdateListener mAnimatorUpdateListener = new ValueAnimator.AnimatorUpdateListener() {
+    private final ValueAnimator.AnimatorUpdateListener mAnimatorUpdateListener = new ValueAnimator.AnimatorUpdateListener() {
         @Override
         public void onAnimationUpdate(ValueAnimator animation) {
             float positionOffsetSum = (Float) animation.getAnimatedValue();
@@ -56,10 +56,6 @@ public class FragmentContainerHelper {
 
     /**
      * IPagerIndicator支持弹性效果的辅助方法
-     *
-     * @param positionDataList
-     * @param index
-     * @return
      */
     public static PositionData getImitativePositionData(List<PositionData> positionDataList, int index) {
         if (index >= 0 && index <= positionDataList.size() - 1) { // 越界后，返回假的PositionData

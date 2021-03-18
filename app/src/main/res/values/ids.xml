@@ -2,4 +2,6 @@
 <resources>
     <item name="container" type="id"/>
     <item name="indicator" type="id"/>
+    <item name="viewpager" type="id"/>
+    <item name="viewpager2" type="id"/>
 </resources>

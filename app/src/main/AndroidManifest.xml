@@ -58,6 +58,14 @@
             android:name=".ui.IndicatorActivity"
             android:configChanges="uiMode|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.IndicatorViewPagerNoActivity"
+            android:configChanges="uiMode|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.IndicatorViewPagerActivity"
+            android:configChanges="uiMode|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize"
+            android:screenOrientation="portrait" />
 
     </application>
 

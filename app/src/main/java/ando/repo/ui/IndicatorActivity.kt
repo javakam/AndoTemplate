@@ -1,59 +1,41 @@
 package ando.repo.ui
 
-import ando.library.base.BaseMvcActivity
 import ando.repo.R
-import ando.repo.bean.ChannelBean
-import ando.repo.widget.indicator.MagicIndicatorHelper
-import ando.widget.indicator.FragmentContainerHelper
-import ando.widget.indicator.MagicIndicator
+import ando.repo.config.AppRouter
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.widget.Button
+import androidx.appcompat.app.AppCompatActivity
 
 /**
- * #
+ * # IndicatorActivity
+ *
+ * Modify https://github.com/hackware1993/MagicIndicator
  *
  * @author javakam
  * @date 2021/3/17  16:24
  */
-class IndicatorActivity :BaseMvcActivity(){
-    private val mIndicator: MagicIndicator by lazy { findViewById(R.id.indicator) }
-    private var mIndicatorAdapter: IndicatorNavAdapter? = null
-    private var mIndicatorHelper: MagicIndicatorHelper? = null
+class IndicatorActivity : AppCompatActivity() {
 
-    private val mChannels : List<ChannelBean>? = null//一级标题
-    private val mFragments: List<Fragment>? = null
-    private var mFragmentContainerHelper: FragmentContainerHelper? = null
+    private val mBtVpNo: Button by lazy { findViewById(R.id.bt_indicator_vp_no) }
+    private val mBtVp: Button by lazy { findViewById(R.id.bt_indicator_vp) }
 
-    override fun initView(savedInstanceState: Bundle?) {
-        mFragmentContainerHelper = FragmentContainerHelper()
-
-        mIndicatorHelper = MagicIndicatorHelper(this, supportFragmentManager)
-        mIndicatorHelper?.bind(mIndicator, null)
-
-        mFragmentContainerHelper?.handlePageSelected(0, false)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_widget_indicator)
+        displayUsage()
     }
 
-    private fun initTopIndicator() {
-        mIndicatorAdapter = IndicatorNavAdapter(false)
-        mIndicatorAdapter?.setData(mChannels)
-
-        //顶部导航切换
-        mIndicatorAdapter?.setOnTabClickListener {i:Int->
-            mFragmentContainerHelper?.handlePageSelected(i, false)
-            switchPages(i)
+    private fun displayUsage() {
+        //顶部导航 + Fragment + 不带ViewPager
+        mBtVpNo.setOnClickListener {
+            AppRouter.toWidgetIndicatorViewPagerNo(this)
         }
-        mIndicatorHelper?.initIndicatorHome(this, mIndicatorAdapter)
-        //ViewPagerHelper.bind(magicIndicator, mViewPager)
-        mFragmentContainerHelper?.attachMagicIndicator(mIndicator)
-    }
 
-    private fun switchPages(i: Int) {
-
-    }
-
-    private fun dataaaaaaa(){
+        //顶部导航 + Fragment + ViewPager
+        mBtVp.setOnClickListener {
+            AppRouter.toWidgetIndicatorViewPager(this)
+        }
 
     }
-
 
 }

@@ -1,8 +1,6 @@
 package ando.repo.config
 
-import ando.repo.ui.IndicatorActivity
-import ando.repo.ui.MainActivity
-import ando.repo.ui.TabLayoutActivity
+import ando.repo.ui.*
 import android.app.Activity
 import android.content.Intent
 
@@ -25,5 +23,16 @@ object AppRouter {
     fun toWidgetIndicator(activity: Activity) {
         activity.startActivity(Intent(activity, IndicatorActivity::class.java))
     }
+
+    //顶部导航 + Fragment + 不带ViewPager
+    fun toWidgetIndicatorViewPagerNo(activity: Activity) {
+        activity.startActivity(Intent(activity, IndicatorViewPagerNoActivity::class.java))
+    }
+
+    //顶部导航 + Fragment + ViewPager
+    fun toWidgetIndicatorViewPager(activity: Activity) {
+        activity.startActivity(Intent(activity, IndicatorViewPagerActivity::class.java))
+    }
+
 
 }

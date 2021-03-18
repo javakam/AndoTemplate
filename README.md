@@ -3,6 +3,17 @@
 ## ando_ui_indicator
 比`Google TabLayout`好用的方案, 参考自 <https://github.com/hackware1993/MagicIndicator>
 
+## CoordinatorLayout
+
+- 🍎注意: ViewPager中必须有可以滑动的组件如:RecycleView或者ScrollView等, 才能实现效果
+
+- 用 CoordinatorLayout 处理滚动 👉 https://juejin.cn/post/6844903519598690311
+
+    - 对应源码 👉 https://github.com/chrisbanes/cheesesquare
+
+- 动图展示app:layout_scrollFlags的5种滑动属性 👉 https://blog.csdn.net/LosingCarryJie/article/details/78917423
+
+
 ### 沉浸式状态栏
 https://juejin.cn/post/6844903518982111245
 

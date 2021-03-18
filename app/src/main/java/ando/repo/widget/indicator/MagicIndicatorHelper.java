@@ -3,13 +3,18 @@ package ando.repo.widget.indicator;
 import android.app.Activity;
 import android.content.Context;
 
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.viewpager.widget.ViewPager;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import ando.library.base.BaseFragment;
 import ando.library.base.BaseStatePagersAdapter;
+import ando.repo.bean.ChannelBean;
+import ando.repo.ui.IndicatorScrollNavAdapter;
+import ando.repo.ui.IndicatorScrollPagerAdapter;
 import ando.toolkit.ActivityUtils;
 import ando.widget.indicator.MagicIndicator;
 import ando.widget.indicator.ViewPagerHelper;
@@ -26,8 +31,9 @@ import ando.widget.indicator.navigator.CommonNavigator;
  */
 public class MagicIndicatorHelper {
 
-    private Context context;
-    private FragmentManager mFragmentManager;
+    private final Context context;
+    private final FragmentManager mFragmentManager;
+
     private MagicIndicator mIndicator;
     private ViewPager mViewPager;
 
@@ -52,7 +58,7 @@ public class MagicIndicatorHelper {
     }
 
     private <T> void initIndicator(BaseCommonNavigatorAdapter<T> navigatorAdapter, BaseStatePagersAdapter pagerAdapter,
-                                   List<T> data, List<String> titles, List<BaseFragment> fragments, int adjustModeThreshold, boolean adjustMode) {
+                                   List<T> data, List<String> titles, List<Fragment> fragments, int adjustModeThreshold, boolean adjustMode) {
         if (fragments == null || mIndicator == null) {
             return;
         }
@@ -112,9 +118,9 @@ public class MagicIndicatorHelper {
     }
 
     /**
-     * 一级分类样式, 没有 ViewPager
+     * 顶部导航 + Fragment + 不带ViewPager
      */
-    public <T> void initIndicatorHome(Activity activity, BaseCommonNavigatorAdapter<T> navigatorAdapter) {
+    public <T> void initIndicatorNoVp(Activity activity, BaseCommonNavigatorAdapter<T> navigatorAdapter) {
         if (!ActivityUtils.INSTANCE.isActivityLive(activity) || navigatorAdapter == null || mIndicator == null) {
             return;
         }
@@ -125,44 +131,36 @@ public class MagicIndicatorHelper {
         mIndicator.setNavigator(commonNavigator);
     }
 
-//    /**
-//     * 二级分类样式, 带有 ViewPager
-//     */
-//    public void initIndicatorHomeSecondary(List<Channel.ChildrenBean> childrenChannels, List<BaseFragment> fragments) {
-//        if (fragments == null || mIndicator == null) {
-//            return;
-//        }
-//
-//        List<String> titles = new ArrayList<>();
-//        for (Channel.ChildrenBean channel : childrenChannels) {
-//            titles.add(channel.getTitle());
-//        }
-//        initIndicator(new NewsNavChildAdapter(mViewPager), new ChannelChildPagerAdapter(mFragmentManager), childrenChannels, titles, fragments, sAdjustModeThresholdFour, false);
-//    }
+    /**
+     * 顶部导航 + Fragment + ViewPager
+     */
+    public void initIndicatorVp(List<ChannelBean> childrenChannels, List<Fragment> fragments) {
+        if (fragments == null || mIndicator == null) {
+            return;
+        }
+
+        List<String> titles = new ArrayList<>();
+        for (ChannelBean channel : childrenChannels) {
+            titles.add(channel.getTitle());
+        }
+        initIndicator(new IndicatorScrollNavAdapter(mViewPager), new IndicatorScrollPagerAdapter(mFragmentManager), childrenChannels, titles, fragments, sAdjustModeThresholdFour, false);
+    }
 
 
 //    /**
 //     * 登录
 //     */
-//    public void initIndicatorLogin(List<Channel.ChildrenBean> channels, List<BaseFragment> fragments) {
+//    public void initIndicatorLogin(List<ChannelBean> channels, List<BaseFragment> fragments) {
 //        if (fragments == null || mIndicator == null) {
 //            return;
 //        }
 //
 //        List<String> titles = new ArrayList<>();
-//        for (Channel.ChildrenBean channel : channels) {
+//        for (ChannelBean channel : channels) {
 //            titles.add(channel.getTitle());
 //        }
 //        initIndicator(new LoginNavAdapter(mViewPager), new ChannelPagerAdapter(mFragmentManager), channels, titles, fragments, sAdjustModeThresholdFour, false);
 //
 //    }
-
-    public MagicIndicator getMagicIndicator() {
-        return mIndicator;
-    }
-
-    public ViewPager getViewPager() {
-        return mViewPager;
-    }
 
 }

@@ -12,6 +12,7 @@ import androidx.annotation.DrawableRes;
 import androidx.core.content.ContextCompat;
 
 import ando.repo.R;
+import ando.repo.config.GlobalKt;
 import ando.repo.widget.indicator.titles.CustomScaleTransitionPagerTitleView;
 import ando.repo.widget.indicator.titles.MainNavigationView;
 import ando.widget.indicator.IPagerNavigator;
@@ -24,12 +25,8 @@ import ando.widget.indicator.navigator.indicators.BezierPagerIndicator;
 import ando.widget.indicator.navigator.indicators.LinePagerIndicator;
 import ando.widget.indicator.navigator.titles.CommonPagerTitleView;
 
-
 /**
- * Title: PagerIndicatorProvider
- * <p>
- * Description:
- * </p>
+ * # IPagerIndicator
  *
  * @author javakam
  * @date 2019/11/11  9:44
@@ -67,7 +64,7 @@ public class PagerIndicatorProvider {
         LinePagerIndicator indicator = new LinePagerIndicator(context);
 
         //设置高度
-        float navigatorHeight = context.getResources().getDimension(R.dimen.dp_40);
+        float navigatorHeight = GlobalKt.indicatorHeight();
         indicator.setLineHeight(navigatorHeight);
         indicator.setColors(ContextCompat.getColor(context, R.color.color_main_blue));
         return indicator;
