@@ -7,6 +7,10 @@ plugins {
 def config = rootProject.ext.android
 def version = rootProject.ext.version
 
+def keystoreFile = rootProject.file('key.properties')
+def keystoreProperties = new Properties()
+keystoreProperties.load(new FileInputStream(keystoreFile))
+
 android {
     compileSdkVersion config.compileSdkVersion
     buildToolsVersion config.buildToolsVersion
@@ -28,13 +32,33 @@ android {
 //      }
     }
 
+    signingConfigs {
+        debug {
+            storeFile file(keystoreProperties['storeFileDebug'])
+            storePassword keystoreProperties['storePasswordDebug']
+            keyAlias keystoreProperties['keyAliasDebug']
+            keyPassword keystoreProperties['keyPasswordDebug']
+        }
+        release {
+            storeFile file(keystoreProperties['storeFileRelease'])
+            storePassword keystoreProperties['storePasswordRelease']
+            keyAlias keystoreProperties['keyAliasRelease']
+            keyPassword keystoreProperties['keyPasswordRelease']
+            v1SigningEnabled true
+            v2SigningEnabled true
+        }
+    }
     buildTypes {
         debug {
             minifyEnabled false
+            signingConfig signingConfigs.debug
         }
         release {
             minifyEnabled true
+            zipAlignEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
     android.applicationVariants.all { variant ->
