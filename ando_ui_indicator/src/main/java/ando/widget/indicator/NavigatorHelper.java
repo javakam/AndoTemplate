@@ -3,6 +3,8 @@ package ando.widget.indicator;
 import android.util.SparseArray;
 import android.util.SparseBooleanArray;
 
+import ando.widget.indicator.abs.ScrollState;
+
 /**
  * 方便扩展IPagerNavigator的帮助类，将ViewPager的3个回调方法转换成
  * onSelected、onDeselected、onEnter等回调，方便扩展

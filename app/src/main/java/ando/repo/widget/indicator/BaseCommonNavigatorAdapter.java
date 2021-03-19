@@ -5,7 +5,7 @@ import androidx.viewpager.widget.ViewPager;
 import java.util.List;
 
 import ando.repo.widget.indicator.titles.OnTabClickListener;
-import ando.widget.indicator.navigator.abs.CommonNavigatorAdapter;
+import ando.widget.indicator.abs.CommonNavigatorAdapter;
 
 public abstract class BaseCommonNavigatorAdapter<T> extends CommonNavigatorAdapter {
 

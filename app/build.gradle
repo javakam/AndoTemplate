@@ -129,8 +129,10 @@ dependencies {
 
     implementation project(':ando_library')
     implementation project(':ando_toolkit')
-    //41KB
-    implementation project(':ando_ui_indicator')
+
+    implementation project(':module_indicator')
+    //implementation project(':ando_ui_indicator') //41KB
+    //implementation project(':ando_ui_indicator_usage')
 
 }
 

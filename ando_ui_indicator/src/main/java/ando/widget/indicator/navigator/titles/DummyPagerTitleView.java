@@ -3,7 +3,7 @@ package ando.widget.indicator.navigator.titles;
 import android.content.Context;
 import android.view.View;
 
-import ando.widget.indicator.navigator.abs.IPagerTitleView;
+import ando.widget.indicator.abs.IPagerTitleView;
 
 /**
  * 空指示器标题，用于只需要指示器而不需要title的需求

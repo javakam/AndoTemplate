@@ -52,18 +52,18 @@
             android:configChanges="uiMode|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.TabLayoutActivity"
+            android:name=".ui.coordinator.TabLayoutActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.IndicatorActivity"
+            android:name=".ui.indicator.IndicatorActivity"
             android:configChanges="uiMode|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.IndicatorViewPagerNoActivity"
+            android:name=".ui.indicator.IndicatorViewPagerNoActivity"
             android:configChanges="uiMode|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.IndicatorViewPagerActivity"
+            android:name=".ui.indicator.IndicatorViewPagerActivity"
             android:configChanges="uiMode|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize"
             android:screenOrientation="portrait" />
 

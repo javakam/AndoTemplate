@@ -13,7 +13,7 @@ import android.widget.TextView;
 import androidx.annotation.DimenRes;
 
 import ando.repo.R;
-import ando.widget.indicator.navigator.abs.IMeasurablePagerTitleView;
+import ando.widget.indicator.abs.IMeasurablePagerTitleView;
 
 /**
  * Title:CustomPagerTitleView
@@ -175,7 +175,7 @@ public class CustomPagerTitleView extends FrameLayout implements IMeasurablePage
         this.enablePadding = enablePadding;
 
         if (enablePadding) {
-            //int padding = UIUtil.dip2px(context, 10);
+            //int padding = IndicatorUtils.dip2px(context, 10);
             int verPadding = getResources().getDimensionPixelSize(R.dimen.dp_5);
             int horPadding = getResources().getDimensionPixelSize(R.dimen.dp_8);
             setPadding(horPadding, verPadding, horPadding, verPadding);

@@ -5,6 +5,8 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import ando.widget.indicator.abs.IPagerNavigator;
+
 /**
  * 整个框架的入口，核心
  * <p>

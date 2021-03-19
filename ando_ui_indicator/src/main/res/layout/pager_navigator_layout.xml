@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ando.widget.indicator.SlowHorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<ando.widget.indicator.navigator.SlowHorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/scroll_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -24,4 +24,4 @@
 
     </FrameLayout>
 
-</ando.widget.indicator.SlowHorizontalScrollView>
+</ando.widget.indicator.navigator.SlowHorizontalScrollView>

@@ -6,14 +6,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
-import ando.widget.indicator.navigator.abs.IMeasurablePagerTitleView;
+import ando.widget.indicator.abs.IMeasurablePagerTitleView;
 
 /**
  * 通用的指示器标题，子元素内容由外部提供，事件回传给外部
  */
 public class CommonPagerTitleView extends FrameLayout implements IMeasurablePagerTitleView {
     private OnPagerTitleChangeListener mOnPagerTitleChangeListener;
-    private ContentPositionDataProvider mContentPositionDataProvider;
+    private ContentIndicatorPositionProvider mContentIndicatorPositionProvider;
 
     public CommonPagerTitleView(Context context) {
         super(context);
@@ -49,32 +49,32 @@ public class CommonPagerTitleView extends FrameLayout implements IMeasurablePage
 
     @Override
     public int getContentLeft() {
-        if (mContentPositionDataProvider != null) {
-            return mContentPositionDataProvider.getContentLeft();
+        if (mContentIndicatorPositionProvider != null) {
+            return mContentIndicatorPositionProvider.getContentLeft();
         }
         return getLeft();
     }
 
     @Override
     public int getContentTop() {
-        if (mContentPositionDataProvider != null) {
-            return mContentPositionDataProvider.getContentTop();
+        if (mContentIndicatorPositionProvider != null) {
+            return mContentIndicatorPositionProvider.getContentTop();
         }
         return getTop();
     }
 
     @Override
     public int getContentRight() {
-        if (mContentPositionDataProvider != null) {
-            return mContentPositionDataProvider.getContentRight();
+        if (mContentIndicatorPositionProvider != null) {
+            return mContentIndicatorPositionProvider.getContentRight();
         }
         return getRight();
     }
 
     @Override
     public int getContentBottom() {
-        if (mContentPositionDataProvider != null) {
-            return mContentPositionDataProvider.getContentBottom();
+        if (mContentIndicatorPositionProvider != null) {
+            return mContentIndicatorPositionProvider.getContentBottom();
         }
         return getBottom();
     }
@@ -88,11 +88,11 @@ public class CommonPagerTitleView extends FrameLayout implements IMeasurablePage
         setContentView(contentView, null);
     }
 
-    public void setContentView(View contentView, FrameLayout.LayoutParams lp) {
+    public void setContentView(View contentView, LayoutParams lp) {
         removeAllViews();
         if (contentView != null) {
             if (lp == null) {
-                lp = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+                lp = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
             }
             addView(contentView, lp);
         }
@@ -111,12 +111,12 @@ public class CommonPagerTitleView extends FrameLayout implements IMeasurablePage
         mOnPagerTitleChangeListener = onPagerTitleChangeListener;
     }
 
-    public ContentPositionDataProvider getContentPositionDataProvider() {
-        return mContentPositionDataProvider;
+    public ContentIndicatorPositionProvider getContentIndicatorPositionProvider() {
+        return mContentIndicatorPositionProvider;
     }
 
-    public void setContentPositionDataProvider(ContentPositionDataProvider contentPositionDataProvider) {
-        mContentPositionDataProvider = contentPositionDataProvider;
+    public void setContentIndicatorPositionProvider(ContentIndicatorPositionProvider contentIndicatorPositionProvider) {
+        mContentIndicatorPositionProvider = contentIndicatorPositionProvider;
     }
 
     public interface OnPagerTitleChangeListener {
@@ -129,7 +129,7 @@ public class CommonPagerTitleView extends FrameLayout implements IMeasurablePage
         void onEnter(int index, int totalCount, float enterPercent, boolean leftToRight);
     }
 
-    public interface ContentPositionDataProvider {
+    public interface ContentIndicatorPositionProvider {
         int getContentLeft();
 
         int getContentTop();

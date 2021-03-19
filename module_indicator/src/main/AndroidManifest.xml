@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="ando.indicator.example">
+
+    <application>
+
+        <activity
+            android:name=".ExampleMainActivity"
+            android:label="@string/page_entrance" />
+
+        <activity
+            android:name=".ScrollableTabExampleActivity"
+            android:label="@string/scrollable_tab" />
+
+        <activity
+            android:name=".FixedTabExampleActivity"
+            android:label="@string/fixed_tab" />
+
+        <activity
+            android:name=".DynamicTabExampleActivity"
+            android:label="@string/dynamic_tab" />
+
+        <activity
+            android:name=".NoTabOnlyIndicatorExampleActivity"
+            android:label="@string/no_tab_only_indicator" />
+
+        <activity
+            android:name=".FragmentContainerExampleActivity"
+            android:label="@string/work_with_fragment_container" />
+
+        <activity
+            android:name=".BadgeTabExampleActivity"
+            android:label="@string/tab_with_badge_view" />
+
+        <activity
+            android:name=".CustomNavigatorExampleActivity"
+            android:label="@string/custom_navigator" />
+
+        <activity
+            android:name=".LoadCustomLayoutExampleActivity"
+            android:label="@string/tab_with_custom_layout" />
+
+    </application>
+
+</manifest>

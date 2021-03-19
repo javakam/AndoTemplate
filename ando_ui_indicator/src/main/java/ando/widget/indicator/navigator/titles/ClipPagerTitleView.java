@@ -6,8 +6,8 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.view.View;
 
-import ando.widget.indicator.navigator.IndicatorUtils;
-import ando.widget.indicator.navigator.abs.IMeasurablePagerTitleView;
+import ando.widget.indicator.IndicatorUtils;
+import ando.widget.indicator.abs.IMeasurablePagerTitleView;
 
 /**
  * 类似今日头条切换效果的指示器标题
@@ -63,16 +63,11 @@ public class ClipPagerTitleView extends View implements IMeasurablePagerTitleVie
         int mode = MeasureSpec.getMode(heightMeasureSpec);
         int size = MeasureSpec.getSize(heightMeasureSpec);
         int result = size;
-        switch (mode) {
-            case MeasureSpec.AT_MOST:
-                int height = mTextBounds.height() + getPaddingTop() + getPaddingBottom();
-                result = Math.min(height, size);
-                break;
-            case MeasureSpec.UNSPECIFIED:
-                result = mTextBounds.height() + getPaddingTop() + getPaddingBottom();
-                break;
-            default:
-                break;
+        if (mode == MeasureSpec.AT_MOST) {
+            int height = mTextBounds.height() + getPaddingTop() + getPaddingBottom();
+            result = Math.min(height, size);
+        } else if (mode == MeasureSpec.UNSPECIFIED) {
+            result = mTextBounds.height() + getPaddingTop() + getPaddingBottom();
         }
         return result;
     }

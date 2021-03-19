@@ -15,15 +15,15 @@ import ando.repo.R;
 import ando.repo.config.GlobalKt;
 import ando.repo.widget.indicator.titles.CustomScaleTransitionPagerTitleView;
 import ando.repo.widget.indicator.titles.MainNavigationView;
-import ando.widget.indicator.IPagerNavigator;
-import ando.widget.indicator.ext.navigator.ScaleCircleNavigator;
-import ando.widget.indicator.navigator.CircleNavigator;
-import ando.widget.indicator.navigator.IndicatorUtils;
-import ando.widget.indicator.navigator.abs.IPagerIndicator;
-import ando.widget.indicator.navigator.abs.IPagerTitleView;
-import ando.widget.indicator.navigator.indicators.BezierPagerIndicator;
-import ando.widget.indicator.navigator.indicators.LinePagerIndicator;
+import ando.widget.indicator.IndicatorUtils;
+import ando.widget.indicator.abs.IPagerIndicator;
+import ando.widget.indicator.abs.IPagerNavigator;
+import ando.widget.indicator.abs.IPagerTitleView;
+import ando.widget.indicator.indicators.BezierPagerIndicator;
+import ando.widget.indicator.indicators.LinePagerIndicator;
 import ando.widget.indicator.navigator.titles.CommonPagerTitleView;
+import ando.widget.indicator.usage.indicators.CircleNavigator;
+import ando.widget.indicator.usage.navigator.ScaleCircleNavigator;
 
 /**
  * # IPagerIndicator

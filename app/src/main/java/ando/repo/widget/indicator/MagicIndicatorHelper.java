@@ -12,8 +12,8 @@ import java.util.List;
 
 import ando.library.base.BaseStatePagersAdapter;
 import ando.repo.bean.ChannelBean;
-import ando.repo.ui.IndicatorScrollNavAdapter;
-import ando.repo.ui.IndicatorScrollPagerAdapter;
+import ando.repo.ui.indicator.IndicatorScrollNavAdapter;
+import ando.repo.ui.indicator.IndicatorScrollPagerAdapter;
 import ando.toolkit.ActivityUtils;
 import ando.widget.indicator.MagicIndicator;
 import ando.widget.indicator.ViewPagerHelper;

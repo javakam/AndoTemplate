@@ -1,7 +1,7 @@
 plugins {
     id 'com.android.library'
-    id 'kotlin-android'
-    id 'kotlin-kapt'
+    //id 'kotlin-android'
+    //id 'kotlin-kapt'
     //id 'com.novoda.bintray-release'
     id 'com.github.panpf.bintray-publish'
 }
@@ -33,19 +33,17 @@ android {
     lintOptions {
         abortOnError false
     }
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
+//    kotlinOptions {
+//        jvmTarget = "1.8"
+//    }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
 
-    compileOnly 'androidx.core:core-ktx:1.3.2'
-    compileOnly 'androidx.appcompat:appcompat:1.2.0'
-    compileOnly "androidx.annotation:annotation:1.1.0"
-    compileOnly "com.google.android.material:material:1.2.1"
+    compileOnly 'androidx.viewpager:viewpager:1.0.0'
     compileOnly "androidx.viewpager2:viewpager2:1.0.0"
+
 }
 
 publish {
@@ -54,7 +52,7 @@ publish {
     groupId = 'ando.widget.indicator'
     artifactId = 'indicator'
     publishVersion = config.versionAndoIndicator
-    desc = 'Ando Widget Banner.'
+    desc = 'Ando Widget Indicator.'
     website = "https://github.com/javakam/${rootProject.name}"
     //true 上传前测试 ; false 正常上传
     //dryRun = true

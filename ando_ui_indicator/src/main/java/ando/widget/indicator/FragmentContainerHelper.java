@@ -11,14 +11,15 @@ import android.view.animation.Interpolator;
 import java.util.ArrayList;
 import java.util.List;
 
-import ando.widget.indicator.navigator.PositionData;
+import ando.widget.indicator.abs.ScrollState;
+import ando.widget.indicator.indicators.PagerIndicatorPosition;
 
 /**
  * 使得MagicIndicator在FragmentContainer中使用
+ * Created by hackware on 2016/9/4.
  */
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class FragmentContainerHelper {
-
     private final List<MagicIndicator> mMagicIndicators = new ArrayList<MagicIndicator>();
     private ValueAnimator mScrollAnimator;
     private int mLastSelectedIndex;
@@ -57,12 +58,12 @@ public class FragmentContainerHelper {
     /**
      * IPagerIndicator支持弹性效果的辅助方法
      */
-    public static PositionData getImitativePositionData(List<PositionData> positionDataList, int index) {
-        if (index >= 0 && index <= positionDataList.size() - 1) { // 越界后，返回假的PositionData
+    public static PagerIndicatorPosition getImitativeIndicatorPosition(List<PagerIndicatorPosition> positionDataList, int index) {
+        if (index >= 0 && index <= positionDataList.size() - 1) { // 越界后，返回假的PagerIndicatorPosition
             return positionDataList.get(index);
         } else {
-            PositionData result = new PositionData();
-            PositionData referenceData;
+            PagerIndicatorPosition result = new PagerIndicatorPosition();
+            PagerIndicatorPosition referenceData;
             int offset;
             if (index < 0) {
                 offset = index;
@@ -81,10 +82,6 @@ public class FragmentContainerHelper {
             result.mContentBottom = referenceData.mContentBottom;
             return result;
         }
-    }
-
-    public int getLastSelectedIndex() {
-        return mLastSelectedIndex;
     }
 
     public void handlePageSelected(int selectedIndex) {
@@ -156,5 +153,9 @@ public class FragmentContainerHelper {
         for (MagicIndicator magicIndicator : mMagicIndicators) {
             magicIndicator.onPageScrolled(position, positionOffset, positionOffsetPixels);
         }
+    }
+
+    public int getLastSelectedIndex() {
+        return mLastSelectedIndex;
     }
 }

@@ -11,15 +11,15 @@ import android.widget.LinearLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-import ando.widget.indicator.IPagerNavigator;
+import ando.widget.indicator.abs.IPagerNavigator;
 import ando.widget.indicator.NavigatorHelper;
 import ando.widget.indicator.R;
-import ando.widget.indicator.ScrollState;
-import ando.widget.indicator.SlowHorizontalScrollView;
-import ando.widget.indicator.navigator.abs.CommonNavigatorAdapter;
-import ando.widget.indicator.navigator.abs.IMeasurablePagerTitleView;
-import ando.widget.indicator.navigator.abs.IPagerIndicator;
-import ando.widget.indicator.navigator.abs.IPagerTitleView;
+import ando.widget.indicator.abs.ScrollState;
+import ando.widget.indicator.abs.CommonNavigatorAdapter;
+import ando.widget.indicator.abs.IMeasurablePagerTitleView;
+import ando.widget.indicator.abs.IPagerIndicator;
+import ando.widget.indicator.abs.IPagerTitleView;
+import ando.widget.indicator.indicators.PagerIndicatorPosition;
 
 /**
  * 通用的ViewPager指示器，包含PagerTitle和PagerIndicator
@@ -46,11 +46,11 @@ public class CommonNavigator extends FrameLayout implements IPagerNavigator, Nav
     private int mLeftPadding;
     private boolean mIndicatorOnTop;    // 指示器是否在title上层，默认为下层
     private boolean mSkimOver;  // 跨多页切换时，中间页是否显示 "掠过" 效果
-    private boolean mReselectWhenLayout = true; // PositionData准备好时，是否重新选中当前页，为true可保证在极端情况下指示器状态正确
+    private boolean mReselectWhenLayout = true; // IndicatorPosition准备好时，是否重新选中当前页，为true可保证在极端情况下指示器状态正确
     /****************************************************/
 
     // 保存每个title的位置信息，为扩展indicator提供保障
-    private List<PositionData> mPositionDataList = new ArrayList<PositionData>();
+    private List<PagerIndicatorPosition> mIndicatorPositionList = new ArrayList<PagerIndicatorPosition>();
 
     private DataSetObserver mObserver = new DataSetObserver() {
 
@@ -165,9 +165,9 @@ public class CommonNavigator extends FrameLayout implements IPagerNavigator, Nav
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         super.onLayout(changed, left, top, right, bottom);
         if (mAdapter != null) {
-            preparePositionData();
+            prepareIndicatorPosition();
             if (mIndicator != null) {
-                mIndicator.onPositionDataProvide(mPositionDataList);
+                mIndicator.onIndicatorPositionProvide(mIndicatorPositionList);
             }
             if (mReselectWhenLayout && mNavigatorHelper.getScrollState() == ScrollState.SCROLL_STATE_IDLE) {
                 onPageSelected(mNavigatorHelper.getCurrentIndex());
@@ -179,10 +179,10 @@ public class CommonNavigator extends FrameLayout implements IPagerNavigator, Nav
     /**
      * 获取title的位置信息，为打造不同的指示器、各种效果提供可能
      */
-    private void preparePositionData() {
-        mPositionDataList.clear();
+    private void prepareIndicatorPosition() {
+        mIndicatorPositionList.clear();
         for (int i = 0, j = mNavigatorHelper.getTotalCount(); i < j; i++) {
-            PositionData data = new PositionData();
+            PagerIndicatorPosition data = new PagerIndicatorPosition();
             View v = mTitleContainer.getChildAt(i);
             if (v != null) {
                 data.mLeft = v.getLeft();
@@ -202,7 +202,7 @@ public class CommonNavigator extends FrameLayout implements IPagerNavigator, Nav
                     data.mContentBottom = data.mBottom;
                 }
             }
-            mPositionDataList.add(data);
+            mIndicatorPositionList.add(data);
         }
     }
 
@@ -216,12 +216,12 @@ public class CommonNavigator extends FrameLayout implements IPagerNavigator, Nav
             }
 
             // 手指跟随滚动
-            if (mScrollView != null && mPositionDataList.size() > 0 && position >= 0 && position < mPositionDataList.size()) {
+            if (mScrollView != null && mIndicatorPositionList.size() > 0 && position >= 0 && position < mIndicatorPositionList.size()) {
                 if (mFollowTouch) {
-                    int currentPosition = Math.min(mPositionDataList.size() - 1, position);
-                    int nextPosition = Math.min(mPositionDataList.size() - 1, position + 1);
-                    PositionData current = mPositionDataList.get(currentPosition);
-                    PositionData next = mPositionDataList.get(nextPosition);
+                    int currentPosition = Math.min(mIndicatorPositionList.size() - 1, position);
+                    int nextPosition = Math.min(mIndicatorPositionList.size() - 1, position + 1);
+                    PagerIndicatorPosition current = mIndicatorPositionList.get(currentPosition);
+                    PagerIndicatorPosition next = mIndicatorPositionList.get(nextPosition);
                     float scrollTo = current.horizontalCenter() - mScrollView.getWidth() * mScrollPivotX;
                     float nextScrollTo = next.horizontalCenter() - mScrollView.getWidth() * mScrollPivotX;
                     mScrollView.scrollTo((int) (scrollTo + (nextScrollTo - scrollTo) * positionOffset), 0);
@@ -337,9 +337,9 @@ public class CommonNavigator extends FrameLayout implements IPagerNavigator, Nav
         if (v instanceof IPagerTitleView) {
             ((IPagerTitleView) v).onSelected(index, totalCount);
         }
-        if (!mAdjustMode && !mFollowTouch && mScrollView != null && mPositionDataList.size() > 0) {
-            int currentIndex = Math.min(mPositionDataList.size() - 1, index);
-            PositionData current = mPositionDataList.get(currentIndex);
+        if (!mAdjustMode && !mFollowTouch && mScrollView != null && mIndicatorPositionList.size() > 0) {
+            int currentIndex = Math.min(mIndicatorPositionList.size() - 1, index);
+            PagerIndicatorPosition current = mIndicatorPositionList.get(currentIndex);
             if (mEnablePivotScroll) {
                 float scrollTo = current.horizontalCenter() - mScrollView.getWidth() * mScrollPivotX;
                 if (mSmoothScroll) {

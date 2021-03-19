@@ -1,6 +1,11 @@
 package ando.repo.config
 
+import ando.indicator.example.ExampleMainActivity
 import ando.repo.ui.*
+import ando.repo.ui.coordinator.TabLayoutActivity
+import ando.repo.ui.indicator.IndicatorActivity
+import ando.repo.ui.indicator.IndicatorViewPagerActivity
+import ando.repo.ui.indicator.IndicatorViewPagerNoActivity
 import android.app.Activity
 import android.content.Intent
 
@@ -33,6 +38,11 @@ object AppRouter {
     fun toWidgetIndicatorViewPager(activity: Activity) {
         activity.startActivity(Intent(activity, IndicatorViewPagerActivity::class.java))
     }
+
+    fun toWidgetIndicatorOrigin(activity: Activity) {
+        activity.startActivity(Intent(activity, ExampleMainActivity::class.java))
+    }
+
 
 
 }

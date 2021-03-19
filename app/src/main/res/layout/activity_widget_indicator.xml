@@ -8,15 +8,22 @@
     <Button
         android:id="@+id/bt_indicator_vp_no"
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="顶部导航 + Fragment + 不带ViewPager"
-        android:textAllCaps="false"
-        android:layout_height="wrap_content"/>
+        android:textAllCaps="false" />
 
     <Button
         android:id="@+id/bt_indicator_vp"
         android:layout_width="wrap_content"
-        android:textAllCaps="false"
+        android:layout_height="wrap_content"
         android:text="顶部导航 + Fragment + ViewPager"
-        android:layout_height="wrap_content"/>
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/bt_indicator_origin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="MagicIndicator 整体演示"
+        android:textAllCaps="false" />
 
 </LinearLayout>

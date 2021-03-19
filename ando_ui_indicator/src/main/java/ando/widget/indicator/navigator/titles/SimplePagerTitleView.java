@@ -5,16 +5,15 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.text.TextUtils;
 import android.view.Gravity;
-import androidx.appcompat.widget.AppCompatTextView;
+import android.widget.TextView;
 
-import ando.widget.indicator.navigator.IndicatorUtils;
-import ando.widget.indicator.navigator.abs.IMeasurablePagerTitleView;
-
+import ando.widget.indicator.IndicatorUtils;
+import ando.widget.indicator.abs.IMeasurablePagerTitleView;
 
 /**
  * 带文本的指示器标题
  */
-public class SimplePagerTitleView extends AppCompatTextView implements IMeasurablePagerTitleView {
+public class SimplePagerTitleView extends TextView implements IMeasurablePagerTitleView {
     protected int mSelectedColor;
     protected int mNormalColor;
 
@@ -56,9 +55,7 @@ public class SimplePagerTitleView extends AppCompatTextView implements IMeasurab
         if (getText().toString().contains("\n")) {
             String[] brokenStrings = getText().toString().split("\\n");
             for (String each : brokenStrings) {
-                if (each.length() > longestString.length()) {
-                    longestString = each;
-                }
+                if (each.length() > longestString.length()) longestString = each;
             }
         } else {
             longestString = getText().toString();
@@ -82,9 +79,7 @@ public class SimplePagerTitleView extends AppCompatTextView implements IMeasurab
         if (getText().toString().contains("\n")) {
             String[] brokenStrings = getText().toString().split("\\n");
             for (String each : brokenStrings) {
-                if (each.length() > longestString.length()) {
-                    longestString = each;
-                }
+                if (each.length() > longestString.length()) longestString = each;
             }
         } else {
             longestString = getText().toString();
@@ -116,5 +111,4 @@ public class SimplePagerTitleView extends AppCompatTextView implements IMeasurab
     public void setNormalColor(int normalColor) {
         mNormalColor = normalColor;
     }
-
 }
