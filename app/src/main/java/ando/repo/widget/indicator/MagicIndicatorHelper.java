@@ -10,7 +10,6 @@ import androidx.viewpager.widget.ViewPager;
 import java.util.ArrayList;
 import java.util.List;
 
-import ando.library.base.BaseFragment;
 import ando.library.base.BaseStatePagersAdapter;
 import ando.repo.bean.ChannelBean;
 import ando.repo.ui.IndicatorScrollNavAdapter;
@@ -21,10 +20,7 @@ import ando.widget.indicator.ViewPagerHelper;
 import ando.widget.indicator.navigator.CommonNavigator;
 
 /**
- * Title: MagicIndicatorHelper
- * <p>
- * Description:
- * </p>
+ * # MagicIndicatorHelper
  *
  * @author javakam
  * @date 2020/1/8  15:50
@@ -82,36 +78,6 @@ public class MagicIndicatorHelper {
         ViewPagerHelper.bind(mIndicator, mViewPager);
 
         navigatorAdapter.updateData(data);
-        pagerAdapter.updateData(fragments, titles);
-        mViewPager.setCurrentItem(0, false);
-
-    }
-
-    private void initIndicator(BaseCommonNavigatorAdapter<String> navigatorAdapter, BaseStatePagersAdapter pagerAdapter,
-                               List<String> titles, List<BaseFragment> fragments, boolean adjustMode) {
-        if (fragments == null || mIndicator == null) {
-            return;
-        }
-        //Navigator
-        final CommonNavigator commonNavigator = new CommonNavigator(context);
-        // 自适应模式，适用于数目固定的、少量的title  , 多于三个Tab则滑动显示
-        if (titles.size() <= sAdjustModeThresholdFour || adjustMode) {
-            commonNavigator.setAdjustMode(true);
-        }
-
-        commonNavigator.setSkimOver(false);
-        commonNavigator.setAdapter(navigatorAdapter);
-
-        //PagerAdapter
-        //mViewPager.setOffscreenPageLimit(mChannels.size());//缓存所有子页
-        mViewPager.setOffscreenPageLimit(1);
-        mViewPager.setAdapter(pagerAdapter);
-        mIndicator.setNavigator(commonNavigator);
-
-        //mFragmentContainerHelper.attachMagicIndicator(mIndicator);
-        ViewPagerHelper.bind(mIndicator, mViewPager);
-
-        navigatorAdapter.updateData(titles);
         pagerAdapter.updateData(fragments, titles);
         mViewPager.setCurrentItem(0, false);
 
