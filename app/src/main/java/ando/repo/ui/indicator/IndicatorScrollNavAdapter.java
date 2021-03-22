@@ -5,8 +5,6 @@ import android.graphics.Color;
 import android.view.Gravity;
 import android.view.View;
 
-import androidx.viewpager.widget.ViewPager;
-
 import org.jetbrains.annotations.Nullable;
 
 import ando.repo.R;
@@ -27,17 +25,13 @@ import ando.widget.indicator.abs.IPagerTitleView;
  */
 public class IndicatorScrollNavAdapter extends BaseCommonNavigatorAdapter<ChannelBean> {
 
-    public IndicatorScrollNavAdapter(ViewPager mViewPager) {
-        super(mViewPager);
-    }
-
     @Override
     public IPagerTitleView getTitleView(Context context, final int index) {
         CustomPagerTitleView titleView = new CustomPagerTitleView(context);
         titleView.setEnablePadding(true);
-        titleView.setText(mData.get(index).getTitle());
+        titleView.setText(getData().get(index).getTitle());
 
-        final boolean isMoreThanThree = mData.size() > MagicIndicatorHelper.sAdjustModeThresholdThree;
+        final boolean isMoreThanThree = getCount() > MagicIndicatorHelper.sAdjustModeThresholdThree;
         if (isMoreThanThree) {
             titleView.setMinWidth(ResUtils.INSTANCE.getDimensionPixelSize(R.dimen.dp_100));
         }
@@ -51,9 +45,7 @@ public class IndicatorScrollNavAdapter extends BaseCommonNavigatorAdapter<Channe
         titleView.setOnClickListener(new NoShakeClickListener() {
             @Override
             protected void onSingleClick(@Nullable View v) {
-                if (mViewPager != null) {
-                    mViewPager.setCurrentItem(index, false);
-                }
+                triggerScrollWithTabClickEvent(index,false);
             }
         });
         return titleView;

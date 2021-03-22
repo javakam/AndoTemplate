@@ -35,7 +35,7 @@ class IndicatorViewPagerNoActivity : AppCompatActivity() {
         //supportRequestWindowFeature(Window.FEATURE_NO_TITLE)
         remoteData {
             if (!it) {
-                mIndicatorFixedAdapter.updateData(mChannels)
+                mIndicatorFixedAdapter.setData(mChannels)
 
                 switchIndicator(0)
                 switchFragment(0)

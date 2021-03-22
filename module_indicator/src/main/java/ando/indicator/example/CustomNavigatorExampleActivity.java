@@ -11,7 +11,7 @@ import java.util.List;
 
 import ando.widget.indicator.MagicIndicator;
 import ando.widget.indicator.ViewPagerHelper;
-import ando.widget.indicator.usage.indicators.CircleNavigator;
+import ando.widget.indicator.usage.navigator.CircleNavigator;
 import ando.widget.indicator.usage.navigator.ScaleCircleNavigator;
 
 public class CustomNavigatorExampleActivity extends AppCompatActivity {

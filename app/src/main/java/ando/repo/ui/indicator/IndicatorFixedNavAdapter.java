@@ -11,10 +11,10 @@ import ando.repo.bean.ChannelBean;
 import ando.repo.widget.indicator.BaseCommonNavigatorAdapter;
 import ando.repo.widget.indicator.MagicIndicatorHelper;
 import ando.repo.widget.indicator.PagerIndicatorProvider;
-import ando.repo.widget.indicator.titles.CustomScaleTransitionPagerTitleView;
 import ando.toolkit.ResUtils;
 import ando.widget.indicator.abs.IPagerIndicator;
 import ando.widget.indicator.abs.IPagerTitleView;
+import ando.widget.indicator.usage.navigator.titles.ScaleTransitionPagerTitleView;
 
 /**
  * # IndicatorNavAdapter
@@ -28,13 +28,14 @@ public class IndicatorFixedNavAdapter extends BaseCommonNavigatorAdapter<Channel
     public IPagerTitleView getTitleView(Context context, final int index) {
         final int textSize = R.dimen.font_15;
 
-        final CustomScaleTransitionPagerTitleView titleView = new CustomScaleTransitionPagerTitleView(context);
-        boolean isMoreThanThree = mData.size() > MagicIndicatorHelper.sAdjustModeThresholdThree;
+        final ScaleTransitionPagerTitleView titleView = new ScaleTransitionPagerTitleView(context);
+        boolean isMoreThanThree = getCount()> MagicIndicatorHelper.sAdjustModeThresholdThree;
         if (isMoreThanThree) {
             titleView.setMinWidth(ResUtils.INSTANCE.getDimensionPixelSize(R.dimen.dp_100));
         }
-        titleView.disableTextScale();//关闭文字缩放
-        titleView.setText(mData.get(index).getTitle());
+        titleView.setEnableColorTrans(false);
+        titleView.setEnableScale(false);
+        titleView.setText(getData().get(index).getTitle());
         titleView.setTextBoldWhenSelected(true);
         //自带字体缩放效果,所以不需要设置选中和未选中字体大小
         titleView.setTextSize(TypedValue.COMPLEX_UNIT_PX, context.getResources().getDimensionPixelOffset(textSize));
@@ -43,9 +44,7 @@ public class IndicatorFixedNavAdapter extends BaseCommonNavigatorAdapter<Channel
         titleView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (onTabClickListener != null) {
-                    onTabClickListener.onClick(index);
-                }
+                triggerTabClickEvent(index);
             }
         });
         return titleView;

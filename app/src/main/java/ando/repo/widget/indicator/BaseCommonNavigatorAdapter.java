@@ -9,32 +9,41 @@ import ando.widget.indicator.abs.CommonNavigatorAdapter;
 
 public abstract class BaseCommonNavigatorAdapter<T> extends CommonNavigatorAdapter {
 
-    protected ViewPager mViewPager;
-    protected List<T> mData;
-    protected OnTabClickListener onTabClickListener;
+    private List<T> mData;
+    private ViewPager mViewPager;
+    private OnTabClickListener onTabClickListener;
 
-    public BaseCommonNavigatorAdapter() {
+    protected List<T> getData() {
+        return mData;
     }
 
-    public BaseCommonNavigatorAdapter(ViewPager mViewPager) {
-        this.mViewPager = mViewPager;
+    public void addData(List<T> data) {
+        this.mData = data;
     }
 
     public void setData(List<T> data) {
         this.mData = data;
+        notifyDataSetChanged();
     }
 
-    public void updateData(List<T> data) {
-        this.mData = data;
-        notifyDataSetChanged();
+    public void setViewPager(ViewPager mViewPager) {
+        this.mViewPager = mViewPager;
     }
 
     public void setOnTabClickListener(OnTabClickListener onTabClickListener) {
         this.onTabClickListener = onTabClickListener;
     }
 
-    public OnTabClickListener getOnTabClickListener() {
-        return onTabClickListener;
+    public void triggerTabClickEvent(int index) {
+        if (this.onTabClickListener != null) {
+            this.onTabClickListener.onClick(index);
+        }
+    }
+
+    public void triggerScrollWithTabClickEvent(int index, boolean smoothScroll) {
+        if (this.mViewPager != null) {
+            this.mViewPager.setCurrentItem(index, smoothScroll);
+        }
     }
 
     @Override

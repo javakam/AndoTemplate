@@ -14,6 +14,7 @@ import ando.widget.indicator.abs.IMeasurablePagerTitleView;
  * 带文本的指示器标题
  */
 public class SimplePagerTitleView extends TextView implements IMeasurablePagerTitleView {
+
     protected int mSelectedColor;
     protected int mNormalColor;
 
@@ -55,7 +56,9 @@ public class SimplePagerTitleView extends TextView implements IMeasurablePagerTi
         if (getText().toString().contains("\n")) {
             String[] brokenStrings = getText().toString().split("\\n");
             for (String each : brokenStrings) {
-                if (each.length() > longestString.length()) longestString = each;
+                if (each.length() > longestString.length()) {
+                    longestString = each;
+                }
             }
         } else {
             longestString = getText().toString();
@@ -79,7 +82,9 @@ public class SimplePagerTitleView extends TextView implements IMeasurablePagerTi
         if (getText().toString().contains("\n")) {
             String[] brokenStrings = getText().toString().split("\\n");
             for (String each : brokenStrings) {
-                if (each.length() > longestString.length()) longestString = each;
+                if (each.length() > longestString.length()) {
+                    longestString = each;
+                }
             }
         } else {
             longestString = getText().toString();
@@ -111,4 +116,5 @@ public class SimplePagerTitleView extends TextView implements IMeasurablePagerTi
     public void setNormalColor(int normalColor) {
         mNormalColor = normalColor;
     }
+
 }

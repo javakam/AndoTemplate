@@ -13,7 +13,6 @@ import androidx.core.content.ContextCompat;
 
 import ando.repo.R;
 import ando.repo.config.GlobalKt;
-import ando.repo.widget.indicator.titles.CustomScaleTransitionPagerTitleView;
 import ando.repo.widget.indicator.titles.MainNavigationView;
 import ando.widget.indicator.IndicatorUtils;
 import ando.widget.indicator.abs.IPagerIndicator;
@@ -22,8 +21,9 @@ import ando.widget.indicator.abs.IPagerTitleView;
 import ando.widget.indicator.indicators.BezierPagerIndicator;
 import ando.widget.indicator.indicators.LinePagerIndicator;
 import ando.widget.indicator.navigator.titles.CommonPagerTitleView;
-import ando.widget.indicator.usage.indicators.CircleNavigator;
+import ando.widget.indicator.usage.navigator.CircleNavigator;
 import ando.widget.indicator.usage.navigator.ScaleCircleNavigator;
+import ando.widget.indicator.usage.navigator.titles.ScaleTransitionPagerTitleView;
 
 /**
  * # IPagerIndicator
@@ -134,16 +134,18 @@ public class PagerIndicatorProvider {
      * </pre>
      */
     public static IPagerTitleView getPagerTitleView(Context context, String text, @DimenRes int textSize, View.OnClickListener listener) {
-        final CustomScaleTransitionPagerTitleView simplePagerTitleView = new CustomScaleTransitionPagerTitleView(context);
-        simplePagerTitleView.setText(text);
-        simplePagerTitleView.setTextBoldWhenSelected(true);
+        final ScaleTransitionPagerTitleView titleView = new ScaleTransitionPagerTitleView(context);
+        titleView.setEnableColorTrans(false);
+        titleView.setEnableScale(false);
+        titleView.setText(text);
+        titleView.setTextBoldWhenSelected(true);
         //自带字体缩放效果,所以不需要设置选中和未选中字体大小
-        simplePagerTitleView.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+        titleView.setTextSize(TypedValue.COMPLEX_UNIT_PX,
                 context.getResources().getDimensionPixelOffset(textSize == 0 ? R.dimen.font_15 : textSize));
-        simplePagerTitleView.setNormalColor(Color.GRAY);
-        simplePagerTitleView.setSelectedColor(Color.RED);
-        simplePagerTitleView.setOnClickListener(listener);
-        return simplePagerTitleView;
+        titleView.setNormalColor(Color.GRAY);
+        titleView.setSelectedColor(Color.RED);
+        titleView.setOnClickListener(listener);
+        return titleView;
     }
 
 }

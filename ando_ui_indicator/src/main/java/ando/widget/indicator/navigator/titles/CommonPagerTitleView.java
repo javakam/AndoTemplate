@@ -81,8 +81,6 @@ public class CommonPagerTitleView extends FrameLayout implements IMeasurablePage
 
     /**
      * 外部直接将布局设置进来
-     *
-     * @param contentView
      */
     public void setContentView(View contentView) {
         setContentView(contentView, null);

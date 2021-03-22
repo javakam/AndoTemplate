@@ -9,7 +9,7 @@ ext {
             versionCode      : 1,
             versionName      : "1.0.0",
             versionAndo      : "1.6.7",
-            versionAndoIndicator: "1.1.0"
+            versionAndoIndicator: "1.2.0"
     ]
 
     version =

@@ -1,4 +1,4 @@
-package ando.widget.indicator.usage.indicators;
+package ando.widget.indicator.usage.navigator;
 
 import android.content.Context;
 import android.graphics.Canvas;

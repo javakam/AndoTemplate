@@ -77,7 +77,7 @@ public class MagicIndicatorHelper {
         //mFragmentContainerHelper.attachMagicIndicator(mIndicator);
         ViewPagerHelper.bind(mIndicator, mViewPager);
 
-        navigatorAdapter.updateData(data);
+        navigatorAdapter.setData(data);
         pagerAdapter.updateData(fragments, titles);
         mViewPager.setCurrentItem(0, false);
 
@@ -109,9 +109,10 @@ public class MagicIndicatorHelper {
         for (ChannelBean channel : childrenChannels) {
             titles.add(channel.getTitle());
         }
-        initIndicator(new IndicatorScrollNavAdapter(mViewPager), new IndicatorScrollPagerAdapter(mFragmentManager), childrenChannels, titles, fragments, sAdjustModeThresholdFour, false);
+        IndicatorScrollNavAdapter navAdapter = new IndicatorScrollNavAdapter();
+        navAdapter.setViewPager(mViewPager);
+        initIndicator(navAdapter, new IndicatorScrollPagerAdapter(mFragmentManager), childrenChannels, titles, fragments, sAdjustModeThresholdFour, false);
     }
-
 
 //    /**
 //     * 登录
