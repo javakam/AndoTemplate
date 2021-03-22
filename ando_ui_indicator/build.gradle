@@ -49,8 +49,8 @@ dependencies {
 publish {
     repoName = 'maven'
     userOrg = 'javakam'
-    groupId = 'ando.widget.indicator'
-    artifactId = 'indicator'
+    groupId = 'ando.widget'
+    artifactId = 'indicator.core'
     publishVersion = config.versionAndoIndicator
     desc = 'Ando Widget Indicator.'
     website = "https://github.com/javakam/${rootProject.name}"
