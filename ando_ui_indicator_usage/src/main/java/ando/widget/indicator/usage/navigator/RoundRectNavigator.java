@@ -20,32 +20,30 @@ import ando.widget.indicator.IndicatorUtils;
  * # RoundRectNavigator  圆角矩形指示器
  *
  * <pre>
- *     使用:
+ *  使用:
  *
- *      private void initMagicIndicator4() {
- *         MagicIndicator magicIndicator = (MagicIndicator) findViewById(R.id.magic_indicator4);
- *         RoundRectNavigator circleNavigator = new RoundRectNavigator(this);
- *         circleNavigator.setFollowTouch(true);//是否跟随手指滑动
- *         circleNavigator.setTotalCount(count);
+ *      MagicIndicator magicIndicator = (MagicIndicator) findViewById(R.id.magic_indicator4);
+ *      RoundRectNavigator circleNavigator = new RoundRectNavigator(this);
+ *      circleNavigator.setFollowTouch(true);//是否跟随手指滑动
+ *      circleNavigator.setTotalCount(count);
  *
- *         circleNavigator.setItemColor(Color.LTGRAY);
- *         circleNavigator.setIndicatorColor(Color.parseColor("#BA0022"));
+ *      circleNavigator.setItemColor(Color.LTGRAY);
+ *      circleNavigator.setIndicatorColor(Color.parseColor("#BA0022"));
  *
- *         circleNavigator.setItemWidth(18D);
- *         circleNavigator.setItemSpacing(4D);
- *         circleNavigator.setItemHeight(3D);
- *         circleNavigator.setItemRadius(3D);
+ *      circleNavigator.setItemWidth(18D);
+ *      circleNavigator.setItemSpacing(4D);
+ *      circleNavigator.setItemHeight(3D);
+ *      circleNavigator.setItemRadius(3D);
  *
- *         circleNavigator.setOnItemClickListener(new RoundRectNavigator.OnItemClickListener() {
- *             @ Override
- *             public void onClick(int index) {
- *                 mViewPager.setCurrentItem(index);
- *             }
- *         });
- *         circleNavigator.notifyDataSetChanged();
- *         magicIndicator.setNavigator(circleNavigator);
- *         ViewPagerHelper.bind(magicIndicator, mViewPager);
- *     }
+ *      circleNavigator.setOnItemClickListener(new RoundRectNavigator.OnItemClickListener() {
+ *          @ Override
+ *          public void onClick(int index) {
+ *              mViewPager.setCurrentItem(index);
+ *          }
+ *      });
+ *      circleNavigator.notifyDataSetChanged();
+ *      magicIndicator.setNavigator(circleNavigator);
+ *      ViewPagerHelper.bind(magicIndicator, mViewPager);
  * </pre>
  *
  * @author javakam

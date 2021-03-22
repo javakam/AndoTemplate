@@ -8,12 +8,11 @@ import android.database.Cursor
 import android.net.Uri
 import android.view.Window
 import android.view.WindowManager
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 
 /**
- * # ActivityUtils
- *
- * Activity 工具类
+ * # Activity 工具类
  *
  * @author javakam
  * @date 2019/11/15 14:44
@@ -48,24 +47,19 @@ object ActivityUtils {
 
     /**
      * 设置为全屏
-     *
-     * @param activity Activity
      */
     fun setFullScreen(activity: Activity) = toggleFullScreen(activity, true)
 
     /**
      * 隐藏Activity的系统默认标题栏
-     *
-     * @param activity Activity
      */
     fun hideTitleBar(activity: Activity) {
-        activity.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        if (activity is AppCompatActivity) activity.supportRequestWindowFeature(Window.FEATURE_NO_TITLE)
+        else activity.requestWindowFeature(Window.FEATURE_NO_TITLE)
     }
 
     /**
      * 强制设置Activity的显示方向为垂直方向。
-     *
-     * @param activity Activity
      */
     fun setScreenVertical(activity: Activity) {
         activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
@@ -73,8 +67,6 @@ object ActivityUtils {
 
     /**
      * 强制设置Activity的显示方向为横向
-     *
-     * @param activity Activity
      */
     fun setScreenHorizontal(activity: Activity) {
         activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE

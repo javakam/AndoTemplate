@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/iv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY" />
+
+    <com.ando.ui.core.widget.alpha.AndoAlphaTextView
+        android:id="@+id/tv_jump"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="12dp"
+        android:background="@drawable/ando_config_bg_button_corner_black"
+        android:clickable="true"
+        android:focusable="true"
+        android:paddingStart="12dp"
+        android:paddingTop="6dp"
+        android:paddingEnd="12dp"
+        android:paddingBottom="6dp"
+        android:text="@string/ando_jump"
+        android:textColor="@color/ando_config_color_white"
+        android:textSize="12sp" />
+
+    <com.ando.ui.core.widget.alpha.AndoAlphaTextView
+        android:id="@+id/tv_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="28dp"
+        android:background="@drawable/ando_config_bg_button_corner_white"
+        android:clickable="true"
+        android:focusable="true"
+        android:paddingLeft="30dp"
+        android:paddingTop="8dp"
+        android:paddingRight="30dp"
+        android:paddingBottom="8dp"
+        android:text="@string/ando_try_immediately"
+        android:textColor="@color/ando_config_color_white"
+        android:textSize="?attr/ando_btn_view_text_size" />
+
+</RelativeLayout>

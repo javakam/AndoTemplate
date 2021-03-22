@@ -1,3 +1,4 @@
+include ':ando_ui_banner'
 include ':module_indicator'
 include ':ando_ui_indicator_usage'
 include ':ando_ui_indicator'

@@ -1,15 +1,16 @@
 ext {
 
     android = [
-            applicationId    : "ando.repo",
-            compileSdkVersion: 30,
-            buildToolsVersion: '30.0.3',
-            minSdkVersion    : 21,
-            targetSdkVersion : 30,
-            versionCode      : 1,
-            versionName      : "1.0.0",
-            versionAndo      : "1.6.7",
-            versionAndoIndicator: "1.2.0"
+            applicationId       : "ando.repo",
+            compileSdkVersion   : 30,
+            buildToolsVersion   : '30.0.3',
+            minSdkVersion       : 21,
+            targetSdkVersion    : 30,
+            versionCode         : 1,
+            versionName         : "1.0.0",
+            versionAndo         : "1.6.7",
+            versionAndoIndicator: "1.2.0",
+            versionAndoBanner   : "1.0.0"
     ]
 
     version =

@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">ando_ui_banner</string>
+
+
+    <string name="ando_try_immediately">立即体验</string>
+    <string name="ando_jump">跳过</string>
+
+</resources>

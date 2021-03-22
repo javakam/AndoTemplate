@@ -3,6 +3,72 @@
 ## ando_ui_indicator
 比`Google TabLayout`好用的方案, 参考自 <https://github.com/hackware1993/MagicIndicator>
 
+## ando_ui_banner
+`Banner`在`RecyclerViewAdapter`中使用时:
+```java
+@Override
+public void onViewDetachedFromWindow(BaseViewHolder holder) {
+    final SimpleImageBanner banner = holder.getView(R.id.bannerImage);
+    if (banner!=null) {
+        banner.pauseScroll();
+    }
+    super.onViewDetachedFromWindow(holder);
+}
+
+@Override
+public void onViewAttachedToWindow(@NotNull BaseViewHolder holder) {
+    super.onViewAttachedToWindow(holder);
+    final SimpleImageBanner banner = holder.getView(R.id.bannerImage);
+    if (banner!=null) {
+        banner.startScroll();
+    }
+}
+```
+https://github.com/saiwu-bigkoo/Android-ConvenientBanner
+
+## Banner & Indicator 一起使用
+```java
+//bing BannerView with MagicIndicator
+final MagicIndicator indicator = holder.getView(R.id.magicIndicator);
+RoundRectNavigator roundNavigator = new RoundRectNavigator(mContext);
+roundNavigator.setFollowTouch(true);//是否跟随手指滑动
+roundNavigator.setTotalCount(mEntity.size());
+
+roundNavigator.setItemColor(Color.LTGRAY);
+roundNavigator.setIndicatorColor(Color.parseColor("#BA0022"));
+
+roundNavigator.setItemWidth(18D);
+roundNavigator.setItemSpacing(4D);
+roundNavigator.setItemHeight(3D);
+roundNavigator.setItemRadius(3D);
+
+roundNavigator.setOnItemClickListener(new RoundRectNavigator.OnItemClickListener() {
+    @Override
+    public void onClick(int index) {
+        banner.getViewPager().setCurrentItem(index);
+    }
+});
+roundNavigator.notifyDataSetChanged();
+indicator.setNavigator(roundNavigator);
+//ViewPagerHelper.bind(indicator, banner.getViewPager());
+banner.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+        indicator.onPageScrolled(position, positionOffset, positionOffsetPixels);
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+        indicator.onPageSelected(position);
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+        indicator.onPageScrollStateChanged(state);
+    }
+});
+```
+
 ## CoordinatorLayout
 
 - 🍎注意: ViewPager中必须有可以滑动的组件如:RecycleView或者ScrollView等, 才能实现效果
