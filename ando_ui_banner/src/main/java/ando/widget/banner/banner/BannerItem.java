@@ -1,4 +1,4 @@
-package ando.widget.banner.widget.banner;
+package ando.widget.banner.banner;
 
 /**
  * 图片轮播条目

@@ -1,4 +1,4 @@
-package ando.widget.banner.widget.banner;
+package ando.widget.banner.banner;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import ando.widget.banner.R;
-import ando.widget.banner.widget.banner.base.BaseIndicatorBanner;
+import ando.widget.banner.banner.base.BaseIndicatorBanner;
 
 /**
  * 简单的文字轮播
@@ -33,9 +33,9 @@ public class SimpleTextBanner extends BaseIndicatorBanner<String, SimpleTextBann
 
     @Override
     public View onCreateItemView(int position) {
-        View inflate = inflate(mContext, R.layout.ando_adapter_simple_text, null);
-        TextView tv = inflate.findViewById(R.id.tv);
-        tv.setText(mDatas.get(position));
+        View inflate = inflate(mContext, R.layout.banner_adapter_simple_text, null);
+        TextView tv = inflate.findViewById(R.id.tv_banner);
+        tv.setText(mData.get(position));
         return inflate;
     }
 

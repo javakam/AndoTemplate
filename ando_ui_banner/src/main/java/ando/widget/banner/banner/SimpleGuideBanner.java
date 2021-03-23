@@ -1,4 +1,4 @@
-package ando.widget.banner.widget.banner;
+package ando.widget.banner.banner;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -7,7 +7,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import ando.widget.banner.R;
-import ando.widget.banner.widget.banner.base.BaseIndicatorBanner;
+import ando.widget.banner.banner.base.BaseIndicatorBanner;
 
 /**
  * 简单的引导页
@@ -40,16 +40,15 @@ public class SimpleGuideBanner extends BaseIndicatorBanner<Object, SimpleGuideBa
 
     @Override
     public View onCreateItemView(int position) {
-        View inflate = inflate(mContext, R.layout.ando_adapter_simple_guide, null);
-        ImageView iv = inflate.findViewById(R.id.iv);
-        TextView tvJump = inflate.findViewById(R.id.tv_jump);
-        TextView tvStart = inflate.findViewById(R.id.tv_start);
+        View inflate = inflate(mContext, R.layout.banner_adapter_simple_guide, null);
+        ImageView iv = inflate.findViewById(R.id.iv_banner);
+        TextView tvJump = inflate.findViewById(R.id.tv_banner_jump);
+        TextView tvStart = inflate.findViewById(R.id.tv_banner_start);
 
-        final Object resId = mDatas.get(position);
+        final Object resId = mData.get(position);
         tvJump.setVisibility(position == 0 ? VISIBLE : GONE);
-        tvStart.setVisibility(position == mDatas.size() - 1 ? VISIBLE : GONE);
-        //todo 2021年3月22日 17:04:04
-        //ImageLoader.get().loadImage(iv, resId);
+        tvStart.setVisibility(position == mData.size() - 1 ? VISIBLE : GONE);
+        getImageLoader().loadImage(iv, resId);
 
         tvJump.setOnClickListener(new View.OnClickListener() {
             @Override

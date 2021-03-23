@@ -1,9 +1,10 @@
-package ando.widget.banner.widget.banner.base;
+package ando.widget.banner.banner.base;
 
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -31,8 +32,8 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import ando.widget.banner.R;
-import ando.widget.banner.widget.loopviewpager.FixedSpeedScroller;
-import ando.widget.banner.widget.loopviewpager.LoopViewPager;
+import ando.widget.banner.loopviewpager.FixedSpeedScroller;
+import ando.widget.banner.loopviewpager.LoopViewPager;
 
 /**
  * 轮播条
@@ -60,7 +61,7 @@ public abstract class BaseBanner<E, T extends BaseBanner<E, T>> extends Relative
     /**
      * 数据源
      */
-    protected List<E> mDatas = new ArrayList<>();
+    protected List<E> mData = new ArrayList<>();
     /**
      * 当前position
      */
@@ -94,10 +95,6 @@ public abstract class BaseBanner<E, T extends BaseBanner<E, T>> extends Relative
      */
     private Class<? extends ViewPager.PageTransformer> mTransformerClass;
 
-    /**
-     * 显示器(小点)的最顶层父容器
-     */
-    private RelativeLayout mRlBottomBarParent;
     private int mItemWidth;
     private int mItemHeight;
 
@@ -134,13 +131,13 @@ public abstract class BaseBanner<E, T extends BaseBanner<E, T>> extends Relative
      */
     private float mContainerScale;
 
-    private final Handler mHandler = new Handler(new Handler.Callback() {
+    private final Handler mHandler = new Handler(Looper.myLooper()) {
         @Override
-        public boolean handleMessage(Message message) {
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
             scrollToNextItem(mCurrentPosition);
-            return true;
         }
-    });
+    };
 
     public BaseBanner(Context context) {
         super(context);
@@ -157,9 +154,6 @@ public abstract class BaseBanner<E, T extends BaseBanner<E, T>> extends Relative
         initAttrs(context, attrs);
     }
 
-    /**
-     * 初始化属性
-     */
     private void initAttrs(Context context, AttributeSet attrs) {
         mContext = context;
         mDisplayMetrics = context.getResources().getDisplayMetrics();
@@ -215,15 +209,15 @@ public abstract class BaseBanner<E, T extends BaseBanner<E, T>> extends Relative
         LayoutParams lp = new LayoutParams(mItemWidth, mItemHeight);
         addView(mViewPager, lp);
 
-        //top parent of indicators
-        mRlBottomBarParent = new RelativeLayout(context);
-        addView(mRlBottomBarParent, lp);
+        //显示器(小点)的最顶层父容器 top parent of indicators
+        RelativeLayout rlBottomBarParent = new RelativeLayout(context);
+        addView(rlBottomBarParent, lp);
 
         //container of indicators and title
         mLlBottomBar = new LinearLayout(context);
         LayoutParams lp2 = new LayoutParams(mItemWidth, LayoutParams.WRAP_CONTENT);
         lp2.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
-        mRlBottomBarParent.addView(mLlBottomBar, lp2);
+        rlBottomBarParent.addView(mLlBottomBar, lp2);
 
         mLlBottomBar.setBackgroundColor(barColor);
         mLlBottomBar.setPadding((int) barPaddingLeft, (int) barPaddingTop, (int) barPaddingRight, (int) barPaddingBottom);
@@ -253,28 +247,28 @@ public abstract class BaseBanner<E, T extends BaseBanner<E, T>> extends Relative
 
                 mTvTitle.setPadding(0, 0, dp2px(7), 0);
                 mTvTitle.setEllipsize(TextUtils.TruncateAt.END);
-                mTvTitle.setGravity(Gravity.LEFT);
+                mTvTitle.setGravity(Gravity.START);
             } else {
                 mLlBottomBar.setGravity(Gravity.CENTER);
             }
             mLlBottomBar.addView(mLlIndicatorContainer);
         } else {
-            if (indicatorGravity == Gravity.RIGHT) {
+            if (indicatorGravity == Gravity.END) {
                 mLlBottomBar.setGravity(Gravity.CENTER_VERTICAL);
                 mLlBottomBar.addView(mTvTitle);
                 mLlBottomBar.addView(mLlIndicatorContainer);
 
                 mTvTitle.setPadding(0, 0, dp2px(7), 0);
                 mTvTitle.setEllipsize(TextUtils.TruncateAt.END);
-                mTvTitle.setGravity(Gravity.LEFT);
-            } else if (indicatorGravity == Gravity.LEFT) {
+                mTvTitle.setGravity(Gravity.START);
+            } else if (indicatorGravity == Gravity.START) {
                 mLlBottomBar.setGravity(Gravity.CENTER_VERTICAL);
                 mLlBottomBar.addView(mLlIndicatorContainer);
                 mLlBottomBar.addView(mTvTitle);
 
                 mTvTitle.setPadding(dp2px(7), 0, 0, 0);
                 mTvTitle.setEllipsize(TextUtils.TruncateAt.END);
-                mTvTitle.setGravity(Gravity.RIGHT);
+                mTvTitle.setGravity(Gravity.END);
             }
         }
 
@@ -312,17 +306,17 @@ public abstract class BaseBanner<E, T extends BaseBanner<E, T>> extends Relative
      * 设置数据源
      */
     public T setSource(List<E> list) {
-        this.mDatas = list;
+        this.mData = list;
         mIsDataChanged = true;
         return (T) this;
     }
 
     public E getItem(int position) {
-        return size() > 0 ? mDatas.get(position) : null;
+        return size() > 0 ? mData.get(position) : null;
     }
 
     public int size() {
-        return mDatas != null ? mDatas.size() : 0;
+        return mData != null ? mData.size() : 0;
     }
 
     public int getItemHeight() {
@@ -458,7 +452,7 @@ public abstract class BaseBanner<E, T extends BaseBanner<E, T>> extends Relative
     private void setViewPager() {
         InnerBannerAdapter mInnerAdapter = new InnerBannerAdapter();
         mViewPager.setAdapter(mInnerAdapter);
-        mViewPager.setOffscreenPageLimit(mDatas.size() - 1);
+        mViewPager.setOffscreenPageLimit(mData.size() - 1);
 
         try {
             if (mTransformerClass != null) {
@@ -486,7 +480,7 @@ public abstract class BaseBanner<E, T extends BaseBanner<E, T>> extends Relative
     /**
      * 页面变换监听
      */
-    private ViewPager.OnPageChangeListener mInternalPageListener = new ViewPager.OnPageChangeListener() {
+    private final ViewPager.OnPageChangeListener mInternalPageListener = new ViewPager.OnPageChangeListener() {
         @Override
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
             if (mOnPageChangeListener != null) {
@@ -496,11 +490,11 @@ public abstract class BaseBanner<E, T extends BaseBanner<E, T>> extends Relative
 
         @Override
         public void onPageSelected(int position) {
-            mCurrentPosition = position % mDatas.size();
+            mCurrentPosition = position % mData.size();
 
             setCurrentIndicator(mCurrentPosition);
             onTitleSelect(mTvTitle, mCurrentPosition);
-            mLlBottomBar.setVisibility(mCurrentPosition == mDatas.size() - 1 && !mIsBarShowWhenLast ? GONE : VISIBLE);
+            mLlBottomBar.setVisibility(mCurrentPosition == mData.size() - 1 && !mIsBarShowWhenLast ? GONE : VISIBLE);
 
             mLastPosition = mCurrentPosition;
             if (mOnPageChangeListener != null) {
@@ -520,11 +514,11 @@ public abstract class BaseBanner<E, T extends BaseBanner<E, T>> extends Relative
      * 开始滚动
      */
     public void startScroll() {
-        if (mDatas == null) {
+        if (mData == null) {
             throw new IllegalStateException("Data source is empty,you must setSource() before startScroll()");
         }
 
-        if (mDatas.size() > 0 && mCurrentPosition > mDatas.size() - 1) {
+        if (mData.size() > 0 && mCurrentPosition > mData.size() - 1) {
             mCurrentPosition = 0;
         }
 
@@ -566,7 +560,6 @@ public abstract class BaseBanner<E, T extends BaseBanner<E, T>> extends Relative
             mIsAutoScrolling = false;
         }
     }
-
 
     /**
      * 停止滚动(for LoopViewPager)
@@ -613,9 +606,10 @@ public abstract class BaseBanner<E, T extends BaseBanner<E, T>> extends Relative
     private class InnerBannerAdapter extends PagerAdapter {
         @Override
         public int getCount() {
-            return mDatas != null ? mDatas.size() : 0;
+            return mData != null ? mData.size() : 0;
         }
 
+        @NonNull
         @Override
         public Object instantiateItem(@NonNull ViewGroup container, final int position) {
             View inflate = onCreateItemView(position);
@@ -677,29 +671,25 @@ public abstract class BaseBanner<E, T extends BaseBanner<E, T>> extends Relative
             return false;
         }
 
-        if (mDatas == null || mDatas.size() <= 0) {
+        if (mData == null || mData.size() <= 0) {
             print("DataList must be not empty!");
             return false;
         }
 
-        if (!mIsOnePageLoop && mDatas.size() == 1) {
-            return false;
-        }
-
-        return true;
+        return mIsOnePageLoop || mData.size() != 1;
     }
 
     //listener
     private ViewPager.OnPageChangeListener mOnPageChangeListener;
 
-    public BaseBanner addOnPageChangeListener(ViewPager.OnPageChangeListener listener) {
+    public BaseBanner<?, ?> addOnPageChangeListener(ViewPager.OnPageChangeListener listener) {
         mOnPageChangeListener = listener;
         return this;
     }
 
     private OnItemClickL mOnItemClickL;
 
-    public BaseBanner setOnItemClickListener(OnItemClickL onItemClickL) {
+    public BaseBanner<?, ?> setOnItemClickListener(OnItemClickL onItemClickL) {
         this.mOnItemClickL = onItemClickL;
         return this;
     }
@@ -711,7 +701,7 @@ public abstract class BaseBanner<E, T extends BaseBanner<E, T>> extends Relative
     /**
      * 设置当页面只有一条时，是否轮播
      */
-    public BaseBanner setIsOnePageLoop(boolean isOnePageLoop) {
+    public BaseBanner<?, ?> setIsOnePageLoop(boolean isOnePageLoop) {
         mIsOnePageLoop = isOnePageLoop;
         return this;
     }
@@ -738,7 +728,7 @@ public abstract class BaseBanner<E, T extends BaseBanner<E, T>> extends Relative
         }
     }
 
-    private void print(String msg) {
+    protected void print(String msg) {
         //Log.d("123", msg);
     }
 
@@ -761,6 +751,5 @@ public abstract class BaseBanner<E, T extends BaseBanner<E, T>> extends Relative
 //            }
 //        }
 //    }
-
 
 }

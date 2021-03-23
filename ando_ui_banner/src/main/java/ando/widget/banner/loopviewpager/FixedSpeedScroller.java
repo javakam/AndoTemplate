@@ -1,4 +1,4 @@
-package ando.widget.banner.widget.loopviewpager;
+package ando.widget.banner.loopviewpager;
 
 import android.content.Context;
 import android.view.animation.Interpolator;

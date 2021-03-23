@@ -4,7 +4,7 @@
 比`Google TabLayout`好用的方案, 参考自 <https://github.com/hackware1993/MagicIndicator>
 
 ## ando_ui_banner
-`Banner`在`RecyclerViewAdapter`中使用时:
+### 1.`Banner`在`RecyclerViewAdapter`中使用时:
 ```java
 @Override
 public void onViewDetachedFromWindow(BaseViewHolder holder) {
@@ -24,7 +24,182 @@ public void onViewAttachedToWindow(@NotNull BaseViewHolder holder) {
     }
 }
 ```
-https://github.com/saiwu-bigkoo/Android-ConvenientBanner
+### 2.`Banner`做引导页面
+```java
+public class UserGuideActivity extends BaseActivity {
+
+    private CustomGuideBanner mGuideBanner;
+    private AlertDialog mDialog;
+
+    @Override
+    public void initView(Bundle savedInstanceState) {
+        showTipDialog();
+
+        mGuideBanner = findViewById(R.id.banner_guide);
+
+        /*
+        切换效果:
+         DepthTransformer
+         FadeSlideTransformer
+         FlowTransformer
+         RotateDownTransformer
+         RotateUpTransformer
+         ZoomOutSlideTransformer
+         */
+        mGuideBanner
+                .setIndicatorWidth(8)
+                .setIndicatorHeight(8)
+                .setIndicatorGap(12)
+                .setIndicatorCornerRadius(3.5f)
+                .setSelectAnimClass(ZoomInEnter.class)
+                //.setTransformerClass(FadeSlideTransformer.class)
+                .barPadding(10, 10, 10, 10)
+                .setSource(Constants.getUserGuides())
+                .startScroll();
+
+        mGuideBanner.setOnJumpClickListener(new CustomGuideBanner.OnJumpClickListener() {
+            @Override
+            public void onJumpClick() {
+                if (AccountManager.isLogin() || Constants.IS_SKIP_LOGIN) {
+                    Intent intent = new Intent(UserGuideActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    overridePendingTransition(0, android.R.anim.fade_out);
+                    finish();
+                } else {
+                    PageIntent.jumpToLoginClearTop2Main(UserGuideActivity.this);
+                    overridePendingTransition(0, android.R.anim.fade_out);
+                    finish();
+                }
+            }
+        });
+    }
+
+    private void showTipDialog() {
+        if (mDialog != null && mDialog.isShowing()) {
+            return;
+        }
+
+        final View dialogTip = LayoutInflater.from(this).inflate(R.layout.dialog_tip_protocol, null, false);
+        TextView tvContent = dialogTip.findViewById(R.id.tv_tip_content);
+        TextView tvCancel = dialogTip.findViewById(R.id.tv_tip_cancel);
+        TextView tvConfirm = dialogTip.findViewById(R.id.tv_tip_confirm);
+
+        String protocol = getString(R.string.xxx_content);
+        String innerProtocol = getString(R.string.account_dialog_tip_protocol);
+        String innerPrivate = getString(R.string.account_dialog_tip_private);
+
+        protocol = String.format(protocol, innerProtocol, innerPrivate);
+
+        SpannableString smp = new SpannableString(protocol);
+//        SpannableString smpProtocol = new SpannableString(innerProtocol);
+//        SpannableString smpPrivate = new SpannableString(innerPrivate);
+
+        //《用户协议》
+        ClickableSpan clickableSpan = new ClickableSpan() {
+            @Override
+            public void onClick(@NotNull View view) {
+                PageIntent.jumpToProtocol(UserGuideActivity.this);
+            }
+
+            @Override
+            public void updateDrawState(TextPaint ds) {
+                //这里如果设置为false则不带下划线，true带有下划线
+                ds.setUnderlineText(false);
+            }
+        };
+        //《隐私政策》
+        ClickableSpan clickableSpan2 = new ClickableSpan() {
+            @Override
+            public void onClick(@NotNull View view) {
+                PageIntent.jumpToPrivacy(UserGuideActivity.this);
+            }
+
+            @Override
+            public void updateDrawState(TextPaint ds) {
+                //这里如果设置为false则不带下划线，true带有下划线
+                ds.setUnderlineText(false);
+            }
+        };
+
+        //《用户协议》
+        //设置点击的范围
+        smp.setSpan(clickableSpan, protocol.indexOf("《") + 1, protocol.indexOf("》"), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        //设置前景色
+        smp.setSpan(new ForegroundColorSpan(Color.parseColor("#5383F1")),
+                protocol.indexOf("《"), protocol.indexOf("》") + 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+
+        //《隐私政策》
+        //设置点击的范围
+        smp.setSpan(clickableSpan2, protocol.lastIndexOf("《") + 1, protocol.lastIndexOf("》"), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        //设置前景色
+        smp.setSpan(new ForegroundColorSpan(Color.parseColor("#5383F1")),
+                protocol.lastIndexOf("《"), protocol.lastIndexOf("》") + 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+
+        tvContent.setText(smp);
+        //设置添加链接
+        tvContent.setMovementMethod(LinkMovementMethod.getInstance());
+
+        //取消
+        ClickUtils.noShake(tvCancel, new ClickUtils.OnClickListener() {
+            @Override
+            public void onClick() {
+                dismissDialog();
+                Application.Companion.exit2();
+            }
+        });
+        ClickUtils.noShake(tvConfirm, new ClickUtils.OnClickListener() {
+            @Override
+            public void onClick() {
+                dismissDialog();
+                dealWithFirstLoad();
+            }
+        });
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(dialogTip);
+        builder.setCancelable(false);
+        mDialog = builder.show();
+
+        //设置对话框铺满屏幕
+//        Window window = mDialog.getWindow();
+//        WindowManager wm = getWindowManager();
+//        Display display = wm.getDefaultDisplay();
+//        Point point = new Point();
+//        display.getSize(point);
+//        if (window != null) {
+//            final int horPadding = getResources().getDimensionPixelSize(R.dimen.dp_45);
+//            window.getDecorView().setPadding(horPadding, 0, horPadding, 0);
+//            WindowManager.LayoutParams lp = window.getAttributes();
+//            lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
+//            lp.height = (int) (point.y * 0.7);
+//            window.setAttributes(lp);
+//        }
+
+    }
+
+    private void dismissDialog() {
+        if (mDialog != null && mDialog.isShowing()) {
+            mDialog.dismiss();
+        }
+    }
+
+    private void dealWithFirstLoad() {
+        final FirstLoadUtils firstLoadUtils = new FirstLoadUtils(UserGuideActivity.this);
+        if (firstLoadUtils.isFirstLoad()) {
+            firstLoadUtils.setFirstLoad(false);
+        }
+    }
+
+    @Override
+    public int getLayoutId() {
+        return R.layout.activity_user_guide;
+    }
+
+}
+```
+
 
 ## Banner & Indicator 一起使用
 ```java

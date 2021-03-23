@@ -1,4 +1,4 @@
-package ando.widget.banner.widget.banner.base;
+package ando.widget.banner.banner.base;
 
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
@@ -10,13 +10,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 
 import java.lang.ref.WeakReference;
 
 import ando.widget.banner.R;
-import ando.widget.banner.widget.banner.BannerItem;
+import ando.widget.banner.banner.BannerItem;
 
 /**
  * @author javakam
@@ -52,7 +51,7 @@ public abstract class BaseImageBanner<T extends BaseImageBanner<T>> extends Base
      * 初始化ImageBanner
      */
     protected void initImageBanner(Context context) {
-        mPlaceHolder = new ColorDrawable(ContextCompat.getColor(context, R.color.default_image_banner_placeholder_color));
+        mPlaceHolder = new ColorDrawable(ContextCompat.getColor(context, R.color.banner_image_placeholder_color));
         mScale = getContainerScale();
     }
 
@@ -76,8 +75,6 @@ public abstract class BaseImageBanner<T extends BaseImageBanner<T>> extends Base
 
     /**
      * 创建ViewPager的Item布局
-     *
-     * @param position
      */
     @Override
     public View onCreateItemView(int position) {
@@ -107,18 +104,14 @@ public abstract class BaseImageBanner<T extends BaseImageBanner<T>> extends Base
                 iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 iv.setLayoutParams(new LinearLayout.LayoutParams(itemWidth, itemHeight));
 
-                loadImage(iv, imgUrl, itemWidth, itemHeight, mPlaceHolder);
+                getImageLoader().loadImage(iv, imgUrl, itemWidth, itemHeight, mPlaceHolder);
             } else {
-                loadImage(iv, imgUrl, mPlaceHolder);
+                getImageLoader().loadImage(iv, imgUrl, mPlaceHolder);
             }
         } else {
             iv.setImageDrawable(mPlaceHolder);
         }
     }
-
-    public abstract void loadImage(@NonNull ImageView imageView, Object path, Drawable placeholder);
-
-    public abstract void loadImage(@NonNull ImageView imageView, Object path, int width, int height, Drawable placeholder);
 
     public Drawable getPlaceHolderDrawable() {
         return mPlaceHolder;

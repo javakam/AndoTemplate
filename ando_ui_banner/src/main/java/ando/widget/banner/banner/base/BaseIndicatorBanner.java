@@ -1,4 +1,4 @@
-package ando.widget.banner.widget.banner.base;
+package ando.widget.banner.banner.base;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -13,9 +13,12 @@ import android.view.animation.Interpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import androidx.core.content.ContextCompat;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import ando.widget.banner.IBannerImageLoadStrategy;
 import ando.widget.banner.R;
 import ando.widget.banner.anim.BaseAnimator;
 
@@ -29,7 +32,7 @@ public abstract class BaseIndicatorBanner<E, T extends BaseIndicatorBanner<E, T>
     public static final int STYLE_DRAWABLE_RESOURCE = 0;
     public static final int STYLE_CORNER_RECTANGLE = 1;
 
-    private List<ImageView> mIndicatorViews = new ArrayList<>();
+    private final List<ImageView> mIndicatorViews = new ArrayList<>();
     private int mIndicatorStyle;
     private int mIndicatorWidth;
     private int mIndicatorHeight;
@@ -39,12 +42,13 @@ public abstract class BaseIndicatorBanner<E, T extends BaseIndicatorBanner<E, T>
     private Drawable mSelectDrawable;
     private Drawable mUnSelectDrawable;
     private int mSelectColor;
-    private int mUnselectColor;
+    private int mUnSelectColor;
 
     private Class<? extends BaseAnimator> mSelectAnimClass;
-    private Class<? extends BaseAnimator> mUnselectAnimClass;
+    private Class<? extends BaseAnimator> mUnSelectAnimClass;
 
     private LinearLayout mLlIndicators;
+    private IBannerImageLoadStrategy mImageLoader;
 
     public BaseIndicatorBanner(Context context) {
         super(context);
@@ -61,12 +65,6 @@ public abstract class BaseIndicatorBanner<E, T extends BaseIndicatorBanner<E, T>
         initAttrs(context, attrs);
     }
 
-    /**
-     * 初始化属性
-     *
-     * @param context
-     * @param attrs
-     */
     private void initAttrs(Context context, AttributeSet attrs) {
         TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.BaseIndicatorBanner);
         mIndicatorStyle = ta.getInt(R.styleable.BaseIndicatorBanner_bb_indicatorStyle, STYLE_CORNER_RECTANGLE);
@@ -74,28 +72,28 @@ public abstract class BaseIndicatorBanner<E, T extends BaseIndicatorBanner<E, T>
         mIndicatorHeight = ta.getDimensionPixelSize(R.styleable.BaseIndicatorBanner_bb_indicatorHeight, dp2px(6));
         mIndicatorGap = ta.getDimensionPixelSize(R.styleable.BaseIndicatorBanner_bb_indicatorGap, dp2px(6));
         mIndicatorCornerRadius = ta.getDimensionPixelSize(R.styleable.BaseIndicatorBanner_bb_indicatorCornerRadius, dp2px(3));
-        mSelectColor = ta.getColor(R.styleable.BaseIndicatorBanner_bb_indicatorSelectColor, Color.parseColor("#ffffff"));
-        mUnselectColor = ta.getColor(R.styleable.BaseIndicatorBanner_bb_indicatorUnselectColor, Color.parseColor("#88ffffff"));
+        mSelectColor = ta.getColor(R.styleable.BaseIndicatorBanner_bb_indicatorSelectColor, Color.WHITE);
+        mUnSelectColor = ta.getColor(R.styleable.BaseIndicatorBanner_bb_indicatorUnSelectColor, Color.parseColor("#88FFFFFF"));
 
         int selectRes = ta.getResourceId(R.styleable.BaseIndicatorBanner_bb_indicatorSelectRes, 0);
-        int unselectRes = ta.getResourceId(R.styleable.BaseIndicatorBanner_bb_indicatorUnselectRes, 0);
+        int unSelectRes = ta.getResourceId(R.styleable.BaseIndicatorBanner_bb_indicatorUnSelectRes, 0);
         ta.recycle();
 
         //create indicator container
         mLlIndicators = new LinearLayout(context);
         mLlIndicators.setGravity(Gravity.CENTER);
 
-        setIndicatorSelectorRes(unselectRes, selectRes);
+        setIndicatorSelectorRes(unSelectRes, selectRes);
     }
 
     @Override
     public View onCreateIndicator() {
         if (mIndicatorStyle == STYLE_CORNER_RECTANGLE) {//rectangle
-            this.mUnSelectDrawable = getDrawable(mUnselectColor, mIndicatorCornerRadius);
+            this.mUnSelectDrawable = getDrawable(mUnSelectColor, mIndicatorCornerRadius);
             this.mSelectDrawable = getDrawable(mSelectColor, mIndicatorCornerRadius);
         }
 
-        int size = mDatas.size();
+        int size = mData.size();
         mIndicatorViews.clear();
 
         mLlIndicators.removeAllViews();
@@ -110,7 +108,6 @@ public abstract class BaseIndicatorBanner<E, T extends BaseIndicatorBanner<E, T>
         }
 
         setCurrentIndicator(mCurrentPosition);
-
         return mLlIndicators;
     }
 
@@ -125,10 +122,10 @@ public abstract class BaseIndicatorBanner<E, T extends BaseIndicatorBanner<E, T>
                     mSelectAnimClass.newInstance().playOn(mIndicatorViews.get(position));
                 } else {
                     mSelectAnimClass.newInstance().playOn(mIndicatorViews.get(position));
-                    if (mUnselectAnimClass == null) {
+                    if (mUnSelectAnimClass == null) {
                         mSelectAnimClass.newInstance().interpolator(new ReverseInterpolator()).playOn(mIndicatorViews.get(mLastPosition));
                     } else {
-                        mUnselectAnimClass.newInstance().playOn(mIndicatorViews.get(mLastPosition));
+                        mUnSelectAnimClass.newInstance().playOn(mIndicatorViews.get(mLastPosition));
                     }
                 }
             }
@@ -180,8 +177,8 @@ public abstract class BaseIndicatorBanner<E, T extends BaseIndicatorBanner<E, T>
     /**
      * 设置显示器未选中颜色(for STYLE_CORNER_RECTANGLE),默认"#88ffffff"
      */
-    public T setIndicatorUnselectColor(int unselectColor) {
-        this.mUnselectColor = unselectColor;
+    public T setIndicatorUnSelectColor(int unSelectColor) {
+        this.mUnSelectColor = unSelectColor;
         return (T) this;
     }
 
@@ -196,14 +193,14 @@ public abstract class BaseIndicatorBanner<E, T extends BaseIndicatorBanner<E, T>
     /**
      * 设置显示器选中以及未选中资源(for STYLE_DRAWABLE_RESOURCE)
      */
-    public T setIndicatorSelectorRes(int unselectRes, int selectRes) {
+    public T setIndicatorSelectorRes(int unSelectRes, int selectRes) {
         try {
             if (mIndicatorStyle == STYLE_DRAWABLE_RESOURCE) {
                 if (selectRes != 0) {
-                    this.mSelectDrawable = getResources().getDrawable(selectRes);
+                    this.mSelectDrawable = ContextCompat.getDrawable(getContext(), selectRes);
                 }
-                if (unselectRes != 0) {
-                    this.mUnSelectDrawable = getResources().getDrawable(unselectRes);
+                if (unSelectRes != 0) {
+                    this.mUnSelectDrawable = ContextCompat.getDrawable(getContext(), unSelectRes);
                 }
             }
         } catch (Resources.NotFoundException e) {
@@ -223,23 +220,30 @@ public abstract class BaseIndicatorBanner<E, T extends BaseIndicatorBanner<E, T>
     /**
      * 设置显示器未选中动画
      */
-    public T setUnselectAnimClass(Class<? extends BaseAnimator> unselectAnimClass) {
-        this.mUnselectAnimClass = unselectAnimClass;
+    public T setUnSelectAnimClass(Class<? extends BaseAnimator> unSelectAnimClass) {
+        this.mUnSelectAnimClass = unSelectAnimClass;
         return (T) this;
     }
 
-    private class ReverseInterpolator implements Interpolator {
+    public IBannerImageLoadStrategy getImageLoader() {
+        return mImageLoader;
+    }
+
+    public void setImageLoader(IBannerImageLoadStrategy imageLoader) {
+        this.mImageLoader = imageLoader;
+    }
+
+    private static class ReverseInterpolator implements Interpolator {
         @Override
         public float getInterpolation(float value) {
             return Math.abs(1.0f - value);
         }
     }
 
-    private GradientDrawable getDrawable(int color, float raduis) {
+    private GradientDrawable getDrawable(int color, float radius) {
         GradientDrawable drawable = new GradientDrawable();
-        drawable.setCornerRadius(raduis);
+        drawable.setCornerRadius(radius);
         drawable.setColor(color);
-
         return drawable;
     }
 }

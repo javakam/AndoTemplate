@@ -1,4 +1,4 @@
-package ando.widget.banner.widget.banner;
+package ando.widget.banner.banner;
 
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
@@ -15,7 +15,7 @@ import androidx.core.content.ContextCompat;
 import java.lang.ref.WeakReference;
 
 import ando.widget.banner.R;
-import ando.widget.banner.widget.banner.base.BaseIndicatorBanner;
+import ando.widget.banner.banner.base.BaseIndicatorBanner;
 
 /**
  * 简单的图片轮播
@@ -34,10 +34,6 @@ public class SimpleImageBanner extends BaseIndicatorBanner<BannerItem, SimpleIma
      * 默认加载图片
      */
     private Drawable mColorDrawable;
-    /**
-     * 是否允许进行缓存
-     */
-    private boolean mEnableCache;
     /**
      * 高／宽比率
      */
@@ -62,8 +58,7 @@ public class SimpleImageBanner extends BaseIndicatorBanner<BannerItem, SimpleIma
      * 初始化ImageBanner
      */
     protected void initImageBanner(Context context) {
-        mColorDrawable = new ColorDrawable(ContextCompat.getColor(context, R.color.default_image_banner_placeholder_color));
-        mEnableCache = true;
+        mColorDrawable = new ColorDrawable(ContextCompat.getColor(context, R.color.banner_image_placeholder_color));
         mScale = getContainerScale();
     }
 
@@ -77,8 +72,8 @@ public class SimpleImageBanner extends BaseIndicatorBanner<BannerItem, SimpleIma
 
     @Override
     public View onCreateItemView(int position) {
-        View inflate = inflate(mContext, R.layout.ando_adapter_simple_image, null);
-        ImageView iv = inflate.findViewById(R.id.iv);
+        View inflate = inflate(mContext, R.layout.banner_adapter_simple_image, null);
+        ImageView iv = inflate.findViewById(R.id.iv_banner);
 
         //解决Glide资源释放的问题，详细见 http://blog.csdn.net/shangmingchao/article/details/51125554
         WeakReference<ImageView> imageViewWeakReference = new WeakReference<>(iv);
@@ -103,28 +98,10 @@ public class SimpleImageBanner extends BaseIndicatorBanner<BannerItem, SimpleIma
         String imgUrl = item.imgUrl;
 
         if (!TextUtils.isEmpty(imgUrl)) {
-            //todo 2021年3月22日 17:04:56
-//            ImageLoader.get().loadImage(iv, imgUrl,
-//                    itemWidth, itemHeight, mColorDrawable,
-//                    mEnableCache ? DiskCacheStrategy.RESOURCE : DiskCacheStrategy.NONE);
+            getImageLoader().loadImage(iv, imgUrl, itemWidth, itemHeight, mColorDrawable);
         } else {
             iv.setImageDrawable(mColorDrawable);
         }
-    }
-
-    /**
-     * 设置是否允许缓存
-     */
-    public SimpleImageBanner enableCache(boolean enableCache) {
-        mEnableCache = enableCache;
-        return this;
-    }
-
-    /**
-     * 获取是否允许缓存
-     */
-    public boolean getEnableCache() {
-        return mEnableCache;
     }
 
     public Drawable getColorDrawable() {

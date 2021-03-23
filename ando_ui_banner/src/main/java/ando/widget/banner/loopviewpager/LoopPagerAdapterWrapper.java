@@ -1,4 +1,4 @@
-package ando.widget.banner.widget.loopviewpager;
+package ando.widget.banner.loopviewpager;
 
 import android.os.Parcelable;
 import android.util.SparseArray;
@@ -80,6 +80,7 @@ public class LoopPagerAdapterWrapper extends PagerAdapter {
         return mAdapter;
     }
 
+    @NonNull
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
         int realPosition = (mAdapter instanceof FragmentPagerAdapter || mAdapter instanceof FragmentStatePagerAdapter) ? position

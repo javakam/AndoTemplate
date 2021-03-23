@@ -158,6 +158,8 @@ dependencies {
     //implementation project(':ando_ui_indicator') //41KB
     //implementation project(':ando_ui_indicator_usage')
 
+    implementation project(':ando_ui_banner') //34KB
+
 }
 
 allprojects {
