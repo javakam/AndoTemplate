@@ -79,8 +79,7 @@ abstract class BaseAdapter<T, VH : BaseViewHolder> : RecyclerView.Adapter<VH> {
                     L.i(
                         "${javaClass.simpleName} ItemClick: " +
                                 "adapterPosition:${holder.adapterPosition} layoutPosition:${holder.layoutPosition} " +
-                                "oldPosition:${holder.oldPosition} absolutePosition:${holder.absolutePosition} " +
-                                "relativePosition:${holder.relativePosition} position:${holder.position}"
+                                "oldPosition:${holder.oldPosition} position:${holder.position}"
                     )
                 }
                 val position: Int = holder.adapterPosition
@@ -175,8 +174,7 @@ abstract class BaseAdapter<T, VH : BaseViewHolder> : RecyclerView.Adapter<VH> {
     open fun addData(newData: Collection<T>?) {
         if (!newData.isNullOrEmpty()) {
             mData.addAll(newData)
-            notifyDataSetChanged()
-            //notifyItemRangeInserted(mData.size - newData.size, newData.size)
+            notifyItemRangeInserted(mData.size - newData.size, newData.size)
         }
     }
 

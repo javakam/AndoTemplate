@@ -24,6 +24,11 @@ class MainActivity : AppCompatActivity() {
             AppRouter.toWidgetIndicator(this)
         }
 
+        //ando banner & ando indicator
+        click(R.id.bt_widget_banner) {
+            AppRouter.toWidgetBanner(this)
+        }
+
     }
 
 }

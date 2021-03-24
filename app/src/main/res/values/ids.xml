@@ -4,4 +4,5 @@
     <item name="indicator" type="id"/>
     <item name="viewpager" type="id"/>
     <item name="viewpager2" type="id"/>
+    <item name="recyclerView" type="id"/>
 </resources>

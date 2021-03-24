@@ -2,6 +2,7 @@ package ando.repo.config
 
 import ando.indicator.example.ExampleMainActivity
 import ando.repo.ui.*
+import ando.repo.ui.banner.BannerActivity
 import ando.repo.ui.coordinator.TabLayoutActivity
 import ando.repo.ui.indicator.IndicatorActivity
 import ando.repo.ui.indicator.IndicatorViewPagerActivity
@@ -43,6 +44,8 @@ object AppRouter {
         activity.startActivity(Intent(activity, ExampleMainActivity::class.java))
     }
 
-
+    fun toWidgetBanner(activity: Activity) {
+        activity.startActivity(Intent(activity, BannerActivity::class.java))
+    }
 
 }

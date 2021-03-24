@@ -9,20 +9,16 @@ import android.os.Build
 import android.text.util.Linkify
 import android.util.SparseArray
 import android.view.View
-import android.view.View.OnLongClickListener
-import android.view.View.OnTouchListener
 import android.view.animation.AlphaAnimation
 import android.widget.*
-import android.widget.AdapterView.OnItemSelectedListener
-import androidx.annotation.DrawableRes
-import androidx.annotation.StringRes
+import androidx.annotation.*
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import java.util.*
 
 /**
  * # BaseViewHolder
  *
- * github Joan Zapata
+ * github Joan Zapata & https://github.com/CymChad/BaseRecyclerViewAdapterHelper
  *
  * eg:
  *  ```kotlin
@@ -34,89 +30,78 @@ import java.util.*
  * @author javakam
  * 2021-03-11 15:38:38
  */
+@Keep
 open class BaseViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
     protected val views: SparseArray<View> = SparseArray()
-    protected val childClickViewIds: HashSet<Int> = HashSet()
-    protected val itemChildLongClickViewIds: HashSet<Int> = HashSet()
-    protected var convertView: View = view
 
-    /**
-     * Package private field to retain the associated user object and detect a change
-     *
-     * set: Should be called during convert
-     * get: Retrieves the last converted object on this view.
-     */
-    var associatedObject: Any? = null
+    open fun <T : View> getView(@IdRes viewId: Int): T {
+        val view = getViewOrNull<T>(viewId)
+        checkNotNull(view) { "No view found with id $viewId" }
+        return view
+    }
 
-    /**
-     * 相对位置
-     *
-     * <pre>
-     * 获取 DelegateAdapter 里数据的相对位置
-     *      在 DelegateAdapter 里有 findOffsetPosition(int absolutePosition) 方法，传入整个页面的绝对位置，获取相对位置。
-     * eg :  int offsetPosition = delegateAdapter.findOffsetPosition(1);
-     *      或者用
-     * public static abstract class Adapter<VH extends RecyclerView.VirtualViewHolder> extends RecyclerView.Adapter<VH> {
-     *      public abstract LayoutHelper onCreateLayoutHelper();
-     *          protected void onBindViewHolderWithOffset(VH holder, int position, int offsetTotal) {
-     *          }
-     * }
-     * 中的 onBindViewHolderWithOffset() 方法代替传统的 onBindViewHolder() 方法，其中的 position 参数也是相对位置,offsetTotal 为绝对位置。
-     * </pre>
-     */
-    var relativePosition = -1
+    @Suppress("UNCHECKED_CAST")
+    open fun <T : View> getViewOrNull(@IdRes viewId: Int): T? {
+        val view = views.get(viewId)
+        if (view == null) {
+            itemView.findViewById<T>(viewId)?.let {
+                views.put(viewId, it)
+                return it
+            }
+        }
+        return view as? T
+    }
 
-    /**
-     * 绝对位置
-     */
-    var absolutePosition = -1
+    open fun <T : View> Int.findView(): T? {
+        return itemView.findViewById(this)
+    }
 
     open fun setText(viewId: Int, value: CharSequence?): BaseViewHolder {
-        val view = getView<TextView>(viewId)
-        view.text = value
+        getView<TextView>(viewId).text = value
         return this
     }
 
     open fun setText(viewId: Int, @StringRes strId: Int): BaseViewHolder {
-        val view = getView<TextView>(viewId)
-        view.setText(strId)
+        getView<TextView>(viewId).setText(strId)
         return this
     }
 
-    open fun setImageResource(viewId: Int, @DrawableRes imageResId: Int): BaseViewHolder {
-        val view = getView<ImageView>(viewId)
-        view.setImageResource(imageResId)
+    open fun setTextColor(@IdRes viewId: Int, @ColorInt color: Int): BaseViewHolder {
+        getView<TextView>(viewId).setTextColor(color)
         return this
     }
 
-    open fun setBackgroundColor(viewId: Int, color: Int): BaseViewHolder {
-        val view = getView<View>(viewId)
-        view.setBackgroundColor(color)
+    open fun setTextColorRes(@IdRes viewId: Int, @ColorRes colorRes: Int): BaseViewHolder {
+        getView<TextView>(viewId).setTextColor(ContextCompat.getColor(itemView.context, colorRes))
         return this
     }
 
-    open fun setBackgroundResource(viewId: Int, @DrawableRes backgroundRes: Int): BaseViewHolder {
-        val view = getView<View>(viewId)
-        view.setBackgroundResource(backgroundRes)
+    open fun setImageResource(@IdRes viewId: Int, @DrawableRes imageResId: Int): BaseViewHolder {
+        getView<ImageView>(viewId).setImageResource(imageResId)
         return this
     }
 
-    open fun setTextColor(viewId: Int, textColor: Int): BaseViewHolder {
-        val view = getView<TextView>(viewId)
-        view.setTextColor(textColor)
+    open fun setImageDrawable(@IdRes viewId: Int, drawable: Drawable?): BaseViewHolder {
+        getView<ImageView>(viewId).setImageDrawable(drawable)
         return this
     }
 
-    open fun setImageDrawable(viewId: Int, drawable: Drawable?): BaseViewHolder {
-        val view = getView<ImageView>(viewId)
-        view.setImageDrawable(drawable)
+    open fun setImageBitmap(@IdRes viewId: Int, bitmap: Bitmap?): BaseViewHolder {
+        getView<ImageView>(viewId).setImageBitmap(bitmap)
         return this
     }
 
-    open fun setImageBitmap(viewId: Int, bitmap: Bitmap?): BaseViewHolder {
-        val view = getView<ImageView>(viewId)
-        view.setImageBitmap(bitmap)
+    open fun setBackgroundColor(@IdRes viewId: Int, @ColorInt color: Int): BaseViewHolder {
+        getView<View>(viewId).setBackgroundColor(color)
+        return this
+    }
+
+    open fun setBackgroundResource(
+        @IdRes viewId: Int,
+        @DrawableRes backgroundRes: Int
+    ): BaseViewHolder {
+        getView<View>(viewId).setBackgroundResource(backgroundRes)
         return this
     }
 
@@ -134,9 +119,20 @@ open class BaseViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         return this
     }
 
-    open fun setVisible(viewId: Int, visible: Boolean): BaseViewHolder {
+    open fun setVisible(@IdRes viewId: Int, isGone: Boolean):BaseViewHolder {
         val view = getView<View>(viewId)
-        view.visibility = if (visible) View.VISIBLE else View.GONE
+        view.visibility = if (isGone) View.GONE else View.VISIBLE
+        return this
+    }
+
+    open fun setInVisible(@IdRes viewId: Int, isVisible: Boolean):BaseViewHolder {
+        val view = getView<View>(viewId)
+        view.visibility = if (isVisible) View.VISIBLE else View.INVISIBLE
+        return this
+    }
+
+    open fun setEnabled(@IdRes viewId: Int, isEnabled: Boolean):BaseViewHolder {
+        getView<View>(viewId).isEnabled = isEnabled
         return this
     }
 
@@ -194,55 +190,6 @@ open class BaseViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         return this
     }
 
-    open fun addOnClickListener(viewId: Int): BaseViewHolder {
-        childClickViewIds.add(viewId)
-        return this
-    }
-
-    open fun addOnLongClickListener(viewId: Int): BaseViewHolder {
-        itemChildLongClickViewIds.add(viewId)
-        return this
-    }
-
-    open fun setOnTouchListener(viewId: Int, listener: OnTouchListener?): BaseViewHolder {
-        val view = getView<View>(viewId)
-        view.setOnTouchListener(listener)
-        return this
-    }
-
-    open fun setOnLongClickListener(viewId: Int, listener: OnLongClickListener?): BaseViewHolder {
-        val view = getView<View>(viewId)
-        view.onLongClickListener = listener
-        return this
-    }
-
-    open fun setOnItemClickListener(
-        viewId: Int,
-        listener: AdapterView.OnItemClickListener?
-    ): BaseViewHolder {
-        val view = getView<AdapterView<*>>(viewId)
-        view.onItemClickListener = listener
-        return this
-    }
-
-    open fun setOnItemLongClickListener(
-        viewId: Int,
-        listener: AdapterView.OnItemLongClickListener?
-    ): BaseViewHolder {
-        val view = getView<AdapterView<*>>(viewId)
-        view.onItemLongClickListener = listener
-        return this
-    }
-
-    open fun setOnItemSelectedClickListener(
-        viewId: Int,
-        listener: OnItemSelectedListener?
-    ): BaseViewHolder {
-        val view = getView<AdapterView<*>>(viewId)
-        view.onItemSelectedListener = listener
-        return this
-    }
-
     open fun setOnCheckedChangeListener(
         viewId: Int,
         listener: CompoundButton.OnCheckedChangeListener?
@@ -273,22 +220,6 @@ open class BaseViewHolder(view: View) : RecyclerView.ViewHolder(view) {
             view.isChecked = checked
         }
         return this
-    }
-
-    open fun setAdapter(viewId: Int, adapter: Adapter?): BaseViewHolder {
-        val view = getView<AdapterView<Adapter>>(viewId)
-        view.adapter = adapter
-        return this
-    }
-
-    open fun <T : View?> getView(viewId: Int): T {
-        var view = views[viewId]
-        if (view == null) {
-            view = convertView.findViewById(viewId)
-            views.put(viewId, view)
-        }
-        @Suppress("UNCHECKED_CAST")
-        return view as T
     }
 
 }
