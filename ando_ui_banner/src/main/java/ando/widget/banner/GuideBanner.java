@@ -7,43 +7,38 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import ando.widget.banner.R;
-import ando.widget.banner.banner.base.BaseIndicatorBanner;
 
 /**
- * 简单的引导页
+ * 引导页
  *
  * @author javakam
  * @date 2018/12/6 下午4:32
  */
-public class SimpleGuideBanner extends BaseIndicatorBanner<Object, SimpleGuideBanner> {
+public class SimpleGuideBanner extends CustomBanner<Object> {
 
     public SimpleGuideBanner(Context context) {
-        super(context);
-        onCreateBanner();
+        this(context, null, 0);
     }
 
     public SimpleGuideBanner(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        onCreateBanner();
+        this(context, attrs, 0);
     }
 
     public SimpleGuideBanner(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        onCreateBanner();
+        initBanner();
     }
 
-    protected void onCreateBanner() {
-        setBarShowWhenLast(true);
-        //不进行自动滚动
-        setAutoScrollEnable(false);
+    protected void initBanner() {
+        setAutoScrollEnable(false); //不进行自动滚动
     }
 
     @Override
     public View onCreateItemView(int position) {
-        View inflate = inflate(mContext, R.layout.banner_adapter_simple_guide, null);
-        ImageView iv = inflate.findViewById(R.id.iv_banner);
-        TextView tvJump = inflate.findViewById(R.id.tv_banner_jump);
-        TextView tvStart = inflate.findViewById(R.id.tv_banner_start);
+        final View view = inflate(mContext, R.layout.banner_adapter_simple_guide, null);
+        ImageView iv = view.findViewById(R.id.iv_banner);
+        TextView tvJump = view.findViewById(R.id.tv_banner_jump);
+        TextView tvStart = view.findViewById(R.id.tv_banner_start);
 
         final Object resId = mData.get(position);
         tvJump.setVisibility(position == 0 ? VISIBLE : GONE);
@@ -66,7 +61,7 @@ public class SimpleGuideBanner extends BaseIndicatorBanner<Object, SimpleGuideBa
                 }
             }
         });
-        return inflate;
+        return view;
     }
 
     private OnJumpClickListener onJumpClickListener;

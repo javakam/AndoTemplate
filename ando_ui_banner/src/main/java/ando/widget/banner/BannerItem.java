@@ -14,7 +14,18 @@ public class BannerItem {
     public Object obj2;
     public Object obj3;
 
-    public BannerItem(String title, String imgUrl, Object obj1, Object obj2,Object obj3) {
+    public BannerItem(String title, String imgUrl) {
+        this.title = title;
+        this.imgUrl = imgUrl;
+    }
+
+    public BannerItem(String title, String imgUrl, Object obj1) {
+        this.title = title;
+        this.imgUrl = imgUrl;
+        this.obj1 = obj1;
+    }
+
+    public BannerItem(String title, String imgUrl, Object obj1, Object obj2, Object obj3) {
         this.title = title;
         this.imgUrl = imgUrl;
         this.obj1 = obj1;

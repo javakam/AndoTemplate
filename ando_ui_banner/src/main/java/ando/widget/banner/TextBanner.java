@@ -5,16 +5,21 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.annotation.ColorInt;
+
 import ando.widget.banner.R;
-import ando.widget.banner.banner.base.BaseIndicatorBanner;
 
 /**
- * 简单的文字轮播
+ * 文字轮播
  *
  * @author javakam
  * @date 2018/12/6 下午4:35
  */
-public class SimpleTextBanner extends BaseIndicatorBanner<String, SimpleTextBanner> {
+public class SimpleTextBanner extends CustomBanner<String> {
+
+    private View itemView;
+    private int itemBgColor = -1;
+
     public SimpleTextBanner(Context context) {
         super(context);
     }
@@ -28,15 +33,14 @@ public class SimpleTextBanner extends BaseIndicatorBanner<String, SimpleTextBann
     }
 
     @Override
-    public void onTitleSelect(TextView tv, int position) {
-    }
-
-    @Override
     public View onCreateItemView(int position) {
-        View inflate = inflate(mContext, R.layout.banner_adapter_simple_text, null);
-        TextView tv = inflate.findViewById(R.id.tv_banner);
+        itemView = inflate(mContext, R.layout.banner_adapter_simple_text, null);
+        if (itemBgColor != -1) {
+            itemView.setBackgroundColor(itemBgColor);
+        }
+        TextView tv = itemView.findViewById(R.id.tv_banner);
         tv.setText(mData.get(position));
-        return inflate;
+        return itemView;
     }
 
     @Override
@@ -45,4 +49,16 @@ public class SimpleTextBanner extends BaseIndicatorBanner<String, SimpleTextBann
         pauseScroll();
         super.onDetachedFromWindow();
     }
+
+    public TextView getTextView() {
+        if (itemView != null) {
+            return itemView.findViewById(R.id.tv_banner);
+        }
+        return null;
+    }
+
+    public void setItemBgColor(@ColorInt int color) {
+        this.itemBgColor = color;
+    }
+
 }

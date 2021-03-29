@@ -84,6 +84,7 @@ public class LoopViewPager extends ViewPager {
         }
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public void setOnPageChangeListener(OnPageChangeListener listener) {
         addOnPageChangeListener(listener);
