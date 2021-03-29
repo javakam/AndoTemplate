@@ -1,65 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="40dp"
     android:background="@android:color/white"
     android:gravity="center_horizontal"
     android:orientation="vertical">
 
-    <!--  1.文字在左侧  -->
-    <!--
-    <ando.widget.banner.banner.SimpleImageBanner
-        android:id="@+id/bannerImage"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_140"
-        android:background="@android:color/darker_gray"
-        android:overScrollMode="never"
-        app:bb_barColor="#88000000"
-        app:bb_indicatorGravity="RIGHT"
-        app:bb_indicatorHeight="@dimen/dp_4"
-        app:bb_indicatorWidth="@dimen/dp_4"
-        app:bb_scale="0.8" />
-    -->
-
-    <!--  2.扁长条索引点,居中 -->
-    <!--
-    app:bb_indicatorCornerRadius="@dimen/dp_2"
-    app:bb_indicatorHeight="@dimen/dp_4"
-    app:bb_indicatorWidth="@dimen/dp_10"
-    app:bb_scale="0.5625"
-    -->
-
-    <ando.widget.banner.banner.SimpleImageBanner
-        android:id="@+id/bannerImage"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_200"
-        android:background="@android:color/darker_gray"
-        android:overScrollMode="never"
-        app:bb_barColor="#88000000"
-        app:bb_barPaddingBottom="@dimen/dp_5"
-        app:bb_barPaddingTop="@dimen/dp_5"
-        app:bb_isIndicatorShow="false"
-        app:bb_isTitleShow="true"
-        app:bb_scale="0.5625"
-        app:bb_textColor="@color/white"
-        app:bb_textSize="@dimen/font_14" />
-
-    <ando.widget.indicator.MagicIndicator
-        android:id="@id/indicator"
+    <TextView
+        android:id="@+id/tv_name"
         android:layout_width="wrap_content"
-        android:layout_height="@dimen/dp_14"
-        android:layout_gravity="center_horizontal" />
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:gravity="center"
+        android:paddingStart="@dimen/dp_15"
+        android:paddingEnd="@dimen/dp_15"
+        android:textColor="@color/black"
+        android:textSize="@dimen/font_16"
+        tools:text="hello" />
 
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
-
-    <View
-        android:id="@+id/line_vlayout_high"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_10"
-        android:background="#EBEFF5" />
-
-</LinearLayout>
+</FrameLayout>

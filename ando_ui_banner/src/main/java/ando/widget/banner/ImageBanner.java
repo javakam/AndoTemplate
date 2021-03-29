@@ -1,10 +1,9 @@
-package ando.widget.banner.banner;
+package ando.widget.banner;
 
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
-import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
@@ -12,13 +11,13 @@ import android.widget.LinearLayout;
 
 import java.lang.ref.WeakReference;
 
-import ando.widget.banner.R;
-
 /**
+ * 轮播图片
+ *
  * @author javakam
  * @date 2021/3/29  9:53
  */
-public class CustomImageBanner extends CustomBanner<BannerItem> {
+public class ImageBanner extends BaseBanner<BannerItem> {
     /**
      * 默认加载图片
      */
@@ -28,15 +27,15 @@ public class CustomImageBanner extends CustomBanner<BannerItem> {
      */
     private double mScale;
 
-    public CustomImageBanner(Context context) {
+    public ImageBanner(Context context) {
         this(context, null, 0);
     }
 
-    public CustomImageBanner(Context context, AttributeSet attrs) {
+    public ImageBanner(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public CustomImageBanner(Context context, AttributeSet attrs, int defStyle) {
+    public ImageBanner(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         initBanner();
     }
@@ -81,9 +80,8 @@ public class CustomImageBanner extends CustomBanner<BannerItem> {
         iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
         iv.setLayoutParams(new LinearLayout.LayoutParams(itemWidth, itemHeight));
 
-        String imgUrl = item.imgUrl;
-
-        if (!TextUtils.isEmpty(imgUrl)) {
+        Object imgUrl = item.imgUrl;
+        if (imgUrl != null) {
             getImageLoader().loadImage(iv, imgUrl, itemWidth, itemHeight, mColorDrawable);
         } else {
             iv.setImageDrawable(mColorDrawable);

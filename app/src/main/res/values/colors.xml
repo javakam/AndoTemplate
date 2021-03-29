@@ -5,6 +5,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="transparent">#00000000</color>
 
+    <color name="color_main_red">#DC143C</color>
     <color name="color_main_blue">#FF23ADE5</color>
     <color name="color_main_gray">#ECEFF6</color>
     <color name="font_gray">#918D8D</color>

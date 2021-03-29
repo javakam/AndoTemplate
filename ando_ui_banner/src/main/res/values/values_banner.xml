@@ -7,10 +7,13 @@
     <dimen name="banner_btn_view_radius">5dp</dimen>
     <dimen name="banner_btn_view_text_size">13sp</dimen>
 
-    <color name="banner_image_placeholder_color">#555555</color>
     <color name="banner_color_white">#FFFFFF</color>
     <color name="banner_color_transparent">#00000000</color>
 
-    <!--    默认的 Banner 样式   -->
+    <!-- GuideBanner -->
+    <style name="GuideBanner">
+        <!-- 引导页关闭轮播 -->
+        <item name="banner_isLoopEnable">false</item>
+    </style>
 
 </resources>

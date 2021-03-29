@@ -4,6 +4,7 @@
 比`Google TabLayout`好用的方案, 参考自 <https://github.com/hackware1993/MagicIndicator>
 
 ## ando_ui_banner
+参考项目: <https://github.com/H07000223/FlycoBanner_Master>
 ### 1.`Banner`在`RecyclerViewAdapter`中使用时:
 ```java
 @Override

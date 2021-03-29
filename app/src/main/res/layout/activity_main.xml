@@ -29,7 +29,21 @@
             android:id="@+id/bt_widget_banner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Banner + Indicator"
+            android:text="Banner+Indicator 制作轮播图"
+            android:textAllCaps="false" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/bt_widget_banner_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Banner+Indicator 制作文字轮播"
+            android:textAllCaps="false" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/bt_widget_banner_guide"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Banner+Indicator 制作引导页"
             android:textAllCaps="false" />
 
     </LinearLayout>

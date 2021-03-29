@@ -1,19 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#555555"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
     android:descendantFocusability="blocksDescendants"
-    android:orientation="vertical">
+    tools:background="@android:color/holo_blue_bright">
 
     <TextView
         android:id="@+id/tv_banner"
         android:layout_width="wrap_content"
-        android:layout_height="35dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:ellipsize="end"
         android:gravity="center_vertical"
-        android:paddingLeft="25dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
         android:singleLine="true"
-        android:textColor="#FFFFFF"
-        android:textSize="14sp" />
+        android:textColor="@android:color/black"
+        android:textSize="14sp"
+        tools:text="hello" />
 
-</LinearLayout>
+</FrameLayout>

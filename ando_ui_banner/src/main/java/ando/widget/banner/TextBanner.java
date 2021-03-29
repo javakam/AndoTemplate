@@ -1,4 +1,4 @@
-package ando.widget.banner.banner;
+package ando.widget.banner;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -7,28 +7,26 @@ import android.widget.TextView;
 
 import androidx.annotation.ColorInt;
 
-import ando.widget.banner.R;
-
 /**
  * 文字轮播
  *
  * @author javakam
  * @date 2018/12/6 下午4:35
  */
-public class SimpleTextBanner extends CustomBanner<String> {
+public class TextBanner extends BaseBanner<String> {
 
     private View itemView;
     private int itemBgColor = -1;
 
-    public SimpleTextBanner(Context context) {
+    public TextBanner(Context context) {
         super(context);
     }
 
-    public SimpleTextBanner(Context context, AttributeSet attrs) {
+    public TextBanner(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public SimpleTextBanner(Context context, AttributeSet attrs, int defStyle) {
+    public TextBanner(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
 

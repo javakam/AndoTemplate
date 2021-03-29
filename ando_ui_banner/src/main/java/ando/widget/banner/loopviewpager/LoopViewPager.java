@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 轮播页面适配器
+ * 无限轮播 ViewPager
  *
  * @author javakam
  * @date 2019/1/14 下午10:13
@@ -82,12 +82,6 @@ public class LoopViewPager extends ViewPager {
         if (getCurrentItem() != item) {
             setCurrentItem(item, true);
         }
-    }
-
-    @SuppressWarnings("deprecation")
-    @Override
-    public void setOnPageChangeListener(OnPageChangeListener listener) {
-        addOnPageChangeListener(listener);
     }
 
     @Override

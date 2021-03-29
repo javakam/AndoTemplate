@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@android:color/white"
@@ -30,41 +31,60 @@
     app:bb_scale="0.5625"
     -->
 
-    <!--
-    <ando.widget.banner.banner.SimpleImageBanner
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_200">
+
+        <ando.widget.banner.ImageBanner
             android:id="@+id/bannerImage"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_200"
+            android:layout_height="match_parent"
             android:background="@android:color/darker_gray"
             android:overScrollMode="never"
-            app:bb_barColor="#88000000"
-            app:bb_barPaddingBottom="@dimen/dp_5"
-            app:bb_barPaddingTop="@dimen/dp_5"
-            app:bb_isIndicatorShow="false"
-            app:bb_isTitleShow="true"
-            app:bb_scale="0.5625"
-            app:bb_textColor="@color/white"
-            app:bb_textSize="@dimen/font_14" />
-            -->
+            app:banner_scale="0.5625" />
 
-    <ando.widget.banner.banner.CustomImageBanner
-        android:id="@+id/bannerImage"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_200"
-        android:background="@android:color/darker_gray"
-        android:overScrollMode="never"
-        app:banner_scale="0.5625" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_35"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:background="#80FFFFFF"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_item_title"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:paddingStart="@dimen/dp_15"
+                android:paddingEnd="@dimen/dp_15"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_14"
+                tools:text="hello" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <ando.widget.indicator.MagicIndicator
+                android:id="@+id/indicator2"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:paddingStart="0dp"
+                android:paddingEnd="15dp"
+                tools:background="@color/black" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
 
     <ando.widget.indicator.MagicIndicator
         android:id="@id/indicator"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/dp_14"
         android:layout_gravity="center_horizontal" />
-
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
 
     <View
         android:id="@+id/line_vlayout_high"

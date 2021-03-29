@@ -37,7 +37,7 @@ class IndicatorActivity : AppCompatActivity() {
             AppRouter.toWidgetIndicatorViewPager(this)
         }
 
-        //
+        //原生示例
         mBtOrigin.setOnClickListener {
             AppRouter.toWidgetIndicatorOrigin(this)
         }

@@ -1,4 +1,4 @@
-package ando.widget.banner.banner;
+package ando.widget.banner;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -16,6 +16,7 @@ import android.widget.RelativeLayout;
 import android.widget.Scroller;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
@@ -26,17 +27,15 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import ando.widget.banner.IBannerImageLoadStrategy;
-import ando.widget.banner.R;
 import ando.widget.banner.loopviewpager.LoopViewPager;
 
 /**
- * 轮播条
+ * 轮播组件
  *
  * @author javakam
  * @date 2018/11/25 下午7:18
  */
-public abstract class CustomBanner<T> extends RelativeLayout {
+public abstract class BaseBanner<T> extends RelativeLayout {
     /**
      * 单线程池定时任务
      */
@@ -101,6 +100,7 @@ public abstract class CustomBanner<T> extends RelativeLayout {
      */
     private float mContainerScale;
 
+    private ViewPager.OnPageChangeListener mOnPageChangeListener;
     private OnBannerItemClickListener mOnBannerItemClickListener;
     private IBannerImageLoadStrategy mImageLoader;
 
@@ -112,30 +112,33 @@ public abstract class CustomBanner<T> extends RelativeLayout {
         }
     };
 
-    public CustomBanner(Context context) {
-        this(context, null, 0);
+    public BaseBanner(Context context) {
+        this(context, null, 0, 0);
     }
 
-    public CustomBanner(Context context, AttributeSet attrs) {
-        this(context, attrs, 0);
+    public BaseBanner(Context context, AttributeSet attrs) {
+        this(context, attrs, 0, 0);
     }
 
-    public CustomBanner(Context context, AttributeSet attrs, int defStyle) {
-        super(context, attrs, defStyle);
-        initAttrs(context, attrs);
+    public BaseBanner(Context context, AttributeSet attrs, int defStyleAttr) {
+        this(context, attrs, defStyleAttr, 0);
     }
 
-    private void initAttrs(Context context, AttributeSet attrs) {
+    public BaseBanner(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+        super(context, attrs, defStyleAttr, defStyleRes);
+        initAttrs(context, attrs, defStyleAttr, defStyleRes);
+    }
+
+    private void initAttrs(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         mContext = context;
         mDisplayMetrics = context.getResources().getDisplayMetrics();
 
-        TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.CustomBanner);
-        mContainerScale = ta.getFloat(R.styleable.CustomBanner_banner_scale, -1);
-
-        boolean isLoopEnable = ta.getBoolean(R.styleable.CustomBanner_banner_isLoopEnable, true);
-        mDelay = ta.getInt(R.styleable.CustomBanner_banner_delay, 5);
-        mPeriod = ta.getInt(R.styleable.CustomBanner_banner_period, 5);
-        mIsAutoScrollEnable = ta.getBoolean(R.styleable.CustomBanner_banner_isAutoScrollEnable, true);
+        TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.BaseBanner, defStyleAttr, defStyleRes);
+        mContainerScale = ta.getFloat(R.styleable.BaseBanner_banner_scale, -1);
+        boolean isLoopEnable = ta.getBoolean(R.styleable.BaseBanner_banner_isLoopEnable, true);
+        mDelay = ta.getInt(R.styleable.BaseBanner_banner_delay, 5);
+        mPeriod = ta.getInt(R.styleable.BaseBanner_banner_period, 5);
+        mIsAutoScrollEnable = ta.getBoolean(R.styleable.BaseBanner_banner_isAutoScrollEnable, true);
         ta.recycle();
 
         //create ViewPager
@@ -144,9 +147,9 @@ public abstract class CustomBanner<T> extends RelativeLayout {
         mItemWidth = mDisplayMetrics.widthPixels;
         //scale not set in xml
         if (mContainerScale < 0) {
-            //get layout_height
             try {
-                String height = attrs.getAttributeValue("http://schemas.android.com/apk/res/android", "layout_height");
+                //get layout_height
+                final String height = attrs.getAttributeValue("http://schemas.android.com/apk/res/android", "layout_height");
                 if (height.equals(ViewGroup.LayoutParams.MATCH_PARENT + "")) {
                     mItemHeight = LayoutParams.MATCH_PARENT;
                 } else if (height.equals(ViewGroup.LayoutParams.WRAP_CONTENT + "")) {
@@ -181,7 +184,7 @@ public abstract class CustomBanner<T> extends RelativeLayout {
     /**
      * 设置数据源
      */
-    public CustomBanner<T> setSource(List<T> list) {
+    public BaseBanner<T> setSource(List<T> list) {
         this.mData = list;
         mIsDataChanged = true;
         return this;
@@ -213,7 +216,7 @@ public abstract class CustomBanner<T> extends RelativeLayout {
     /**
      * 滚动延时,默认5秒
      */
-    public CustomBanner<T> setDelay(long delay) {
+    public BaseBanner<T> setDelay(long delay) {
         this.mDelay = delay;
         return this;
     }
@@ -221,7 +224,7 @@ public abstract class CustomBanner<T> extends RelativeLayout {
     /**
      * 滚动间隔,默认5秒
      */
-    public CustomBanner<T> setPeriod(long period) {
+    public BaseBanner<T> setPeriod(long period) {
         this.mPeriod = period;
         return this;
     }
@@ -229,7 +232,7 @@ public abstract class CustomBanner<T> extends RelativeLayout {
     /**
      * 设置是否支持自动滚动,默认true.仅对LoopViewPager有效
      */
-    public CustomBanner<T> setAutoScrollEnable(boolean isAutoScrollEnable) {
+    public BaseBanner<T> setAutoScrollEnable(boolean isAutoScrollEnable) {
         this.mIsAutoScrollEnable = isAutoScrollEnable;
         return this;
     }
@@ -237,7 +240,7 @@ public abstract class CustomBanner<T> extends RelativeLayout {
     /**
      * 设置页面切换动画
      */
-    public CustomBanner<T> setTransformerClass(Class<? extends ViewPager.PageTransformer> transformerClass) {
+    public BaseBanner<T> setTransformerClass(Class<? extends ViewPager.PageTransformer> transformerClass) {
         this.mTransformerClass = transformerClass;
         return this;
     }
@@ -355,6 +358,7 @@ public abstract class CustomBanner<T> extends RelativeLayout {
         }
         if (isLoopViewPager() && mIsAutoScrollEnable) {
             pauseScroll();
+            //noinspection AlibabaThreadPoolCreation
             mExecutorService = Executors.newSingleThreadScheduledExecutor();
             mExecutorService.scheduleAtFixedRate(new Runnable() {
                 @Override
@@ -437,17 +441,10 @@ public abstract class CustomBanner<T> extends RelativeLayout {
         return mIsOnePageLoop || mData.size() != 1;
     }
 
-    //listener
-    private ViewPager.OnPageChangeListener mOnPageChangeListener;
-
-    public CustomBanner<T> addOnPageChangeListener(ViewPager.OnPageChangeListener listener) {
-        mOnPageChangeListener = listener;
-        return this;
-    }
-
     /**
      * 获取ViewPager对象
      */
+    @Nullable
     public ViewPager getViewPager() {
         return mViewPager;
     }
@@ -455,7 +452,7 @@ public abstract class CustomBanner<T> extends RelativeLayout {
     /**
      * 设置当页面只有一条时，是否轮播
      */
-    public CustomBanner<T> setIsOnePageLoop(boolean isOnePageLoop) {
+    public BaseBanner<T> setIsOnePageLoop(boolean isOnePageLoop) {
         mIsOnePageLoop = isOnePageLoop;
         return this;
     }
@@ -482,19 +479,6 @@ public abstract class CustomBanner<T> extends RelativeLayout {
         }
     }
 
-    protected void print(String msg) {
-        //Log.d("123", msg);
-    }
-
-    public CustomBanner<T> setOnItemClickListener(OnBannerItemClickListener onBannerItemClickListener) {
-        this.mOnBannerItemClickListener = onBannerItemClickListener;
-        return this;
-    }
-
-    public interface OnBannerItemClickListener {
-        void onClick(int position);
-    }
-
     public IBannerImageLoadStrategy getImageLoader() {
         return mImageLoader;
     }
@@ -503,6 +487,23 @@ public abstract class CustomBanner<T> extends RelativeLayout {
         this.mImageLoader = imageLoader;
     }
 
+    public BaseBanner<T> addOnPageChangeListener(ViewPager.OnPageChangeListener listener) {
+        mOnPageChangeListener = listener;
+        return this;
+    }
+
+    public BaseBanner<T> setOnItemClickListener(OnBannerItemClickListener onBannerItemClickListener) {
+        this.mOnBannerItemClickListener = onBannerItemClickListener;
+        return this;
+    }
+
+    protected void print(String msg) {
+        //Log.d("123", msg);
+    }
+
+    public interface OnBannerItemClickListener {
+        void onClick(int position);
+    }
 
     private class InnerBannerAdapter extends PagerAdapter {
         @Override
