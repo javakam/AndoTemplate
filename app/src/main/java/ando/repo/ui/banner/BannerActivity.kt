@@ -108,7 +108,7 @@ class BannerActivity : AppCompatActivity() {
         roundNavigator2.indicatorColor = ContextCompat.getColor(this, R.color.color_main_red)
 
         roundNavigator2.setItemWidth(6.0)
-        roundNavigator2.setItemSpacing(4.0)
+        roundNavigator2.setItemSpacing(5.0)
         roundNavigator2.setItemHeight(6.0)
         roundNavigator2.setItemRadius(6.0)
 
@@ -116,19 +116,19 @@ class BannerActivity : AppCompatActivity() {
         roundNavigator2.notifyDataSetChanged()
         indicator2.navigator = roundNavigator2
 
+        val item: BannerItem = banner.getItem(banner.currentPosition)
+        tvItemTitle.text = item.title.noNull()
+
         banner.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrolled(
                 position: Int,
                 positionOffset: Float,
                 positionOffsetPixels: Int
             ) {
-                val item: BannerItem = banner.getItem(position)
-                tvItemTitle.text = item.title.noNull()
+                tvItemTitle.text = banner.getItem(position).title.noNull()
             }
 
             override fun onPageSelected(position: Int) {
-                val item: BannerItem = banner.getItem(position)
-                tvItemTitle.text = item.title.noNull()
             }
 
             override fun onPageScrollStateChanged(state: Int) {

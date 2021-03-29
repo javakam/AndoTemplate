@@ -48,7 +48,7 @@
             android:layout_height="@dimen/dp_35"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
-            android:background="#80FFFFFF"
+            android:background="#80000000"
             android:orientation="horizontal">
 
             <TextView
