@@ -1,4 +1,4 @@
-package ando.library.views.loader
+package ando.library.widget.loader
 
 /**
  * # LoadState

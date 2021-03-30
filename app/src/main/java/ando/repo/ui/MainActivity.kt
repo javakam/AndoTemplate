@@ -29,14 +29,13 @@ class MainActivity : AppCompatActivity() {
             AppRouter.toWidgetBanner(this)
         }
 
-        //ando banner text
-        click(R.id.bt_widget_banner_text) {
-            AppRouter.toWidgetBannerText(this)
-        }
-
         //ando banner guide
         click(R.id.bt_widget_banner_guide) {
             AppRouter.toWidgetBannerGuide(this)
+        }
+
+        click(R.id.bt_widget_button) {
+            AppRouter.toWidgetButton(this)
         }
 
     }

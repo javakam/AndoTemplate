@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/dp_15">
+
+    <ando.library.widget.SuperButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="5dp"
+        android:enabled="true"
+        android:padding="10dp"
+        android:text="你好世界 Hello World"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        app:sCornersRadius="@dimen/dp_10"
+        app:sSelectorNormalColor="@color/font_gray"
+        app:sSelectorPressedColor="@color/color_main_blue"
+        app:sSolidColor="#a2f"
+        app:sStrokeColor="@color/color_main_blue"
+        app:sStrokeWidth="@dimen/dp_2" />
+
+</LinearLayout>

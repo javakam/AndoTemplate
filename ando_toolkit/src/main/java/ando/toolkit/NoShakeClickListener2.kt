@@ -14,9 +14,9 @@ import kotlin.math.abs
  * ```
  * //快速点击事件 (Quick click event)
  * val listener = object : NoShakeClickListener2() {
- *    override fun onFastClick(item: Any?) {
- *      super.onFastClick(item)
- *      Log.i("123", "onFastClick Click")
+ *    override fun onSingleClick(item: Any?) {
+ *      super.onSingleClick(item)
+ *      Log.i("123", "onSingleClick Click")
  *      (item as? MenuItem?)?.apply {
  *          val fg = fragmentArray.get(itemId)
  *          if (fg.isAdded) fg.refreshData()

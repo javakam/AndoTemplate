@@ -1,14 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="banner_try_immediately">立即体验</string>
     <string name="banner_jump">跳过</string>
-
-    <dimen name="banner_btn_view_radius">5dp</dimen>
-    <dimen name="banner_btn_view_text_size">13sp</dimen>
-
-    <color name="banner_color_white">#FFFFFF</color>
-    <color name="banner_color_transparent">#00000000</color>
 
     <!-- GuideBanner -->
     <style name="GuideBanner">

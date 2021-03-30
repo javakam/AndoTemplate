@@ -111,7 +111,7 @@ object NetworkUtils {
      * @return `true`: yes<br></br>`false`: no
      */
     fun isAvailableByDns(domain: String?): Boolean {
-        val realDomain = if (TextUtils.isEmpty(domain)) "www.baidu.com" else domain!!
+        val realDomain = if (domain.isNullOrBlank()) "www.baidu.com" else domain
         val inetAddress: InetAddress?
         try {
             inetAddress = InetAddress.getByName(realDomain)

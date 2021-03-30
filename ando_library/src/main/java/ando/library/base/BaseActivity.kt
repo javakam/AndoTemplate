@@ -2,7 +2,7 @@ package ando.library.base
 
 import ando.library.base.BaseApplication.Companion.exit
 import ando.library.base.BaseApplication.Companion.isGray
-import ando.library.views.GrayFrameLayout
+import ando.library.widget.GrayFrameLayout
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.ActivityInfo

@@ -6,8 +6,8 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import java.lang.ref.WeakReference;
 
@@ -71,14 +71,11 @@ public class ImageBanner extends BaseBanner<BannerItem> {
         return view;
     }
 
-    /**
-     * 加载图片
-     */
     protected void loadingImageView(ImageView iv, BannerItem item) {
         int itemWidth = mDisplayMetrics.widthPixels;
         int itemHeight = (int) (itemWidth * mScale);
         iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        iv.setLayoutParams(new LinearLayout.LayoutParams(itemWidth, itemHeight));
+        iv.setLayoutParams(new FrameLayout.LayoutParams(itemWidth, itemHeight));
 
         Object imgUrl = item.imgUrl;
         if (imgUrl != null) {

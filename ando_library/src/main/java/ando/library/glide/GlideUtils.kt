@@ -1,4 +1,4 @@
-package ando.library.utils.glide
+package ando.library.glide
 
 import android.content.Context
 import android.graphics.drawable.Drawable
@@ -88,10 +88,10 @@ object GlideUtils {
             .into(imageView)
     }
 
-    fun loadImage(imageView: ImageView, path: Any?, strategy: DiskCacheStrategy?) {
+    fun loadImage(imageView: ImageView, path: Any?, strategy: DiskCacheStrategy) {
         val options = RequestOptions()
             .centerCrop()
-            .diskCacheStrategy(strategy!!)
+            .diskCacheStrategy(strategy)
         Glide.with(imageView.context)
             .load(path)
             .apply(options)
@@ -99,10 +99,10 @@ object GlideUtils {
             .into(imageView)
     }
 
-    fun loadGifImage(imageView: ImageView, path: Any?, strategy: DiskCacheStrategy?) {
+    fun loadGifImage(imageView: ImageView, path: Any?, strategy: DiskCacheStrategy) {
         val options = RequestOptions()
             .centerCrop()
-            .diskCacheStrategy(strategy!!)
+            .diskCacheStrategy(strategy)
         Glide.with(imageView.context)
             .asGif()
             .load(path)
@@ -145,12 +145,12 @@ object GlideUtils {
         imageView: ImageView,
         path: Any?,
         placeholder: Drawable?,
-        strategy: DiskCacheStrategy?
+        strategy: DiskCacheStrategy
     ) {
         val options = RequestOptions()
             .centerCrop()
             .placeholder(placeholder)
-            .diskCacheStrategy(strategy!!)
+            .diskCacheStrategy(strategy)
         Glide.with(imageView.context)
             .load(path)
             .apply(options)
@@ -163,12 +163,12 @@ object GlideUtils {
         imageView: ImageView,
         path: Any?,
         @DrawableRes placeholder: Int,
-        strategy: DiskCacheStrategy?
+        strategy: DiskCacheStrategy
     ) {
         val options = RequestOptions()
             .centerCrop()
             .placeholder(placeholder)
-            .diskCacheStrategy(strategy!!)
+            .diskCacheStrategy(strategy)
         Glide.with(imageView.context)
             .load(path)
             .apply(options)
@@ -181,12 +181,12 @@ object GlideUtils {
         imageView: ImageView,
         path: Any?,
         placeholder: Drawable?,
-        strategy: DiskCacheStrategy?
+        strategy: DiskCacheStrategy
     ) {
         val options = RequestOptions()
             .centerCrop()
             .placeholder(placeholder)
-            .diskCacheStrategy(strategy!!)
+            .diskCacheStrategy(strategy)
         Glide.with(imageView.context)
             .asGif()
             .load(path)
@@ -201,13 +201,13 @@ object GlideUtils {
         width: Int,
         height: Int,
         placeholder: Drawable?,
-        strategy: DiskCacheStrategy?
+        strategy: DiskCacheStrategy
     ) {
         val options = RequestOptions()
             .centerCrop()
             .override(width, height)
             .placeholder(placeholder)
-            .diskCacheStrategy(strategy!!)
+            .diskCacheStrategy(strategy)
         Glide.with(imageView.context)
             .load(path)
             .apply(options)

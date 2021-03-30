@@ -1,4 +1,4 @@
-package ando.library.views
+package ando.library.widget
 
 import android.app.Activity
 import android.content.Context

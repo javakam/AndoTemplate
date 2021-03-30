@@ -269,6 +269,12 @@ implementation 'ando.library:library:1.0.0'
 implementation 'ando.toolkit:toolkit:1.0.0'
 ```
 
+## ando dialog manger
+```
+todo 2021年3月30日 17:08:34
+https://github.com/li-xiaojun/XPopup/blob/master/library/src/main/java/com/lxj/xpopup/widget/SmartDragLayout.java
+```
+
 > novoda 目前不支持 Gradle 6+ , 替换方案 `https://github.com/panpf/bintray-publish`
 
 novoda
@@ -358,24 +364,6 @@ private fun hideBottomNav() {
 ```
 
 ## 混淆
-
-
-## 单例
-```kotlin
-companion object {
-    private var usbUtils: UsbUtils? = null
-    fun getInstance(): UsbUtils {
-        if (usbUtils == null) {
-            synchronized(UsbUtils::class.java) {
-                if (usbUtils == null) {
-                    usbUtils = UsbUtils()
-                }
-            }
-        }
-        return usbUtils!!
-    }
-}
-```
 
 
 ## DataBinding 在XML中的具体使用方式

@@ -1,4 +1,4 @@
-package ando.library.views.recycler
+package ando.library.widget.recycler
 
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView

@@ -66,10 +66,6 @@ dependencies {
     api "com.github.bumptech.glide:okhttp3-integration:$version.glide"
     kapt "com.github.bumptech.glide:compiler:$version.glide"
 
-    // EventBus
-    api "org.greenrobot:eventbus:$version.eventbus"
-    kapt "org.greenrobot:eventbus-annotation-processor:$version.eventbus"
-
     //compileOnly "ando.toolkit:toolkit:$config.versionName"
     compileOnly project(':ando_toolkit')
 

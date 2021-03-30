@@ -35,7 +35,7 @@ fun Context.hideSoftInput(activity: Activity) {
 }
 
 fun Context.isSoftInputActive(): Boolean {
-    return inputMethodManager.isActive ?: false
+    return inputMethodManager.isActive
 }
 
 /* ---------- Fragment ---------- */
@@ -49,7 +49,7 @@ fun Fragment.hideSoftInput(view: View) {
 }
 
 fun Fragment.hideSoftInput() {
-    activity?.hideSoftInput(activity!!)
+    activity?.hideSoftInput(requireActivity())
 }
 
 fun Fragment.isSoftInputActive() {

@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.KeyguardManager
 import android.content.Context
-import android.graphics.Color
 import android.os.PowerManager
 import android.os.PowerManager.WakeLock
 import android.util.Log
@@ -17,25 +16,28 @@ import java.util.*
  */
 object ScreenLockUtils {
     private const val TAG = "ScreenLockUtil"
-    private val mWakeLockArray = HashMap<Activity, WakeLock?>()
+    private val mWakeLockArray = HashMap<Activity, WakeLock>()
     private val mIsUnlockArray = HashMap<Activity, Boolean>()
 
     /**
      * 保持屏幕常亮
      */
     fun keepScreenOn(activity: Activity) {
-        var wakeLock = mWakeLockArray[activity]
+        var wakeLock:WakeLock? = mWakeLockArray[activity]
         if (wakeLock == null) {
             val powerManager = activity.getSystemService(Context.POWER_SERVICE) as PowerManager
+            @Suppress("DEPRECATION")
             wakeLock = powerManager.newWakeLock(
                 PowerManager.ACQUIRE_CAUSES_WAKEUP or PowerManager.FULL_WAKE_LOCK,
                 activity.javaClass.name
             )
         }
-        if (!wakeLock!!.isHeld) {
-            wakeLock.acquire(10 * 60 * 1000L /*10 minutes*/)
+        wakeLock?.apply {
+            if (!this.isHeld) {
+                this.acquire(10 * 60 * 1000L /*10 minutes*/)
+            }
+            mWakeLockArray[activity] = this
         }
-        mWakeLockArray[activity] = wakeLock
         cancelLockScreen(activity)
         Log.i(TAG, "开启屏幕常亮")
     }

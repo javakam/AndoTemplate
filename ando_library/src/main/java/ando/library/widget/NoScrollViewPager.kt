@@ -1,4 +1,4 @@
-package ando.library.views
+package ando.library.widget
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -19,28 +19,19 @@ import androidx.viewpager.widget.ViewPager
  */
 class NoScrollViewPager constructor(context: Context, attrs: AttributeSet? = null) :
     ViewPager(context, attrs) {
-
     var isEnableScroll = false
 
     /**
      * 表示事件是否拦截, 返回false表示不拦截, 可以让嵌套在内部的recyclerview、viewpager相应左右滑动的事件不受干扰
      */
     override fun onInterceptTouchEvent(ev: MotionEvent): Boolean =
-        if (isEnableScroll) {
-            super.onInterceptTouchEvent(ev)
-        } else {
-            false
-        }
+        if (isEnableScroll) super.onInterceptTouchEvent(ev) else false
 
     /**
      * 重写onTouchEvent事件,什么都不用做
      */
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(ev: MotionEvent): Boolean {
-        return if (isEnableScroll) {
-            super.onTouchEvent(ev)
-        } else {
-            false
-        }
+        return if (isEnableScroll) super.onTouchEvent(ev) else false
     }
 }

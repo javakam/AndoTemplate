@@ -186,12 +186,12 @@ class BluetoothUtils private constructor() {
         val action = intent.action
         // 扫描判断
         if (BluetoothDevice.ACTION_FOUND == action) { // 每扫描到一个设备，系统都会发送此广播。
-            if (mScanListener == null)  return
+            if (mScanListener == null) return
             // 获取蓝牙设备
             val device = intent
                 .getParcelableExtra<BluetoothDevice>(BluetoothDevice.EXTRA_DEVICE)
             if (device != null) {
-                mScanListener!!.onFind(device)
+                mScanListener?.onFind(device)
             }
         }
 
@@ -200,7 +200,7 @@ class BluetoothUtils private constructor() {
             if (mBondListener == null) return
             val device = intent
                 .getParcelableExtra<BluetoothDevice>(BluetoothDevice.EXTRA_DEVICE)
-            mBondListener!!.onBond(device)
+            mBondListener?.onBond(device)
         }
 
         // 状态改变
@@ -208,9 +208,9 @@ class BluetoothUtils private constructor() {
             if (mOpenListener == null) return
             val state = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, 0)
             if (state == BluetoothAdapter.STATE_ON) { // 蓝牙开启
-                mOpenListener!!.onOpen(true)
+                mOpenListener?.onOpen(true)
             } else if (state == BluetoothAdapter.STATE_OFF) { // 蓝牙关闭
-                mOpenListener!!.onOpen(false)
+                mOpenListener?.onOpen(false)
             }
         }
     }

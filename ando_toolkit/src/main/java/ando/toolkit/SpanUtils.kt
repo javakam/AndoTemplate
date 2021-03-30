@@ -1,6 +1,8 @@
 package ando.toolkit
 
+import ando.toolkit.AppUtils.getContext
 import android.annotation.SuppressLint
+import androidx.annotation.IntRange
 import android.graphics.*
 import android.graphics.BlurMaskFilter.Blur
 import android.graphics.Paint.FontMetricsInt
@@ -15,9 +17,7 @@ import android.text.TextPaint
 import android.text.style.*
 import android.util.Log
 import androidx.annotation.*
-import androidx.annotation.IntRange
 import androidx.core.content.ContextCompat
-import ando.toolkit.AppUtils.getContext
 import java.io.IOException
 import java.lang.ref.WeakReference
 
@@ -47,11 +47,6 @@ class SpanUtils {
     @kotlin.annotation.Retention(AnnotationRetention.SOURCE)
     annotation class Align
 
-    val ALIGN_BOTTOM = 0
-    val ALIGN_BASELINE = 1
-    val ALIGN_CENTER = 2
-    val ALIGN_TOP = 3
-
     private var mText: CharSequence
     private var flag = 0
     private var foregroundColor = 0
@@ -76,7 +71,7 @@ class SpanUtils {
     private var fontSizeIsDp = false
     private var proportion = 0f
     private var xProportion = 0f
-    private var isStrikethrough = false
+    private var isStrikeThrough = false
     private var isUnderline = false
     private var isSuperscript = false
     private var isSubscript = false
@@ -125,7 +120,7 @@ class SpanUtils {
         fontSize = -1
         proportion = -1f
         xProportion = -1f
-        isStrikethrough = false
+        isStrikeThrough = false
         isUnderline = false
         isSuperscript = false
         isSubscript = false
@@ -477,8 +472,8 @@ class SpanUtils {
      *
      * @return [SpanUtils]
      */
-    fun setStrikethrough(): SpanUtils {
-        isStrikethrough = true
+    fun setStrikeThrough(): SpanUtils {
+        isStrikeThrough = true
         return this
     }
 
@@ -879,7 +874,6 @@ class SpanUtils {
         setDefault()
     }
 
-
     private fun updateCharCharSequence() {
         if (mText.isEmpty()) {
             return
@@ -899,47 +893,40 @@ class SpanUtils {
         if (quoteColor != COLOR_DEFAULT) {
             mBuilder.setSpan(
                 CustomQuoteSpan(quoteColor, stripeWidth, quoteGapWidth),
-                start,
-                end,
-                flag
+                start, end, flag
             )
         }
         if (bulletColor != COLOR_DEFAULT) {
             mBuilder.setSpan(
                 CustomBulletSpan(bulletColor, bulletRadius, bulletGapWidth),
-                start,
-                end,
-                flag
+                start, end, flag
             )
         }
         if (iconMarginGapWidth != -1) {
             when {
                 iconMarginBitmap != null -> {
-                    mBuilder.setSpan(
-                        CustomIconMarginSpan(
-                            iconMarginBitmap!!,
-                            iconMarginGapWidth,
-                            alignIconMargin
-                        ), start, end, flag
-                    )
+                    iconMarginBitmap?.apply {
+                        mBuilder.setSpan(
+                            CustomIconMarginSpan(this, iconMarginGapWidth, alignIconMargin),
+                            start, end, flag
+                        )
+                    }
                 }
                 iconMarginDrawable != null -> {
-                    mBuilder.setSpan(
-                        CustomIconMarginSpan(
-                            iconMarginDrawable!!,
-                            iconMarginGapWidth,
-                            alignIconMargin
-                        ), start, end, flag
-                    )
+                    iconMarginDrawable?.apply {
+                        mBuilder.setSpan(
+                            CustomIconMarginSpan(this, iconMarginGapWidth, alignIconMargin),
+                            start, end, flag
+                        )
+                    }
                 }
                 iconMarginUri != null -> {
-                    mBuilder.setSpan(
-                        CustomIconMarginSpan(
-                            iconMarginUri!!,
-                            iconMarginGapWidth,
-                            alignIconMargin
-                        ), start, end, flag
-                    )
+                    iconMarginUri?.apply {
+                        mBuilder.setSpan(
+                            CustomIconMarginSpan(this, iconMarginGapWidth, alignIconMargin),
+                            start, end, flag
+                        )
+                    }
                 }
                 iconMarginResourceId != -1 -> {
                     mBuilder.setSpan(
@@ -964,7 +951,7 @@ class SpanUtils {
         if (lineHeight != -1) {
             mBuilder.setSpan(CustomLineHeightSpan(lineHeight, alignLine), start, end, flag)
         }
-        if (isStrikethrough) {
+        if (isStrikeThrough) {
             mBuilder.setSpan(StrikethroughSpan(), start, end, flag)
         }
         if (isUnderline) {
@@ -988,11 +975,12 @@ class SpanUtils {
         if (fontFamily != null) {
             mBuilder.setSpan(TypefaceSpan(fontFamily), start, end, flag)
         }
-        if (typeface != null) {
-            mBuilder.setSpan(CustomTypefaceSpan(typeface!!), start, end, flag)
+        typeface?.apply {
+            mBuilder.setSpan(CustomTypefaceSpan(this), start, end, flag)
         }
+
         if (alignment != null) {
-            mBuilder.setSpan(AlignmentSpan.Standard(alignment!!), start, end, flag)
+            mBuilder.setSpan(AlignmentSpan.Standard(alignment), start, end, flag)
         }
         if (clickSpan != null) {
             mBuilder.setSpan(clickSpan, start, end, flag)
@@ -1003,19 +991,17 @@ class SpanUtils {
         if (blurRadius != -1f) {
             mBuilder.setSpan(MaskFilterSpan(BlurMaskFilter(blurRadius, style)), start, end, flag)
         }
-        if (shader != null) {
-            mBuilder.setSpan(ShaderSpan(shader!!), start, end, flag)
+        shader?.apply {
+            mBuilder.setSpan(ShaderSpan(this), start, end, flag)
         }
         if (shadowRadius != -1f) {
             mBuilder.setSpan(
                 ShadowSpan(shadowRadius, shadowDx, shadowDy, shadowColor),
-                start,
-                end,
-                flag
+                start, end, flag
             )
         }
-        if (spans != null) {
-            for (span in spans!!) {
+        spans?.apply {
+            for (span in this) {
                 mBuilder.setSpan(span, start, end, flag)
             }
         }
@@ -1027,13 +1013,19 @@ class SpanUtils {
         val end = start + 5
         when {
             imageBitmap != null -> {
-                mBuilder.setSpan(CustomImageSpan(imageBitmap!!, alignImage), start, end, flag)
+                imageBitmap?.apply {
+                    mBuilder.setSpan(CustomImageSpan(this, alignImage), start, end, flag)
+                }
             }
             imageDrawable != null -> {
-                mBuilder.setSpan(CustomImageSpan(imageDrawable!!, alignImage), start, end, flag)
+                imageDrawable?.apply {
+                    mBuilder.setSpan(CustomImageSpan(this, alignImage), start, end, flag)
+                }
             }
             imageUri != null -> {
-                mBuilder.setSpan(CustomImageSpan(imageUri!!, alignImage), start, end, flag)
+                imageUri?.apply {
+                    mBuilder.setSpan(CustomImageSpan(this, alignImage), start, end, flag)
+                }
             }
             imageResourceId != -1 -> {
                 mBuilder.setSpan(CustomImageSpan(imageResourceId, alignImage), start, end, flag)
@@ -1175,7 +1167,7 @@ class SpanUtils {
         private val radius: Int,
         private val gapWidth: Int
     ) : LeadingMarginSpan {
-        private var sBulletPath: Path? = null
+        private lateinit var sBulletPath: Path
         override fun getLeadingMargin(first: Boolean): Int {
             return 2 * radius + gapWidth
         }
@@ -1193,21 +1185,19 @@ class SpanUtils {
                 p.color = color
                 p.style = Paint.Style.FILL
                 if (c.isHardwareAccelerated) {
-                    if (sBulletPath == null) {
+                    if (!this::sBulletPath.isInitialized) {
                         sBulletPath = Path()
                         // Bullet is slightly better to avoid aliasing artifacts on mdpi devices.
-                        sBulletPath!!.addCircle(0.0f, 0.0f, radius.toFloat(), Path.Direction.CW)
+                        sBulletPath.addCircle(0.0f, 0.0f, radius.toFloat(), Path.Direction.CW)
                     }
                     c.save()
                     c.translate(x + dir * radius.toFloat(), (top + bottom) / 2.0f)
-                    c.drawPath(sBulletPath!!, p)
+                    c.drawPath(sBulletPath, p)
                     c.restore()
                 } else {
                     c.drawCircle(
                         x + dir * radius.toFloat(),
-                        (top + bottom) / 2.0f,
-                        radius.toFloat(),
-                        p
+                        (top + bottom) / 2.0f, radius.toFloat(), p
                     )
                 }
                 p.color = oldColor
@@ -1284,10 +1274,12 @@ class SpanUtils {
         }
 
         private fun resource2Bitmap(resourceId: Int): Bitmap {
-            val drawable = ContextCompat.getDrawable(getContext(), resourceId)
+            val drawable: Drawable = ContextCompat.getDrawable(getContext(), resourceId)
+                ?: return Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888)
+
             val canvas = Canvas()
             val bitmap = Bitmap.createBitmap(
-                drawable!!.intrinsicWidth,
+                drawable.intrinsicWidth,
                 drawable.intrinsicHeight,
                 Bitmap.Config.ARGB_8888
             )
@@ -1315,12 +1307,16 @@ class SpanUtils {
             }
             val delta = totalHeight - mBitmap.height
             if (delta > 0) {
-                if (mVerticalAlignment == Companion.ALIGN_TOP) {
-                    c.drawBitmap(mBitmap, x.toFloat(), itop.toFloat(), p)
-                } else if (mVerticalAlignment == Companion.ALIGN_CENTER) {
-                    c.drawBitmap(mBitmap, x.toFloat(), itop + delta / 2.toFloat(), p)
-                } else {
-                    c.drawBitmap(mBitmap, x.toFloat(), itop + delta.toFloat(), p)
+                when (mVerticalAlignment) {
+                    Companion.ALIGN_TOP -> {
+                        c.drawBitmap(mBitmap, x.toFloat(), itop.toFloat(), p)
+                    }
+                    Companion.ALIGN_CENTER -> {
+                        c.drawBitmap(mBitmap, x.toFloat(), itop + delta / 2.toFloat(), p)
+                    }
+                    else -> {
+                        c.drawBitmap(mBitmap, x.toFloat(), itop + delta.toFloat(), p)
+                    }
                 }
             } else {
                 c.drawBitmap(mBitmap, x.toFloat(), itop.toFloat(), p)
@@ -1473,16 +1469,12 @@ class SpanUtils {
                     mContentUri != null -> {
                         val bitmap: Bitmap
                         try {
-                            val ins = getContext().contentResolver.openInputStream(
-                                mContentUri!!
-                            )
+                            val ins = getContext().contentResolver.openInputStream(mContentUri)
                             bitmap = BitmapFactory.decodeStream(ins)
                             drawable = BitmapDrawable(getContext().resources, bitmap)
                             drawable.setBounds(
-                                0,
-                                0,
-                                drawable.getIntrinsicWidth(),
-                                drawable.getIntrinsicHeight()
+                                0, 0,
+                                drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight()
                             )
                             ins?.close()
                         } catch (e: Exception) {
@@ -1492,11 +1484,9 @@ class SpanUtils {
                     else -> {
                         try {
                             drawable = ContextCompat.getDrawable(getContext(), mResourceId)
-                            drawable!!.setBounds(
-                                0,
-                                0,
-                                drawable.intrinsicWidth,
-                                drawable.intrinsicHeight
+                            drawable?.setBounds(
+                                0, 0,
+                                drawable.intrinsicWidth, drawable.intrinsicHeight
                             )
                         } catch (e: Exception) {
                             Log.e("sms", "Unable to find resource: $mResourceId")
@@ -1525,7 +1515,7 @@ class SpanUtils {
             fm: FontMetricsInt?
         ): Int {
             val d = cachedDrawable
-            val rect = d!!.bounds
+            val rect = d?.bounds ?: return 0
             val fontHeight = (paint.fontMetrics.descent - paint.fontMetrics.ascent).toInt()
             if (fm != null) { // this is the fucking code which I waste 3 days
                 if (rect.height() > fontHeight) {
@@ -1552,7 +1542,7 @@ class SpanUtils {
             top: Int, y: Int, bottom: Int, paint: Paint
         ) {
             val d = cachedDrawable
-            val rect = d!!.bounds
+            val rect = d?.bounds ?: return
             canvas.save()
             val fontHeight: Float = paint.fontMetrics.descent - paint.fontMetrics.ascent
             var transY: Int = bottom - rect.bottom

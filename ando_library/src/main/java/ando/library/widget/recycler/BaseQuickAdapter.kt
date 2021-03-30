@@ -1,4 +1,4 @@
-package ando.library.views.recycler;
+package ando.library.widget.recycler;
 
 import android.animation.Animator
 import android.content.Context
@@ -26,12 +26,11 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 /**
- * https://github.com/CymChad/BaseRecyclerViewAdapterHelper
+ * Changed From https://github.com/CymChad/BaseRecyclerViewAdapterHelper
  *
  * @author javakam
  * @date 2021/3/24  12:21
  */
-
 abstract class BaseQuickAdapter<T, VH : BaseViewHolder>
 @JvmOverloads constructor(
     @LayoutRes private val layoutResId: Int,
@@ -109,10 +108,9 @@ abstract class BaseQuickAdapter<T, VH : BaseViewHolder>
 
     val recyclerView: RecyclerView
         get() {
-            checkNotNull(recyclerViewOrNull) {
+            return recyclerViewOrNull ?: checkNotNull(recyclerViewOrNull) {
                 "Please get it after onAttachedToRecyclerView()"
             }
-            return recyclerViewOrNull!!
         }
 
     val context: Context
@@ -305,22 +303,17 @@ abstract class BaseQuickAdapter<T, VH : BaseViewHolder>
                     if (type == FOOTER_VIEW && footerViewAsFlow) {
                         return 1
                     }
-                    return if (mSpanSizeLookup == null) {
-                        if (isFixedViewType(type)) manager.spanCount else defSpanSizeLookup.getSpanSize(
-                            position
-                        )
+                    val spanSizeLookup = mSpanSizeLookup
+                    return if (spanSizeLookup == null) {
+                        if (isFixedViewType(type)) manager.spanCount
+                        else defSpanSizeLookup.getSpanSize(position)
                     } else {
                         if (isFixedViewType(type))
                             manager.spanCount
                         else
-                            mSpanSizeLookup!!.getSpanSize(
-                                manager,
-                                type,
-                                position - headerLayoutCount
-                            )
+                            spanSizeLookup.getSpanSize(manager, type, position - headerLayoutCount)
                     }
                 }
-
             }
         }
     }

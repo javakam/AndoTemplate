@@ -160,7 +160,7 @@ class DrawableUtils private constructor() {
     ): Bitmap? {
         //width and height must be > 0
         return if (width <= 0 || height <= 0) null else try {
-            Bitmap.createBitmap(width, height, config!!)
+            Bitmap.createBitmap(width, height, config)
         } catch (e: OutOfMemoryError) {
             e.printStackTrace()
             if (retryCount > 0) {

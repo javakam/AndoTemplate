@@ -48,8 +48,8 @@ object ThreadUtils {
         }
     }
 
-    fun runOnUiThreadDelayed(runnable: Runnable?, delayMillis: Long) {
-        mainHandler.postDelayed(runnable!!, delayMillis)
+    fun runOnUiThreadDelayed(runnable: Runnable, delayMillis: Long) {
+        mainHandler.postDelayed(runnable, delayMillis)
     }
 
     /**
@@ -1070,7 +1070,7 @@ object ThreadUtils {
                         pool.execute(task)
                     }
                 }
-                TIMER.schedule(timerTask, unit!!.toMillis(delay))
+                TIMER.schedule(timerTask, unit?.toMillis(delay) ?: 0)
             }
         } else {
             task.setSchedule(true)
@@ -1079,7 +1079,11 @@ object ThreadUtils {
                     pool.execute(task)
                 }
             }
-            TIMER.scheduleAtFixedRate(timerTask, unit!!.toMillis(delay), unit.toMillis(period))
+            TIMER.scheduleAtFixedRate(
+                timerTask,
+                unit?.toMillis(delay) ?: 0,
+                unit?.toMillis(period) ?: 0
+            )
         }
     }
 
@@ -1314,9 +1318,11 @@ object ThreadUtils {
                     mTimer = Timer()
                     mTimer?.schedule(object : TimerTask() {
                         override fun run() {
-                            if (!isDone && mTimeoutListener != null) {
-                                timeout()
-                                mTimeoutListener!!.onTimeout()
+                            if (!isDone) {
+                                mTimeoutListener?.apply {
+                                    timeout()
+                                    this.onTimeout()
+                                }
                             }
                         }
                     }, mTimeoutMillis)
@@ -1365,9 +1371,7 @@ object ThreadUtils {
                 if (state.get() > RUNNING) return
                 state.set(TIMEOUT)
             }
-            if (runner != null) {
-                runner!!.interrupt()
-            }
+            runner?.interrupt()
             onDone()
         }
 

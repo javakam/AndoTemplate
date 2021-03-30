@@ -1,4 +1,4 @@
-package ando.library.utils.glide
+package ando.library.glide
 
 import android.graphics.drawable.Drawable
 import android.view.View

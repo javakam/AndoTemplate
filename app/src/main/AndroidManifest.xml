@@ -71,11 +71,11 @@
             android:configChanges="uiMode|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.banner.BannerTextActivity"
+            android:name=".ui.banner.BannerGuideActivity"
             android:configChanges="uiMode|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.banner.BannerGuideActivity"
+            android:name=".ui.button.ButtonActivity"
             android:configChanges="uiMode|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize"
             android:screenOrientation="portrait" />
 

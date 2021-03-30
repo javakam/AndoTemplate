@@ -25,10 +25,10 @@ object ClearCacheUtils {
      * 提示清理缓存弹窗
      */
     fun showClearDialog(
-        context: Context?,
+        context: Context,
         onPositiveClickListener: DialogInterface.OnClickListener?,
     ): Dialog {
-        return AlertDialog.Builder(context!!)
+        return AlertDialog.Builder(context)
             .setCancelable(true)
             .setMessage("确定清除缓存吗？")
             .setPositiveButton("确定", onPositiveClickListener)

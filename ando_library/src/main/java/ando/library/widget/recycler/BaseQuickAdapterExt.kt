@@ -1,4 +1,4 @@
-package ando.library.views.recycler
+package ando.library.widget.recycler
 
 import android.view.View
 import androidx.annotation.NonNull

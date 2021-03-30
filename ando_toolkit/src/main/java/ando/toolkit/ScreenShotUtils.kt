@@ -1,5 +1,6 @@
 package ando.toolkit
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
@@ -14,19 +15,18 @@ import android.view.WindowManager
 import android.widget.*
 import androidx.core.widget.NestedScrollView
 import androidx.recyclerview.widget.RecyclerView
-import java.util.*
 
 /**
- * # ScreenShotUtils 截屏工具类
+ * # 截屏工具类
  *
  * @author javakam
  * @date 2020/1/3 10:58
  */
 object ScreenShotUtils {
 
-    fun showDialog(context: Context?, bitmap: Bitmap) {
+    fun showDialog(context: Context, bitmap: Bitmap) {
         val builder = AlertDialog.Builder(context)
-        val scrollView = NestedScrollView(context!!)
+        val scrollView = NestedScrollView(context)
         val linearLayout = LinearLayout(context)
         linearLayout.orientation = LinearLayout.VERTICAL
         val imageView = ImageView(context)
@@ -40,7 +40,7 @@ object ScreenShotUtils {
         scrollView.addView(linearLayout)
         builder.setView(scrollView)
         builder.setCancelable(true)
-        builder.setNegativeButton("关闭") { dialog, which -> dialog.dismiss() }
+        builder.setNegativeButton("关闭") { dialog, _ -> dialog.dismiss() }
         builder.show()
     }
 
@@ -53,7 +53,7 @@ object ScreenShotUtils {
     }
 
     fun showRecyclerViewShotDialog(view: RecyclerView) {
-        showDialog(view.context, shotRecyclerView(view)!!)
+        shotRecyclerView(view)?.apply { showDialog(view.context, this) }
     }
 
     /**
@@ -85,8 +85,11 @@ object ScreenShotUtils {
                     holder.itemView.measuredWidth,
                     holder.itemView.measuredHeight
                 )
+                @Suppress("DEPRECATION")
                 holder.itemView.isDrawingCacheEnabled = true
+                @Suppress("DEPRECATION")
                 holder.itemView.buildDrawingCache()
+                @Suppress("DEPRECATION")
                 val drawingCache = holder.itemView.drawingCache
                 if (drawingCache != null) {
                     bitmapCache.put(i.toString(), drawingCache)
@@ -116,6 +119,7 @@ object ScreenShotUtils {
      *
      * @param ctx current activity
      */
+    @Suppress("DEPRECATION")
     fun shotActivity(ctx: Activity): Bitmap {
         val view = ctx.window.decorView
         view.isDrawingCacheEnabled = true
@@ -130,6 +134,7 @@ object ScreenShotUtils {
     /**
      * shot the current screen ,with the status and navigationbar*
      */
+    @Suppress("DEPRECATION")
     fun shotActivityWithoutStatusWithoutNavigationBar(ctx: Activity): Bitmap {
         val statusH = getStatusH(ctx)
         val navigationBarH = getNavigationBarHeight(ctx)
@@ -151,12 +156,13 @@ object ScreenShotUtils {
     /**
      * get the height of screen *
      */
+    @Suppress("DEPRECATION")
+    @SuppressLint("ObsoleteSdkInt")
     fun getScreenH(ctx: Context): Int =
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.HONEYCOMB_MR2) {
             val p = Point()
-            (ctx.getSystemService(Context.WINDOW_SERVICE) as WindowManager).defaultDisplay.getSize(
-                p
-            )
+            (ctx.getSystemService(Context.WINDOW_SERVICE) as WindowManager)
+                .defaultDisplay.getSize(p)
             p.y
         } else {
             (ctx.getSystemService(Context.WINDOW_SERVICE) as WindowManager).defaultDisplay.height
@@ -165,6 +171,8 @@ object ScreenShotUtils {
     /**
      * get the width of screen **
      */
+    @Suppress("DEPRECATION")
+    @SuppressLint("ObsoleteSdkInt")
     fun getScreenW(ctx: Context): Int =
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.HONEYCOMB_MR2) {
             val p = Point()
@@ -198,41 +206,6 @@ object ScreenShotUtils {
         val resources = mActivity.resources
         val resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android")
         return resources.getDimensionPixelSize(resourceId)
-    }
-
-    /**
-     * http://stackoverflow.com/questions/12742343/android-get-screenshot-of-all-listview-items
-     */
-    fun shotListView(listview: ListView): Bitmap {
-        val adapter = listview.adapter
-        val itemscount = adapter.count
-        var allitemsheight = 0
-        val bmps: MutableList<Bitmap> = ArrayList()
-        for (i in 0 until itemscount) {
-            val childView = adapter.getView(i, null, listview)
-            childView.measure(
-                View.MeasureSpec.makeMeasureSpec(listview.width, View.MeasureSpec.EXACTLY),
-                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
-            )
-            childView.layout(0, 0, childView.measuredWidth, childView.measuredHeight)
-            childView.isDrawingCacheEnabled = true
-            childView.buildDrawingCache()
-            bmps.add(childView.drawingCache)
-            allitemsheight += childView.measuredHeight
-        }
-        val bigbitmap =
-            Bitmap.createBitmap(listview.measuredWidth, allitemsheight, Bitmap.Config.ARGB_8888)
-        val bigcanvas = Canvas(bigbitmap)
-        val paint = Paint()
-        var iHeight = 0
-        for (i in bmps.indices) {
-            var bmp: Bitmap? = bmps[i]
-            bigcanvas.drawBitmap(bmp!!, 0f, iHeight.toFloat(), paint)
-            iHeight += bmp.height
-            bmp.recycle()
-            bmp = null
-        }
-        return bigbitmap
     }
 
     /**

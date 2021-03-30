@@ -505,6 +505,34 @@ public abstract class BaseBanner<T> extends RelativeLayout {
         void onClick(int position);
     }
 
+    private abstract static class NoShakeListener implements OnClickListener {
+        private long mLastClickTime = 0;
+
+        private boolean isFastDoubleClick() {
+            long nowTime = System.currentTimeMillis();
+            if (Math.abs(nowTime - mLastClickTime) < 500) {
+                return true; // 快速点击事件
+            } else {
+                mLastClickTime = nowTime;
+                return false; // 单次点击事件
+            }
+        }
+
+        @Override
+        public void onClick(View v) {
+            if (isFastDoubleClick()) {
+                onFastClick(v);
+            } else {
+                onSingleClick(v);
+            }
+        }
+
+        protected void onFastClick(View v) {
+        }
+
+        protected abstract void onSingleClick(View v);
+    }
+
     private class InnerBannerAdapter extends PagerAdapter {
         @Override
         public int getCount() {
@@ -515,9 +543,14 @@ public abstract class BaseBanner<T> extends RelativeLayout {
         @Override
         public Object instantiateItem(@NonNull ViewGroup container, final int position) {
             final View view = onCreateItemView(position);
-            if (mOnBannerItemClickListener != null) {
-                mOnBannerItemClickListener.onClick(position);
-            }
+            view.setOnClickListener(new NoShakeListener() {
+                @Override
+                protected void onSingleClick(View v) {
+                    if (mOnBannerItemClickListener != null) {
+                        mOnBannerItemClickListener.onClick(position);
+                    }
+                }
+            });
             container.addView(view);
             return view;
         }

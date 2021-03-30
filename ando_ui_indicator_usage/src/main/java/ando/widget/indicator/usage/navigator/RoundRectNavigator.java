@@ -1,5 +1,6 @@
 package ando.widget.indicator.usage.navigator;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -186,11 +187,11 @@ public class RoundRectNavigator extends View implements IPagerNavigator {
             PointF next = mRectPoints.get(nextPosition);
 
             mIndicatorX = current.x + (next.x - current.x) * mStartInterpolator.getInterpolation(positionOffset);
-
             invalidate();
         }
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         float x = event.getX();

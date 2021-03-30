@@ -1,4 +1,4 @@
-package ando.library.views.recycler
+package ando.library.widget.recycler
 
 import android.content.Context
 import android.graphics.Canvas

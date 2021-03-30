@@ -85,7 +85,7 @@ object StatusBarUtils {
                 field.isAccessible = true
                 field.setInt(activity.window.decorView, Color.TRANSPARENT) //改为透明
             } catch (e: Exception) {
-                Log.e(WindowUtils::class.java.simpleName, e.message!!)
+                Log.e(WindowUtils::class.java.simpleName, e.message)
             }
         }
         if (drawable == null) return

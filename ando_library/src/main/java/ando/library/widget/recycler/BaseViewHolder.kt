@@ -1,4 +1,4 @@
-package ando.library.views.recycler
+package ando.library.widget.recycler
 
 import android.annotation.SuppressLint
 import android.graphics.Bitmap

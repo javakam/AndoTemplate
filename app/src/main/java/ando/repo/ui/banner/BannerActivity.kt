@@ -1,7 +1,7 @@
 package ando.repo.ui.banner
 
-import ando.library.views.recycler.BaseQuickAdapter
-import ando.library.views.recycler.BaseViewHolder
+import ando.library.widget.recycler.BaseQuickAdapter
+import ando.library.widget.recycler.BaseViewHolder
 import ando.repo.R
 import ando.toolkit.ext.noNull
 import ando.toolkit.ext.toastShort
@@ -67,6 +67,9 @@ class BannerActivity : AppCompatActivity() {
         banner.setSource(mBannerData)
         banner.imageLoader = BannerImageLoader()
         banner.colorDrawable = ColorDrawable(ContextCompat.getColor(this, R.color.white))
+        banner.setOnItemClickListener {
+            toastShort("Index :$it")
+        }
         banner.startScroll()
 
         //Indicator
@@ -80,13 +83,10 @@ class BannerActivity : AppCompatActivity() {
 
         roundNavigator.setItemWidth(18.0)
         roundNavigator.setItemSpacing(4.0)
-        roundNavigator.setItemHeight(3.0)
-        roundNavigator.setItemRadius(3.0)
+        roundNavigator.setItemHeight(4.0)
+        roundNavigator.setItemRadius(4.0)
 
-        roundNavigator.setOnItemClickListener { index ->
-            banner.viewPager?.currentItem = index
-            toastShort("Index :$index")
-        }
+        roundNavigator.setOnItemClickListener { index -> banner.viewPager?.currentItem = index }
         //roundNavigator.notifyDataSetChanged()
         indicator.navigator = roundNavigator
 

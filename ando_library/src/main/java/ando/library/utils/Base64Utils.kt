@@ -151,8 +151,8 @@ object Base64Utils {
      * @param data 源
      * @return char[]
      */
-    fun encode(data: ByteArray?): CharArray {
-        val out = CharArray((data!!.size + 2) / 3 * 4)
+    fun encode(data: ByteArray): CharArray {
+        val out = CharArray((data.size + 2) / 3 * 4)
         var i = 0
         var index = 0
         while (i < data.size) {
@@ -269,13 +269,12 @@ object Base64Utils {
     private val codes = ByteArray(256)
 
     @Throws(IOException::class)
-    private fun readBytes(file: File?): ByteArray? {
+    private fun readBytes(file: File): ByteArray {
         val baos = ByteArrayOutputStream()
-        val b: ByteArray?
         var fis: InputStream? = null
         var ins: InputStream? = null
         try {
-            fis = FileInputStream(file ?: return null)
+            fis = FileInputStream(file)
             ins = BufferedInputStream(fis)
             var count: Int
             val buf = ByteArray(16384)
@@ -284,7 +283,7 @@ object Base64Utils {
                     baos.write(buf, 0, count)
                 }
             }
-            b = baos.toByteArray()
+            return baos.toByteArray()
         } finally {
             try {
                 fis?.close()
@@ -294,7 +293,6 @@ object Base64Utils {
                 println(e)
             }
         }
-        return b
     }
 
     @Throws(IOException::class)
