@@ -27,7 +27,7 @@ public class TriangularPagerIndicator extends View implements IPagerIndicator {
     private boolean mReverse;
     private float mYOffset;
 
-    private Path mPath = new Path();
+    private final Path mPath = new Path();
     private Interpolator mStartInterpolator = new LinearInterpolator();
     private float mAnchorX;
 
@@ -54,13 +54,13 @@ public class TriangularPagerIndicator extends View implements IPagerIndicator {
         }
         mPath.reset();
         if (mReverse) {
-            mPath.moveTo(mAnchorX - mTriangleWidth / 2, getHeight() - mYOffset - mTriangleHeight);
+            mPath.moveTo(mAnchorX - mTriangleWidth / 2F, getHeight() - mYOffset - mTriangleHeight);
             mPath.lineTo(mAnchorX, getHeight() - mYOffset);
-            mPath.lineTo(mAnchorX + mTriangleWidth / 2, getHeight() - mYOffset - mTriangleHeight);
+            mPath.lineTo(mAnchorX + mTriangleWidth / 2F, getHeight() - mYOffset - mTriangleHeight);
         } else {
-            mPath.moveTo(mAnchorX - mTriangleWidth / 2, getHeight() - mYOffset);
+            mPath.moveTo(mAnchorX - mTriangleWidth / 2F, getHeight() - mYOffset);
             mPath.lineTo(mAnchorX, getHeight() - mTriangleHeight - mYOffset);
-            mPath.lineTo(mAnchorX + mTriangleWidth / 2, getHeight() - mYOffset);
+            mPath.lineTo(mAnchorX + mTriangleWidth / 2F, getHeight() - mYOffset);
         }
         mPath.close();
         canvas.drawPath(mPath, mPaint);
@@ -76,8 +76,8 @@ public class TriangularPagerIndicator extends View implements IPagerIndicator {
         PagerIndicatorPosition current = FragmentContainerHelper.getImitativeIndicatorPosition(mIndicatorPositionList, position);
         PagerIndicatorPosition next = FragmentContainerHelper.getImitativeIndicatorPosition(mIndicatorPositionList, position + 1);
 
-        float leftX = current.mLeft + (current.mRight - current.mLeft) / 2;
-        float rightX = next.mLeft + (next.mRight - next.mLeft) / 2;
+        float leftX = current.mLeft + (current.mRight - current.mLeft) / 2F;
+        float rightX = next.mLeft + (next.mRight - next.mLeft) / 2F;
 
         mAnchorX = leftX + (rightX - leftX) * mStartInterpolator.getInterpolation(positionOffset);
 

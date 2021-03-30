@@ -50,14 +50,14 @@ public class MagicIndicator extends FrameLayout {
             return;
         }
         if (mNavigator != null) {
-            mNavigator.onDetachFromMagicIndicator();
+            mNavigator.onDetachIndicator();
         }
         mNavigator = navigator;
         removeAllViews();
         if (mNavigator instanceof View) {
             LayoutParams lp = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
             addView((View) mNavigator, lp);
-            mNavigator.onAttachToMagicIndicator();
+            mNavigator.onAttachIndicator();
         }
     }
 }

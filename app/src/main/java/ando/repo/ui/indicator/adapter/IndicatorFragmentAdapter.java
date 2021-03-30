@@ -1,4 +1,4 @@
-package ando.repo.ui.indicator;
+package ando.repo.ui.indicator.adapter;
 
 import android.view.ViewGroup;
 
@@ -12,11 +12,11 @@ import ando.library.base.BaseStatePagersAdapter;
  * @author javakam
  * @date 2019/11/4 12:49
  */
-public class IndicatorScrollPagerAdapter extends BaseStatePagersAdapter {
+public class IndicatorFragmentAdapter extends BaseStatePagersAdapter {
 
     private final FragmentManager mFragmentManager;
 
-    public IndicatorScrollPagerAdapter(FragmentManager fm) {
+    public IndicatorFragmentAdapter(FragmentManager fm) {
         //https://blog.csdn.net/c6E5UlI1N/article/details/90307961
         super(fm);
         this.mFragmentManager = fm;

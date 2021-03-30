@@ -62,8 +62,8 @@ public class RoundRectNavigator extends View implements IPagerNavigator {
     private int mTotalCount;
     private Interpolator mStartInterpolator = new LinearInterpolator();
 
-    private Paint mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-    private List<PointF> mRectPoints = new ArrayList<PointF>();
+    private final Paint mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private final List<PointF> mRectPoints = new ArrayList<PointF>();
     private float mIndicatorX;
 
     // 事件回调
@@ -131,7 +131,6 @@ public class RoundRectNavigator extends View implements IPagerNavigator {
 
     @Override
     protected void onDraw(Canvas canvas) {
-
         mPaint.setStyle(Paint.Style.FILL);
         mPaint.setColor(mItemColor);
         drawItems(canvas);
@@ -246,7 +245,7 @@ public class RoundRectNavigator extends View implements IPagerNavigator {
     }
 
     @Override
-    public void onAttachToMagicIndicator() {
+    public void onAttachIndicator() {
     }
 
     @Override
@@ -256,7 +255,7 @@ public class RoundRectNavigator extends View implements IPagerNavigator {
     }
 
     @Override
-    public void onDetachFromMagicIndicator() {
+    public void onDetachIndicator() {
     }
 
     public int getItemWidth() {

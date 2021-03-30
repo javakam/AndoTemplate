@@ -3,6 +3,7 @@ package ando.repo.ui.indicator
 import ando.repo.R
 import ando.repo.bean.ChannelBean
 import ando.repo.ui.DisplayFragment
+import ando.repo.ui.indicator.adapter.IndicatorFixedNavAdapter
 import ando.repo.widget.indicator.MagicIndicatorHelper
 import ando.toolkit.ThreadTask
 import ando.toolkit.ThreadUtils

@@ -1,4 +1,4 @@
-package ando.repo.ui.indicator;
+package ando.repo.ui.indicator.adapter;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -10,7 +10,6 @@ import org.jetbrains.annotations.Nullable;
 import ando.repo.R;
 import ando.repo.bean.ChannelBean;
 import ando.repo.widget.indicator.BaseCommonNavigatorAdapter;
-import ando.repo.widget.indicator.MagicIndicatorHelper;
 import ando.repo.widget.indicator.titles.CustomPagerTitleView;
 import ando.toolkit.NoShakeClickListener;
 import ando.toolkit.ResUtils;
@@ -31,7 +30,7 @@ public class IndicatorScrollNavAdapter extends BaseCommonNavigatorAdapter<Channe
         titleView.setEnablePadding(true);
         titleView.setText(getData().get(index).getTitle());
 
-        final boolean isMoreThanThree = getCount() > MagicIndicatorHelper.sAdjustModeThresholdThree;
+        final boolean isMoreThanThree = getCount() > 3;
         if (isMoreThanThree) {
             titleView.setMinWidth(ResUtils.INSTANCE.getDimensionPixelSize(R.dimen.dp_100));
         }

@@ -1,5 +1,6 @@
 package ando.widget.indicator.usage.navigator;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -36,9 +37,9 @@ public class ScaleCircleNavigator extends View implements IPagerNavigator, Navig
     private int mCircleSpacing;
     private int mCircleCount;
 
-    private Paint mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-    private List<PointF> mCirclePoints = new ArrayList<PointF>();
-    private SparseArray<Float> mCircleRadiusArray = new SparseArray<Float>();
+    private final Paint mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private final List<PointF> mCirclePoints = new ArrayList<PointF>();
+    private final SparseArray<Float> mCircleRadiusArray = new SparseArray<Float>();
 
     // 事件回调
     private boolean mTouchable;
@@ -48,7 +49,7 @@ public class ScaleCircleNavigator extends View implements IPagerNavigator, Navig
     private int mTouchSlop;
 
     private boolean mFollowTouch = true;    // 是否跟随手指滑动
-    private NavigatorHelper mNavigatorHelper = new NavigatorHelper();
+    private final NavigatorHelper mNavigatorHelper = new NavigatorHelper();
     private Interpolator mStartInterpolator = new LinearInterpolator();
 
     public ScaleCircleNavigator(Context context) {
@@ -134,6 +135,7 @@ public class ScaleCircleNavigator extends View implements IPagerNavigator, Navig
         }
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         float x = event.getX();
@@ -196,11 +198,11 @@ public class ScaleCircleNavigator extends View implements IPagerNavigator, Navig
     }
 
     @Override
-    public void onAttachToMagicIndicator() {
+    public void onAttachIndicator() {
     }
 
     @Override
-    public void onDetachFromMagicIndicator() {
+    public void onDetachIndicator() {
     }
 
     public void setMinRadius(int minRadius) {

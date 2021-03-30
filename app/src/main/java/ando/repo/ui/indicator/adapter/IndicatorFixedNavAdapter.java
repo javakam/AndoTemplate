@@ -1,4 +1,4 @@
-package ando.repo.ui.indicator;
+package ando.repo.ui.indicator.adapter;
 
 import android.content.Context;
 import android.util.TypedValue;
@@ -9,7 +9,6 @@ import androidx.core.content.ContextCompat;
 import ando.repo.R;
 import ando.repo.bean.ChannelBean;
 import ando.repo.widget.indicator.BaseCommonNavigatorAdapter;
-import ando.repo.widget.indicator.MagicIndicatorHelper;
 import ando.repo.widget.indicator.PagerIndicatorProvider;
 import ando.toolkit.ResUtils;
 import ando.widget.indicator.abs.IPagerIndicator;
@@ -29,7 +28,7 @@ public class IndicatorFixedNavAdapter extends BaseCommonNavigatorAdapter<Channel
         final int textSize = R.dimen.font_15;
 
         final ScaleTransitionPagerTitleView titleView = new ScaleTransitionPagerTitleView(context);
-        boolean isMoreThanThree = getCount()> MagicIndicatorHelper.sAdjustModeThresholdThree;
+        boolean isMoreThanThree = getCount()> 3;
         if (isMoreThanThree) {
             titleView.setMinWidth(ResUtils.INSTANCE.getDimensionPixelSize(R.dimen.dp_100));
         }

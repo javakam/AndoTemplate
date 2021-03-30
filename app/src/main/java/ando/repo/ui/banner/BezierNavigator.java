@@ -1,37 +1,50 @@
-package ando.widget.indicator.usage.navigator;
+package ando.repo.ui.banner;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Path;
 import android.graphics.PointF;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
+import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-import ando.widget.indicator.abs.IPagerNavigator;
 import ando.widget.indicator.IndicatorUtils;
+import ando.widget.indicator.abs.IPagerNavigator;
 
 /**
- * 圆圈式的指示器
+ * @author javakam
+ * @date 2021/3/30  10:04
  */
-public class CircleNavigator extends View implements IPagerNavigator {
-    private int mRadius;
-    private int mCircleColor;
-    private int mStrokeWidth;
+public class BezierNavigator extends View implements IPagerNavigator {
+
+    private float mLeftCircleRadius;
+    private float mLeftCircleX;
+    private float mRightCircleRadius;
+    private float mRightCircleX;
+
+    private float mYOffset;
+    private float mMaxCircleRadius;
+    private float mMinCircleRadius;
+    private final Path mPath = new Path();
+
+    //
     private int mCircleSpacing;
     private int mCurrentIndex;
     private int mTotalCount;
     private Interpolator mStartInterpolator = new LinearInterpolator();
+    private Interpolator mEndInterpolator = new DecelerateInterpolator();
 
     private final Paint mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private final List<PointF> mCirclePoints = new ArrayList<PointF>();
-    private float mIndicatorX;
 
     // 事件回调
     private boolean mTouchable;
@@ -42,16 +55,19 @@ public class CircleNavigator extends View implements IPagerNavigator {
 
     private boolean mFollowTouch = true;    // 是否跟随手指滑动
 
-    public CircleNavigator(Context context) {
+    public BezierNavigator(Context context) {
         super(context);
         init(context);
     }
 
     private void init(Context context) {
         mTouchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
-        mRadius = IndicatorUtils.dip2px(context, 3);
         mCircleSpacing = IndicatorUtils.dip2px(context, 8);
-        mStrokeWidth = IndicatorUtils.dip2px(context, 1);
+
+        mPaint.setStyle(Paint.Style.FILL);
+        mMaxCircleRadius = IndicatorUtils.dip2px(context, 3.5);
+        mMinCircleRadius = IndicatorUtils.dip2px(context, 2);
+        mYOffset = IndicatorUtils.dip2px(context, 1.5);
     }
 
     @Override
@@ -69,7 +85,7 @@ public class CircleNavigator extends View implements IPagerNavigator {
                 break;
             case MeasureSpec.AT_MOST:
             case MeasureSpec.UNSPECIFIED:
-                result = mTotalCount * mRadius * 2 + (mTotalCount - 1) * mCircleSpacing + getPaddingLeft() + getPaddingRight() + mStrokeWidth * 2;
+                result = mTotalCount *(int) mMinCircleRadius * 2 + (mTotalCount - 1) * mCircleSpacing + getPaddingLeft() + getPaddingRight();
                 break;
             default:
                 break;
@@ -87,7 +103,7 @@ public class CircleNavigator extends View implements IPagerNavigator {
                 break;
             case MeasureSpec.AT_MOST:
             case MeasureSpec.UNSPECIFIED:
-                result = mRadius * 2 + mStrokeWidth * 2 + getPaddingTop() + getPaddingBottom();
+                result = (int) mMinCircleRadius * 2 + getPaddingTop() + getPaddingBottom();
                 break;
             default:
                 break;
@@ -97,40 +113,56 @@ public class CircleNavigator extends View implements IPagerNavigator {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        mPaint.setColor(mCircleColor);
         drawCircles(canvas);
         drawIndicator(canvas);
     }
 
     private void drawCircles(Canvas canvas) {
-        mPaint.setStyle(Paint.Style.STROKE);
-        mPaint.setStrokeWidth(mStrokeWidth);
+        mPaint.setStyle(Paint.Style.FILL);
         for (int i = 0, j = mCirclePoints.size(); i < j; i++) {
             PointF pointF = mCirclePoints.get(i);
-            canvas.drawCircle(pointF.x, pointF.y, mRadius, mPaint);
+            //canvas.drawCircle(pointF.x, pointF.y, mRadius, mPaint);
+
+            canvas.drawCircle(mLeftCircleX, getHeight() - mYOffset - mMaxCircleRadius, mLeftCircleRadius, mPaint);
+            canvas.drawCircle(mRightCircleX, getHeight() - mYOffset - mMaxCircleRadius, mRightCircleRadius, mPaint);
         }
     }
 
     private void drawIndicator(Canvas canvas) {
         mPaint.setStyle(Paint.Style.FILL);
         if (mCirclePoints.size() > 0) {
-            canvas.drawCircle(mIndicatorX, (int) (getHeight() / 2.0f + 0.5f), mRadius, mPaint);
+            //canvas.drawCircle(mIndicatorX, (int) (getHeight() / 2.0f + 0.5f), mRadius, mPaint);
+            mPath.reset();
+            float y = getHeight() - mYOffset - mMaxCircleRadius;
+            mPath.moveTo(mRightCircleX, y);
+            mPath.lineTo(mRightCircleX, y - mRightCircleRadius);
+            mPath.quadTo(mRightCircleX + (mLeftCircleX - mRightCircleX) / 2.0f, y, mLeftCircleX, y - mLeftCircleRadius);
+            mPath.lineTo(mLeftCircleX, y + mLeftCircleRadius);
+            mPath.quadTo(mRightCircleX + (mLeftCircleX - mRightCircleX) / 2.0f, y, mRightCircleX, y + mRightCircleRadius);
+            mPath.close();  // 闭合
+            canvas.drawPath(mPath, mPaint);
         }
     }
 
     private void prepareCirclePoints() {
         mCirclePoints.clear();
         if (mTotalCount > 0) {
-            int y = (int) (getHeight() / 2.0f + 0.5f);
-            int centerSpacing = mRadius * 2 + mCircleSpacing;
-            int startX = mRadius + (int) (mStrokeWidth / 2.0f + 0.5f) + getPaddingLeft();
+            int y = (int) (getHeight() / 2.0f);
+            int centerSpacing = (int) mMinCircleRadius * 2 + mCircleSpacing;
+            int startX = (int) ((int) mMinCircleRadius + 0.5F + getPaddingLeft());
             for (int i = 0; i < mTotalCount; i++) {
                 PointF pointF = new PointF(startX, y);
                 mCirclePoints.add(pointF);
                 startX += centerSpacing;
             }
-            mIndicatorX = mCirclePoints.get(mCurrentIndex).x;
+            mLeftCircleX = mCirclePoints.get(mCurrentIndex).x;
         }
+    }
+
+    private List<Integer> mColors;
+
+    public void setColors(Integer... colors) {
+        mColors = Arrays.asList(colors);
     }
 
     @Override
@@ -145,7 +177,20 @@ public class CircleNavigator extends View implements IPagerNavigator {
             PointF current = mCirclePoints.get(currentPosition);
             PointF next = mCirclePoints.get(nextPosition);
 
-            mIndicatorX = current.x + (next.x - current.x) * mStartInterpolator.getInterpolation(positionOffset);
+            mLeftCircleX = current.x + (next.x - current.x) * mStartInterpolator.getInterpolation(positionOffset);
+
+            // 计算颜色
+            if (mColors != null && mColors.size() > 0) {
+                int currentColor = mColors.get(Math.abs(position) % mColors.size());
+                int nextColor = mColors.get(Math.abs(position + 1) % mColors.size());
+                int color = IndicatorUtils.eval(positionOffset, currentColor, nextColor);
+                mPaint.setColor(color);
+            }
+
+            mLeftCircleX = current.x + (next.x - current.x) * mStartInterpolator.getInterpolation(positionOffset);
+            mRightCircleX = current.x + (next.x - current.x) * mEndInterpolator.getInterpolation(positionOffset);
+            mLeftCircleRadius = mMaxCircleRadius + (mMinCircleRadius - mMaxCircleRadius) * mEndInterpolator.getInterpolation(positionOffset);
+            mRightCircleRadius = mMinCircleRadius + (mMaxCircleRadius - mMinCircleRadius) * mStartInterpolator.getInterpolation(positionOffset);
 
             invalidate();
         }
@@ -191,7 +236,7 @@ public class CircleNavigator extends View implements IPagerNavigator {
     public void onPageSelected(int position) {
         mCurrentIndex = position;
         if (!mFollowTouch) {
-            mIndicatorX = mCirclePoints.get(mCurrentIndex).x;
+            mLeftCircleX = mCirclePoints.get(mCurrentIndex).x;
             invalidate();
         }
     }
@@ -219,34 +264,6 @@ public class CircleNavigator extends View implements IPagerNavigator {
         invalidate();
     }
 
-    public int getRadius() {
-        return mRadius;
-    }
-
-    public void setRadius(int radius) {
-        mRadius = radius;
-        prepareCirclePoints();
-        invalidate();
-    }
-
-    public int getCircleColor() {
-        return mCircleColor;
-    }
-
-    public void setCircleColor(int circleColor) {
-        mCircleColor = circleColor;
-        invalidate();
-    }
-
-    public int getStrokeWidth() {
-        return mStrokeWidth;
-    }
-
-    public void setStrokeWidth(int strokeWidth) {
-        mStrokeWidth = strokeWidth;
-        invalidate();
-    }
-
     public int getCircleSpacing() {
         return mCircleSpacing;
     }
@@ -265,6 +282,13 @@ public class CircleNavigator extends View implements IPagerNavigator {
         mStartInterpolator = startInterpolator;
         if (mStartInterpolator == null) {
             mStartInterpolator = new LinearInterpolator();
+        }
+    }
+
+    public void setEndInterpolator(Interpolator endInterpolator) {
+        mEndInterpolator = endInterpolator;
+        if (mEndInterpolator == null) {
+            mEndInterpolator = new DecelerateInterpolator();
         }
     }
 

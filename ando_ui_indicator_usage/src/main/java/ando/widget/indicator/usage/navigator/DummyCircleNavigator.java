@@ -84,12 +84,12 @@ public class DummyCircleNavigator extends View implements IPagerNavigator {
 
     // 被添加到 magicindicator 时调用
     @Override
-    public void onAttachToMagicIndicator() {
+    public void onAttachIndicator() {
     }
 
     // 从 magicindicator 上移除时调用
     @Override
-    public void onDetachFromMagicIndicator() {
+    public void onDetachIndicator() {
     }
 
     // 当指示数目改变时调用

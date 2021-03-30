@@ -22,7 +22,7 @@ public class DotPagerIndicator extends View implements IPagerIndicator {
     private int mDotColor;
 
     private float mCircleCenterX;
-    private Paint mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private final Paint mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 
     public DotPagerIndicator(Context context) {
         super(context);
@@ -37,7 +37,7 @@ public class DotPagerIndicator extends View implements IPagerIndicator {
             return;
         }
         PagerIndicatorPosition data = mDataList.get(position);
-        mCircleCenterX = data.mLeft + data.width() / 2;
+        mCircleCenterX = data.mLeft + data.width() / 2F;
         invalidate();
     }
 

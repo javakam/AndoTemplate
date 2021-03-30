@@ -72,6 +72,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
+                tools:background="@color/font_gray" />
+
+            <Space
+                android:layout_width="@dimen/dp_20"
+                android:layout_height="match_parent" />
+
+            <ando.widget.indicator.MagicIndicator
+                android:id="@+id/indicator3"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
                 android:paddingStart="0dp"
                 android:paddingEnd="15dp"
                 tools:background="@color/black" />
@@ -89,7 +100,7 @@
     <View
         android:id="@+id/line_vlayout_high"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_10"
+        android:layout_height="@dimen/dp_1"
         android:background="#EBEFF5" />
 
 </LinearLayout>

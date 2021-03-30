@@ -10,8 +10,8 @@ import ando.widget.indicator.abs.ScrollState;
  * onSelected、onDeselected、onEnter等回调，方便扩展
  */
 public class NavigatorHelper {
-    private SparseBooleanArray mDeselectedItems = new SparseBooleanArray();
-    private SparseArray<Float> mLeavedPercents = new SparseArray<Float>();
+    private final SparseBooleanArray mDeselectedItems = new SparseBooleanArray();
+    private final SparseArray<Float> mLeavedPercents = new SparseArray<Float>();
 
     private int mTotalCount;
     private int mCurrentIndex;
@@ -34,7 +34,7 @@ public class NavigatorHelper {
             }
             int nextPosition = position + 1;
             boolean normalDispatch = true;
-            if (positionOffset == 0.0f) {
+            if (positionOffset == 0.0F) {
                 if (leftToRight) {
                     nextPosition = position - 1;
                     normalDispatch = false;

@@ -4,11 +4,13 @@ import ando.library.views.recycler.BaseQuickAdapter
 import ando.library.views.recycler.BaseViewHolder
 import ando.repo.R
 import ando.toolkit.ext.noNull
+import ando.toolkit.ext.toastShort
 import ando.widget.banner.BannerItem
 import ando.widget.banner.ImageBanner
 import ando.widget.indicator.MagicIndicator
 import ando.widget.indicator.ViewPagerHelper
 import ando.widget.indicator.usage.navigator.RoundRectNavigator
+import ando.widget.indicator.usage.navigator.ScaleCircleNavigator
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -81,15 +83,19 @@ class BannerActivity : AppCompatActivity() {
         roundNavigator.setItemHeight(3.0)
         roundNavigator.setItemRadius(3.0)
 
-        roundNavigator.setOnItemClickListener { index -> banner.viewPager?.currentItem = index }
-        roundNavigator.notifyDataSetChanged()
+        roundNavigator.setOnItemClickListener { index ->
+            banner.viewPager?.currentItem = index
+            toastShort("Index :$index")
+        }
+        //roundNavigator.notifyDataSetChanged()
         indicator.navigator = roundNavigator
 
         //Banner 和 Indicator 绑定到一起, 同步滑动
         banner.viewPager?.apply { ViewPagerHelper.bind(indicator, this) }
 
-        //另外一种样式
+        //另外样式
         initIndicator2(headerView, banner)
+        initIndicator3(headerView, banner)
 
         mAdapter.addHeaderView(headerView)
         mAdapter.replaceData(mutableListOf("aaa", "bbb", "ccc", "ddd"))
@@ -113,13 +119,12 @@ class BannerActivity : AppCompatActivity() {
         roundNavigator2.setItemRadius(6.0)
 
         roundNavigator2.setOnItemClickListener { index -> banner.viewPager?.currentItem = index }
-        roundNavigator2.notifyDataSetChanged()
         indicator2.navigator = roundNavigator2
 
         val item: BannerItem = banner.getItem(banner.currentPosition)
         tvItemTitle.text = item.title.noNull()
 
-        banner.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+        banner.addOnPageChangeListener(object : ViewPager.SimpleOnPageChangeListener() {
             override fun onPageScrolled(
                 position: Int,
                 positionOffset: Float,
@@ -127,14 +132,38 @@ class BannerActivity : AppCompatActivity() {
             ) {
                 tvItemTitle.text = banner.getItem(position).title.noNull()
             }
-
-            override fun onPageSelected(position: Int) {
-            }
-
-            override fun onPageScrollStateChanged(state: Int) {
-            }
         })
         banner.viewPager?.apply { ViewPagerHelper.bind(indicator2, this) }
+    }
+
+    private fun initIndicator3(v: View, banner: ImageBanner) {
+        val indicator3 = v.findViewById<MagicIndicator>(R.id.indicator3)
+        val scaleCircleNavigator = ScaleCircleNavigator(this)
+        scaleCircleNavigator.setSkimOver(true)
+        scaleCircleNavigator.setFollowTouch(true) //是否跟随手指滑动
+        scaleCircleNavigator.setCircleCount(mBannerData.size)
+        scaleCircleNavigator.setNormalCircleColor(Color.WHITE)
+        scaleCircleNavigator.setSelectedCircleColor(Color.BLUE)
+        scaleCircleNavigator.setMaxRadius(10)
+        scaleCircleNavigator.setMinRadius(7)
+        scaleCircleNavigator.setCircleSpacing(13)
+        indicator3.navigator = scaleCircleNavigator
+
+//        val bezierNavigator = BezierNavigator(this)
+//        bezierNavigator.isFollowTouch = true
+//        bezierNavigator.circleCount = mBannerData.size
+//        bezierNavigator.circleSpacing = 15
+//        bezierNavigator.setColors(
+//            Color.parseColor("#ff4a42"),
+//            Color.parseColor("#fcde64"),
+//            Color.parseColor("#73e8f4"),
+//            Color.parseColor("#d2e824"),
+//            Color.parseColor("#c683fe")
+//        )
+//        bezierNavigator.setCircleClickListener { index -> banner.viewPager?.currentItem = index }
+//        indicator3.navigator = bezierNavigator
+
+        banner.viewPager?.apply { ViewPagerHelper.bind(indicator3, this) }
     }
 
     private class ListAdapter :

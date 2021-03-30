@@ -35,7 +35,13 @@ class IndicatorViewPagerActivity : AppCompatActivity() {
             if (it) {
                 //空视图处理
             } else {
-                mIndicatorHelper?.initIndicatorVp(mChannels, mFragments)
+                //样式一
+                mIndicatorHelper?.initIndicatorStyle1(mChannels, mFragments)
+
+                //样式二
+                val mIndicatorHelper2 = MagicIndicatorHelper(this, supportFragmentManager)
+                mIndicatorHelper2.bind(mIndicator2, mViewPager)
+                mIndicatorHelper2.initIndicatorStyle2(mChannels, mFragments)
             }
         }
         super.onCreate(savedInstanceState)
@@ -43,14 +49,6 @@ class IndicatorViewPagerActivity : AppCompatActivity() {
 
         mIndicatorHelper = MagicIndicatorHelper(this, supportFragmentManager)
         mIndicatorHelper?.bind(mIndicator, mViewPager)
-
-        //样式二
-        initIndicator2()
-    }
-
-    private fun initIndicator2() {
-        //todo 2021年3月18日 16:42:38
-        //mIndicator2
     }
 
     /**
@@ -81,6 +79,8 @@ class IndicatorViewPagerActivity : AppCompatActivity() {
                 ChannelBean("a1", "推荐"),
                 ChannelBean("a2", "热门"),
                 ChannelBean("a3", "追番"),
+                ChannelBean("a4", "直播"),
+                ChannelBean("a5", "影视"),
             )
             channels
         }, {

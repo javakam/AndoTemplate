@@ -32,7 +32,7 @@ public class BezierPagerIndicator extends View implements IPagerIndicator {
     private float mMinCircleRadius;
 
     private Paint mPaint;
-    private Path mPath = new Path();
+    private final Path mPath = new Path();
 
     private List<Integer> mColors;
     private Interpolator mStartInterpolator = new AccelerateInterpolator();
