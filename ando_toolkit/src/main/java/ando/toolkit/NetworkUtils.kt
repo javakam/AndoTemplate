@@ -25,10 +25,11 @@ import java.io.LineNumberReader
 import java.net.*
 import java.util.*
 
+@Suppress("DEPRECATION")
 object NetworkUtils {
     enum class NetworkType {
         /**
-         *
+         * NETWORK_ETHERNET 以太网网络
          */
         NETWORK_ETHERNET, NETWORK_WIFI, NETWORK_5G, NETWORK_4G, NETWORK_3G, NETWORK_2G, NETWORK_UNKNOWN, NETWORK_NO
     }
@@ -239,20 +240,15 @@ object NetworkUtils {
      *
      * @return `true`: available<br></br>`false`: unavailable
      */
-    val isWifiAvailable: Boolean
-        get() = wifiEnabled && isAvailable
+    fun isWifiAvailable(): Boolean = wifiEnabled && isAvailable
 
     /**
      * Return the name of network operate.
      *
      * @return the name of network operate
      */
-    val networkOperatorName: String
-        get() {
-            val tm =
-                getContext().getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
-            return tm.networkOperatorName
-        }
+    fun networkOperatorName(): String =
+        (getContext().getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager).networkOperatorName
 
     /**
      * Return type of network.
@@ -270,70 +266,68 @@ object NetworkUtils {
      *  * [NetworkUtils.NetworkType.NETWORK_NO]
      *
      */
-    @Suppress("DEPRECATION")
-    val networkType: NetworkType
+    fun getNetworkType(): NetworkType {
+        if (isEthernet) {
+            return NetworkType.NETWORK_ETHERNET // 以太网网络
+        }
+        val cm = getContext().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+
         @SuppressLint("MissingPermission")
-        get() {
-            if (isEthernet) {
-                return NetworkType.NETWORK_ETHERNET // 以太网网络
-            }
-            val cm =
-                getContext().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-            val info = cm.activeNetworkInfo ?: return NetworkType.NETWORK_NO // 没有任何网络
-            if (!info.isConnected) {
-                return NetworkType.NETWORK_NO // 网络断开或关闭
-            }
-            return if (info.isAvailable) {
-                when (info.type) {
-                    ConnectivityManager.TYPE_WIFI -> {
-                        NetworkType.NETWORK_WIFI
-                    }
-                    ConnectivityManager.TYPE_MOBILE -> {
-                        when (info.subtype) {
-                            TelephonyManager.NETWORK_TYPE_GSM,
-                            TelephonyManager.NETWORK_TYPE_GPRS,
-                            TelephonyManager.NETWORK_TYPE_CDMA,
-                            TelephonyManager.NETWORK_TYPE_EDGE,
-                            TelephonyManager.NETWORK_TYPE_1xRTT,
-                            TelephonyManager.NETWORK_TYPE_IDEN -> {
-                                NetworkType.NETWORK_2G
-                            }
-                            TelephonyManager.NETWORK_TYPE_TD_SCDMA,
-                            TelephonyManager.NETWORK_TYPE_EVDO_A,
-                            TelephonyManager.NETWORK_TYPE_UMTS,
-                            TelephonyManager.NETWORK_TYPE_EVDO_0,
-                            TelephonyManager.NETWORK_TYPE_HSDPA,
-                            TelephonyManager.NETWORK_TYPE_HSUPA,
-                            TelephonyManager.NETWORK_TYPE_HSPA,
-                            TelephonyManager.NETWORK_TYPE_EVDO_B,
-                            TelephonyManager.NETWORK_TYPE_EHRPD,
-                            TelephonyManager.NETWORK_TYPE_HSPAP -> {
+        val info = cm.activeNetworkInfo ?: return NetworkType.NETWORK_NO // 没有任何网络
+        if (!info.isConnected) {
+            return NetworkType.NETWORK_NO // 网络断开或关闭
+        }
+        return if (info.isAvailable) {
+            when (info.type) {
+                ConnectivityManager.TYPE_WIFI -> {
+                    NetworkType.NETWORK_WIFI
+                }
+                ConnectivityManager.TYPE_MOBILE -> {
+                    when (info.subtype) {
+                        TelephonyManager.NETWORK_TYPE_GSM,
+                        TelephonyManager.NETWORK_TYPE_GPRS,
+                        TelephonyManager.NETWORK_TYPE_CDMA,
+                        TelephonyManager.NETWORK_TYPE_EDGE,
+                        TelephonyManager.NETWORK_TYPE_1xRTT,
+                        TelephonyManager.NETWORK_TYPE_IDEN -> {
+                            NetworkType.NETWORK_2G
+                        }
+                        TelephonyManager.NETWORK_TYPE_TD_SCDMA,
+                        TelephonyManager.NETWORK_TYPE_EVDO_A,
+                        TelephonyManager.NETWORK_TYPE_UMTS,
+                        TelephonyManager.NETWORK_TYPE_EVDO_0,
+                        TelephonyManager.NETWORK_TYPE_HSDPA,
+                        TelephonyManager.NETWORK_TYPE_HSUPA,
+                        TelephonyManager.NETWORK_TYPE_HSPA,
+                        TelephonyManager.NETWORK_TYPE_EVDO_B,
+                        TelephonyManager.NETWORK_TYPE_EHRPD,
+                        TelephonyManager.NETWORK_TYPE_HSPAP -> {
+                            NetworkType.NETWORK_3G
+                        }
+                        TelephonyManager.NETWORK_TYPE_IWLAN,
+                        TelephonyManager.NETWORK_TYPE_LTE -> {
+                            NetworkType.NETWORK_4G
+                        }
+                        TelephonyManager.NETWORK_TYPE_NR -> NetworkType.NETWORK_5G
+                        else -> {
+                            val subtypeName = info.subtypeName
+                            if ("TD-SCDMA".equals(subtypeName, ignoreCase = true)
+                                || "WCDMA".equals(subtypeName, ignoreCase = true)
+                                || "CDMA2000".equals(subtypeName, ignoreCase = true)
+                            ) {
                                 NetworkType.NETWORK_3G
-                            }
-                            TelephonyManager.NETWORK_TYPE_IWLAN,
-                            TelephonyManager.NETWORK_TYPE_LTE -> {
-                                NetworkType.NETWORK_4G
-                            }
-                            TelephonyManager.NETWORK_TYPE_NR -> NetworkType.NETWORK_5G
-                            else -> {
-                                val subtypeName = info.subtypeName
-                                if ("TD-SCDMA".equals(subtypeName, ignoreCase = true)
-                                    || "WCDMA".equals(subtypeName, ignoreCase = true)
-                                    || "CDMA2000".equals(subtypeName, ignoreCase = true)
-                                ) {
-                                    NetworkType.NETWORK_3G
-                                } else {
-                                    NetworkType.NETWORK_UNKNOWN
-                                }
+                            } else {
+                                NetworkType.NETWORK_UNKNOWN
                             }
                         }
                     }
-                    else -> {
-                        NetworkType.NETWORK_UNKNOWN
-                    }
                 }
-            } else NetworkType.NETWORK_NO
-        }
+                else -> {
+                    NetworkType.NETWORK_UNKNOWN
+                }
+            }
+        } else NetworkType.NETWORK_NO
+    }
 
     /**
      * Return whether using ethernet.

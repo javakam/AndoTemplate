@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/tv_show_draggable_dialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@android:color/holo_orange_light"
+        android:gravity="center"
+        android:padding="15dp"
+        android:textStyle="bold"
+        android:text="显示可拖动对话框 \n\n Show Draggable Dialog" />
+
+</FrameLayout>

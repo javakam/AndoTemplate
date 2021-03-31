@@ -59,4 +59,7 @@ object AppRouter {
         activity.startActivity(Intent(activity, ButtonActivity::class.java))
     }
 
+    fun toWidgetDrag(activity: Activity) {
+        activity.startActivity(Intent(activity, DragActivity::class.java))
+    }
 }

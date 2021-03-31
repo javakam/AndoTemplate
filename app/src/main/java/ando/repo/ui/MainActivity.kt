@@ -38,6 +38,10 @@ class MainActivity : AppCompatActivity() {
             AppRouter.toWidgetButton(this)
         }
 
+        click(R.id.bt_widget_drag) {
+            AppRouter.toWidgetDrag(this)
+        }
+
     }
 
 }

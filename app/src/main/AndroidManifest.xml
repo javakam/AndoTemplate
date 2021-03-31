@@ -78,6 +78,10 @@
             android:name=".ui.button.ButtonActivity"
             android:configChanges="uiMode|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.DragActivity"
+            android:configChanges="uiMode|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize"
+            android:screenOrientation="portrait" />
 
     </application>
 

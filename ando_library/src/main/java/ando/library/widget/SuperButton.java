@@ -109,13 +109,11 @@ public class SuperButton extends AppCompatButton {
     private GradientDrawable gradientDrawable;
 
     public SuperButton(Context context) {
-        super(context);
-        initAttrs(context, null);
+        this(context, null, android.R.attr.buttonStyle);
     }
 
     public SuperButton(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        initAttrs(context, attrs);
+        this(context, attrs, android.R.attr.buttonStyle);
     }
 
     public SuperButton(Context context, AttributeSet attrs, int defStyleAttr) {
