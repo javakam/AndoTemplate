@@ -18,6 +18,24 @@ import ando.library.widget.alpha.IAlphaViewHelper;
 
 /**
  * # SuperButton
+ * <pre>
+ *    动态创建
+ *    注: 需要在最后调用 setUseShape 才能对设置的参数生效
+ *    SuperButton superButton = new SuperButton(this);
+ *    superButton.setShapeType(SuperButton.RECTANGLE)
+ *                .setShapeCornersRadius(20)
+ *                .setShapeSolidColor(getResources().getColor(R.color.colorAccent))
+ *                .setShapeStrokeColor(getResources().getColor(R.color.colorPrimary))
+ *                .setShapeStrokeWidth(1)
+ *                .setShapeStrokeDashWidth(2)
+ *                .setShapeStrokeDashGap(5)
+ *                .setTextGravity(SuperButton.TEXT_GRAVITY_RIGHT)
+ *                .setShapeUseSelector(true)
+ *                .setShapeSelectorPressedColor(getResources().getColor(R.color.gray))
+ *                .setShapeSelectorNormalColor(getResources().getColor(R.color.red_btn))
+ *                .setShapeSelectorDisableColor(getResources().getColor(R.color.colorPrimary))
+ *                .setUseShape();
+ * </pre>
  *
  * @author javakam
  * @date 2019/1/14 下午10:10
@@ -68,7 +86,6 @@ public class SuperButton extends AppCompatButton {
     private static final int GRADIENT_SWEEP = 2;
 
     private boolean gradientUseLevel;
-
     private boolean useSelector;
 
     //shape的样式
@@ -229,7 +246,10 @@ public class SuperButton extends AppCompatButton {
      */
     private void setSelectorColor(int state) {
         if (gradientOrientation == -1) {
-            Log.w("123", "setSelectorColor = " + state);
+            Log.w("123", "setSelectorColor = " + state
+                    + "  " + android.R.attr.state_pressed
+                    + "  " + android.R.attr.state_enabled);
+
             switch (state) {
                 case android.R.attr.state_pressed:
                     gradientDrawable.setColor(selectorPressedColor);
@@ -690,7 +710,6 @@ public class SuperButton extends AppCompatButton {
     public void setUseShape() {
         init();
     }
-
 
     /**
      * 单位转换工具类

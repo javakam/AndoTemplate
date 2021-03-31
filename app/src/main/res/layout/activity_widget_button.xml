@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="@dimen/dp_15">
+    android:padding="@dimen/dp_25">
 
     <ando.library.widget.SuperButton
         android:layout_width="wrap_content"
@@ -15,11 +15,114 @@
         android:text="你好世界 Hello World"
         android:textAllCaps="false"
         android:textColor="@color/white"
+        android:textStyle="bold"
         app:sCornersRadius="@dimen/dp_10"
-        app:sSelectorNormalColor="@color/font_gray"
-        app:sSelectorPressedColor="@color/color_main_blue"
-        app:sSolidColor="#a2f"
+        app:sSolidColor="#fac"
         app:sStrokeColor="@color/color_main_blue"
         app:sStrokeWidth="@dimen/dp_2" />
 
+    <ando.library.widget.SuperButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_25"
+        android:elevation="5dp"
+        android:enabled="true"
+        android:padding="20dp"
+        android:text="你好世界 Hello World"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        app:sCornersBottomLeftRadius="0dp"
+        app:sCornersBottomRightRadius="@dimen/dp_20"
+        app:sCornersTopLeftRadius="@dimen/dp_20"
+        app:sCornersTopRightRadius="0dp"
+        app:sSelectorNormalColor="@android:color/darker_gray"
+        app:sSelectorPressedColor="@android:color/holo_blue_light"
+        app:sSolidColor="#a2f"
+        app:sStrokeColor="@android:color/holo_red_light"
+        app:sStrokeDashGap="@dimen/dp_5"
+        app:sStrokeDashWidth="@dimen/dp_10"
+        app:sStrokeWidth="@dimen/dp_3"
+        app:sUseSelector="true" />
+
+    <ando.library.widget.SuperButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_25"
+        android:elevation="5dp"
+        android:enabled="true"
+        android:padding="10dp"
+        android:text="你好世界 Hello World"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        app:sCornersRadius="@dimen/dp_10"
+        app:sGradientEndColor="@android:color/holo_blue_dark"
+        app:sGradientOrientation="BR_TL"
+        app:sGradientStartColor="@android:color/holo_orange_dark"
+        app:sGradientType="linear"
+        app:sGradientUseLevel="true"
+        app:sUseSelector="false" />
+
+    <!--  比上面多了 sGradientCenterColor-->
+    <ando.library.widget.SuperButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_25"
+        android:elevation="5dp"
+        android:enabled="true"
+        android:padding="10dp"
+        android:text="你好世界 Hello World"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        app:sCornersRadius="@dimen/dp_10"
+        app:sGradientCenterColor="@android:color/holo_purple"
+        app:sGradientEndColor="@android:color/holo_blue_dark"
+        app:sGradientOrientation="BR_TL"
+        app:sGradientStartColor="@android:color/holo_orange_dark"
+        app:sGradientType="linear"
+        app:sGradientUseLevel="true"
+        app:sUseSelector="false" />
+
+    <ando.library.widget.RippleView
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginTop="15dp"
+        android:background="#80ffaacc"
+        app:rv_rippleDuration="280"
+        app:rv_type="rectangle"
+        app:rv_zoom="true"
+        app:rv_zoomScale="1.02">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="#fa8"
+            android:gravity="center"
+            android:padding="15dp"
+            android:text="你好世界 Hello World" />
+
+    </ando.library.widget.RippleView>
+
+    <ando.library.widget.RippleView
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginTop="15dp"
+        android:background="#80ffaacc"
+        app:rv_rippleDuration="280"
+        app:rv_type="simpleRipple"
+        app:rv_zoom="false">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="#1cf"
+            android:gravity="center"
+            android:padding="15dp"
+            android:text="你好世界 Hello World" />
+
+    </ando.library.widget.RippleView>
 </LinearLayout>

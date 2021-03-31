@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--=============================== theme ======================================-->
+    <style name="AndoRootTheme" parent="Theme.AppCompat.Light.NoActionBar" />
+
+    <style name="AndoBaseTheme" parent="AndoRootTheme">
+        <item name="RadiusImageViewStyle">@style/RadiusImageView</item>
+        <item name="RippleViewStyle">@style/RippleView</item>
+    </style>
+
+    <!--=============================== style ======================================-->
+    <style name="RadiusImageView">
+        <item name="riv_border_width">0dp</item>
+        <item name="riv_border_color">#717882</item>
+        <item name="riv_is_touch_select_mode_enabled">true</item>
+    </style>
+
+    <style name="RippleView">
+        <item name="rv_alpha">90</item>
+        <item name="rv_frameRate">10</item>
+        <item name="rv_rippleDuration">280</item>
+        <item name="rv_color">@android:color/white</item>
+        <item name="rv_centered">false</item>
+        <item name="rv_type">simpleRipple</item>
+        <item name="rv_ripplePadding">0dp</item>
+        <item name="rv_zoom">false</item>
+        <item name="rv_zoomScale">1.03</item>
+        <item name="rv_zoomDuration">200</item>
+    </style>
+
+</resources>

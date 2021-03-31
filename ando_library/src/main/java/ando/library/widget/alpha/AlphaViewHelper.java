@@ -41,7 +41,10 @@ public class AlphaViewHelper implements IAlphaViewHelper {
     }
 
     /**
+     * 在 {@link View#setPressed(boolean)} 中调用，通知 helper 更新
+     *
      * @param current the view to be handled, maybe not equal to target view
+     * @param pressed {@link View#setPressed(boolean)} 中接收到的参数
      */
     @Override
     public void onPressedChanged(View current, boolean pressed) {
@@ -59,7 +62,10 @@ public class AlphaViewHelper implements IAlphaViewHelper {
     }
 
     /**
+     * 在 {@link View#setEnabled(boolean)} 中调用，通知 helper 更新
+     *
      * @param current the view to be handled, maybe not  equal to target view
+     * @param enabled {@link View#setEnabled(boolean)} 中接收到的参数
      */
     @Override
     public void onEnabledChanged(View current, boolean enabled) {
