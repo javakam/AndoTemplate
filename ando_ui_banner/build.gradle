@@ -1,6 +1,5 @@
 plugins {
     id 'com.android.library'
-    id 'com.github.panpf.bintray-publish'
 }
 
 def config = rootProject.ext.android
@@ -40,12 +39,7 @@ dependencies {
     compileOnly "androidx.viewpager2:viewpager2:1.0.0"
 }
 
-publish {
-    repoName = 'maven'
-    userOrg = 'javakam'
-    groupId = 'ando.widget'
-    artifactId = 'banner'
-    publishVersion = config.versionAndoBanner
-    desc = 'Ando Widget Banner.'
-    website = "https://github.com/javakam/${rootProject.name}"
+ext {
+    PUBLISH_ARTIFACT_ID = 'widget.banner'
 }
+apply from: "${rootProject.projectDir}/publish.gradle"

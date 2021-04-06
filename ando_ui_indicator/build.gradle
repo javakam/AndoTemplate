@@ -1,9 +1,6 @@
 plugins {
     id 'com.android.library'
     //id 'kotlin-android'
-    //id 'kotlin-kapt'
-    //id 'com.novoda.bintray-release'
-    id 'com.github.panpf.bintray-publish'
 }
 
 def config = rootProject.ext.android
@@ -46,14 +43,7 @@ dependencies {
 
 }
 
-publish {
-    repoName = 'maven'
-    userOrg = 'javakam'
-    groupId = 'ando.widget'
-    artifactId = 'indicator.core'
-    publishVersion = config.versionAndoIndicator
-    desc = 'Ando Widget Indicator.'
-    website = "https://github.com/javakam/${rootProject.name}"
-    //true 上传前测试 ; false 正常上传
-    //dryRun = true
+ext {
+    PUBLISH_ARTIFACT_ID = 'widget.indicator.core'
 }
+apply from: "${rootProject.projectDir}/publish.gradle"
