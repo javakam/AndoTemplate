@@ -26,6 +26,7 @@ open class BaseApplication : MultiDexApplication() {
         if (resources != null && resources.configuration.fontScale != 1.0f) {
             val configuration = resources.configuration
             configuration.fontScale = 1.0f
+            @Suppress("DEPRECATION")
             resources.updateConfiguration(configuration, resources.displayMetrics)
             //createConfigurationContext(configuration)
         }
