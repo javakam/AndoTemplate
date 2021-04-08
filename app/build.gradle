@@ -138,18 +138,15 @@ dependencies {
     //api "com.google.code.gson:gson:2.8.6"
 
     //My Architecture 1305KB
-    //implementation 'ando.toolkit:toolkit:1.6.6'
-    //implementation 'ando.library:library:1.6.6'
-    //implementation 'com.github.javakam:file.core:1.4.1@aar'
+    implementation 'com.github.javakam:webview:3.0.0@aar'
+    implementation 'com.github.javakam:gallery:1.5.0@aar'
+    implementation 'com.github.javakam:dialog.core:1.3.5@aar'
+    implementation 'com.github.javakam:dialog.usage:1.3.5@aar'
+    implementation 'com.github.javakam:file.core:1.4.2@aar'
+    implementation 'com.github.javakam:file.selector:1.4.2@aar'
+    implementation 'com.github.javakam:file.compressor:1.4.2@aar'
+    implementation 'com.github.javakam:file.android-q:1.4.2@aar'
     implementation 'androidx.documentfile:documentfile:1.0.1'
-    implementation 'ando.webview:webview:3.0.0'
-    implementation 'ando.dialog:core:1.3.0'
-    implementation 'ando.dialog:usage:1.3.0'
-    implementation 'ando.gallery:gallery:1.5.0'
-    implementation 'ando.file:core:1.3.8'
-    implementation 'ando.file:selector:1.3.8'
-    implementation 'ando.file:compressor:1.3.8'
-    implementation 'ando.file:android-q:1.3.8'
 
     implementation project(':ando_library')
     implementation project(':ando_toolkit')

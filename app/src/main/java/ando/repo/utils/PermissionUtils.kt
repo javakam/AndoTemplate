@@ -4,8 +4,11 @@ import ando.toolkit.log.L
 import android.Manifest
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Build
+import android.provider.Settings
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -21,6 +24,7 @@ object PermissionUtils {
 
     const val REQUEST_CODE_CAMERA: Int = 0x6
     const val REQUEST_CODE_STORAGE: Int = 0x7
+    const val REQUEST_CODE_OVERLAY: Int = 0x8
 
     /**
      * 相应的清单文件中配置 (The corresponding listing file configuration):
@@ -38,11 +42,10 @@ object PermissionUtils {
      *      tools:ignore="ScopedStorage" />
      */
     val PERMISSIONS_STORAGE: Array<String> by lazy {
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P)
-            arrayOf(
-                Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.READ_EXTERNAL_STORAGE
-            ) else arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
+        arrayOf(
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.READ_EXTERNAL_STORAGE
+        )
     }
 
     val PERMISSIONS_CAMERA: Array<String> by lazy {
@@ -97,6 +100,22 @@ object PermissionUtils {
                 }
                 block?.invoke(allGranted, grantedList, deniedList)
             }
+    }
+
+    /**
+     * 悬浮窗权限  AndroidManifest.xml
+     *
+     * <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+     */
+    fun overlay(activity: Activity, onGranted: () -> Unit = {}) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            //检查是否已经授予权限
+            if (!Settings.canDrawOverlays(activity)) {
+                val intent = Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION)
+                intent.data = Uri.parse("package:${activity.packageName}")
+                activity.startActivityForResult(intent, REQUEST_CODE_OVERLAY)
+            } else onGranted.invoke()
+        } else onGranted.invoke()
     }
 
     fun verifyStoragePermissions(activity: Activity) {

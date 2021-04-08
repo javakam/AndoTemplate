@@ -1,5 +1,25 @@
 # Ando Template
 
+## 导入
+```groovy
+implementation 'com.github.javakam:webview:3.0.0@aar'
+implementation 'com.github.javakam:gallery:1.5.0@aar'
+
+implementation 'com.github.javakam:file.core:1.4.2@aar'
+implementation 'com.github.javakam:file.selector:1.4.2@aar'
+implementation 'com.github.javakam:file.compressor:1.4.2@aar'
+implementation 'com.github.javakam:file.android-q:1.4.2@aar'
+implementation 'androidx.documentfile:documentfile:1.0.1'
+
+implementation 'com.github.javakam:library:1.0.0@aar'
+implementation 'com.github.javakam:toolkit:1.0.0@aar'
+implementation 'com.github.javakam:dialog.core:1.3.5@aar'
+implementation 'com.github.javakam:dialog.usage:1.3.5@aar'
+implementation 'com.github.javakam:widget.banner:1.0.0@aar'
+implementation 'com.github.javakam:widget.indicator.core:1.0.0@aar'
+implementation 'com.github.javakam:widget.indicator.usage:1.0.0@aar'
+```
+
 ## ando_ui_indicator
 比`Google TabLayout`好用的方案, 参考自 <https://github.com/hackware1993/MagicIndicator>
 
@@ -268,6 +288,52 @@ repositories {
 implementation 'ando.library:library:1.0.0'
 implementation 'ando.toolkit:toolkit:1.0.0'
 ```
+
+### Manage all files on a storage device
+
+https://developer.android.com/training/data-storage/manage-all-files
+
+```xml
+android:requestLegacyExternalStorage="true"
+```
+
+### 音视频框架
+https://github.com/yangjie10930/EpMedia
+
+### 顺序执行异步任务
+https://github.com/ddnosh/android-tiny-task
+
+```kotlin
+private var count: Int = 0
+private fun test() {
+    count = 0
+    val task1 = object : BaseSyncTask() {
+        override fun doTask() {
+            count++
+            Log.i("2333", "task1... $count")
+            TinySyncExecutor.getInstance().finish()
+        }
+    }
+    val task2 = object : BaseSyncTask() {
+        override fun doTask() {
+            count++
+            Log.e("2333", "task2... $count")
+            TinySyncExecutor.getInstance().finish()
+        }
+    }
+    val task3 = object : BaseSyncTask() {
+        override fun doTask() {
+            count++
+            Log.w("2333", "task3... $count")
+            TinySyncExecutor.getInstance().finish()
+        }
+    }
+    TinySyncExecutor.getInstance().enqueue(task1)
+    TinySyncExecutor.getInstance().enqueue(task3)
+    TinySyncExecutor.getInstance().enqueue(task2)
+}
+```
+
 
 ## ando dialog manger
 ```
