@@ -11,8 +11,8 @@ ext {
             vAndoLib         : "1.2.0",
             vAndoTool        : "1.0.0",
             vBanner          : "1.0.0",
-            vIndicator       : "1.0.0",
-            vIndicatorUsage  : "1.0.0"
+            vIndicator       : "1.1.0",
+            vIndicatorUsage  : "1.1.0"
     ]
 
     version =

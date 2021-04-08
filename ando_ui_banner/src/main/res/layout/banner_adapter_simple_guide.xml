@@ -8,6 +8,8 @@
         android:id="@+id/iv_banner"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:adjustViewBounds="true"
         android:scaleType="fitXY" />
 
     <androidx.appcompat.widget.AppCompatTextView
