@@ -5,16 +5,17 @@
 implementation 'com.github.javakam:webview:3.0.0@aar'
 implementation 'com.github.javakam:gallery:1.5.0@aar'
 
+implementation 'com.github.javakam:dialog.core:1.3.5@aar'
+implementation 'com.github.javakam:dialog.usage:1.3.5@aar'
+
 implementation 'com.github.javakam:file.core:1.4.2@aar'
 implementation 'com.github.javakam:file.selector:1.4.2@aar'
 implementation 'com.github.javakam:file.compressor:1.4.2@aar'
 implementation 'com.github.javakam:file.android-q:1.4.2@aar'
 implementation 'androidx.documentfile:documentfile:1.0.1'
 
-implementation 'com.github.javakam:library:1.0.0@aar'
+implementation 'com.github.javakam:library:1.2.0@aar'
 implementation 'com.github.javakam:toolkit:1.0.0@aar'
-implementation 'com.github.javakam:dialog.core:1.3.5@aar'
-implementation 'com.github.javakam:dialog.usage:1.3.5@aar'
 implementation 'com.github.javakam:widget.banner:1.0.0@aar'
 implementation 'com.github.javakam:widget.indicator.core:1.0.0@aar'
 implementation 'com.github.javakam:widget.indicator.usage:1.0.0@aar'

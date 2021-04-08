@@ -47,5 +47,6 @@ dependencies {
 
 ext {
     PUBLISH_ARTIFACT_ID = 'toolkit'
+    PUBLISH_VERSION = rootProject.ext.android.vAndoTool
 }
 apply from: "${rootProject.projectDir}/publish.gradle"

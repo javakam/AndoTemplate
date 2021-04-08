@@ -42,10 +42,10 @@ dependencies {
     compileOnly "androidx.viewpager2:viewpager2:1.0.0"
 
     compileOnly project(':ando_ui_indicator')
-
 }
 
 ext {
     PUBLISH_ARTIFACT_ID = 'widget.indicator.usage'
+    PUBLISH_VERSION = rootProject.ext.android.vIndicatorUsage
 }
 apply from: "${rootProject.projectDir}/publish.gradle"

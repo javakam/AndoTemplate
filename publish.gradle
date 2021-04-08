@@ -12,7 +12,6 @@ task androidSourcesJar(type: Jar) {
 //查看Sonatype信息 https://issues.sonatype.org/issues/?filter=-2
 ext {
     PUBLISH_GROUP_ID = "com.github.javakam"
-    PUBLISH_VERSION = rootProject.ext.android.versionName
 }
 ext["signing.keyId"] = ''
 ext["signing.password"] = ''
@@ -67,8 +66,8 @@ publishing {
                 // 版本控制信息，如果您使用的是GitHub，请遵循此处显示的格式
                 scm {
                     //修改成你的Git地址
-                    connection = 'scm:git:github.com/javakam/AndoTemplate.git'
-                    developerConnection = 'scm:git:ssh://github.com:javakam/AndoTemplate.git'
+                    connection = "scm:git:github.com/javakam/${rootProject.name}.git"
+                    developerConnection = "scm:git:ssh://github.com:javakam/${rootProject.name}.git"
                     //分支地址
                     url = "https://github.com/javakam/${rootProject.name}/tree/master"
                 }
