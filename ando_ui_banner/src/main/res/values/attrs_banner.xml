@@ -4,7 +4,7 @@
     <!--============================Banner=========================================-->
     <!-- BaseBanner -->
     <declare-styleable name="BaseBanner">
-        <!-- Banner高宽比,范围0-1,默认0.5(for LoopViewPager)-->
+        <!-- Banner高宽比,范围0-1,默认0.5(for LoopViewPager) , -1 按照图片比例显示-->
         <attr name="banner_scale" format="float" />
 
         <!-- == LoopViewPager start == -->

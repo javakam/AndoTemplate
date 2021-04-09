@@ -6,7 +6,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import java.lang.ref.WeakReference;
 
@@ -74,7 +73,7 @@ public class ImageBanner extends BaseBanner<BannerItem> {
         int itemWidth = mDisplayMetrics.widthPixels;
         int itemHeight = (int) (itemWidth * mScale);
         iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        iv.setLayoutParams(new FrameLayout.LayoutParams(itemWidth, itemHeight));
+        iv.setLayoutParams(new LayoutParams(itemWidth, LayoutParams.MATCH_PARENT));
 
         Object imgUrl = item.imgUrl;
         if (imgUrl != null) {
