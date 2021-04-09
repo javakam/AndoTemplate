@@ -35,7 +35,7 @@ import androidx.recyclerview.widget.RecyclerView.ItemDecoration
  * @author javakam
  * @date 2019/11/22  9:35
  */
-open class RecyclerItemDecoration(context: Context, orientation: Int) : ItemDecoration() {
+open class LinearItemDecoration(context: Context, orientation: Int) : ItemDecoration() {
 
     private var mPaint: Paint? = null
     private var mDivider: Drawable? = null
