@@ -1061,12 +1061,12 @@ abstract class BaseQuickAdapter<T, VH : BaseViewHolder>
     /**
      * 为数据设置一个新实例，替换原有内存引用
      */
-    open fun setNewData(list: MutableList<T>?) {
+    open fun setNewData(list: List<T>?) {
         if (list === this.data) {
             return
         }
 
-        this.data = list ?: arrayListOf()
+        this.data = list?.toMutableList() ?: arrayListOf()
         mLastPosition = -1
         notifyDataSetChanged()
     }

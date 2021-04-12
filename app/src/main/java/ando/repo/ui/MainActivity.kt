@@ -5,7 +5,6 @@ import ando.repo.config.AppRouter
 import ando.repo.config.click
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,10 +33,17 @@ class MainActivity : AppCompatActivity() {
             AppRouter.toWidgetBannerGuide(this)
         }
 
+        //SupperButton
         click(R.id.bt_widget_button) {
             AppRouter.toWidgetButton(this)
         }
 
+        //RecyclerView
+        click(R.id.bt_widget_recycler) {
+            AppRouter.toWidgetRecycler(this)
+        }
+
+        //SmartDragLayout
         click(R.id.bt_widget_drag) {
             AppRouter.toWidgetDrag(this)
         }

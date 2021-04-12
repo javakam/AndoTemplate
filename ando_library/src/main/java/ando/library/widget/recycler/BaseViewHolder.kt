@@ -33,7 +33,7 @@ import androidx.recyclerview.widget.RecyclerView
 @Keep
 open class BaseViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-    protected val views: SparseArray<View> = SparseArray()
+    private val views: SparseArray<View> = SparseArray()
 
     open fun <T : View> getView(@IdRes viewId: Int): T {
         val view = getViewOrNull<T>(viewId)
@@ -119,19 +119,19 @@ open class BaseViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         return this
     }
 
-    open fun setVisible(@IdRes viewId: Int, isGone: Boolean):BaseViewHolder {
+    open fun setVisible(@IdRes viewId: Int, isGone: Boolean): BaseViewHolder {
         val view = getView<View>(viewId)
         view.visibility = if (isGone) View.GONE else View.VISIBLE
         return this
     }
 
-    open fun setInVisible(@IdRes viewId: Int, isVisible: Boolean):BaseViewHolder {
+    open fun setInVisible(@IdRes viewId: Int, isVisible: Boolean): BaseViewHolder {
         val view = getView<View>(viewId)
         view.visibility = if (isVisible) View.VISIBLE else View.INVISIBLE
         return this
     }
 
-    open fun setEnabled(@IdRes viewId: Int, isEnabled: Boolean):BaseViewHolder {
+    open fun setEnabled(@IdRes viewId: Int, isEnabled: Boolean): BaseViewHolder {
         getView<View>(viewId).isEnabled = isEnabled
         return this
     }
