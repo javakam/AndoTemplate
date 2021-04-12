@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import ando.repo.ui.recycler.DataServer
 import ando.repo.ui.recycler.adapter.DataAdapter
 import ando.repo.ui.recycler.dpToPx
-import ando.library.widget.recycler.decoration.DecorationProvider
+import ando.library.widget.recycler.decoration.RecyclerDecorationProvider
 import ando.repo.R
 
 class VerticalGridActivity : BaseActivity() {
@@ -28,7 +28,7 @@ class VerticalGridActivity : BaseActivity() {
     }
 
     override fun initItemDecoration(recyclerView: RecyclerView, adapter: RecyclerView.Adapter<BaseViewHolder>) {
-        DecorationProvider.grid()
+        RecyclerDecorationProvider.grid()
             .color(Color.BLUE)
             .dividerSize(dpToPx(10f))
 //            .includeEdge()

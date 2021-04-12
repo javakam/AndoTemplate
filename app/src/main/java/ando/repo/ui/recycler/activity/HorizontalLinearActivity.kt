@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import ando.repo.ui.recycler.DataServer
 import ando.repo.ui.recycler.adapter.HorizontalDataAdapter
 import ando.repo.ui.recycler.dpToPx
-import ando.library.widget.recycler.decoration.DecorationProvider
+import ando.library.widget.recycler.decoration.RecyclerDecorationProvider
 import ando.repo.R
 
 class HorizontalLinearActivity : BaseActivity() {
@@ -28,7 +28,7 @@ class HorizontalLinearActivity : BaseActivity() {
     }
 
     override fun initItemDecoration(recyclerView: RecyclerView, adapter: RecyclerView.Adapter<BaseViewHolder>) {
-        DecorationProvider.linear()
+        RecyclerDecorationProvider.linear()
             .color(Color.RED)
             .dividerSize(dpToPx(1f))
             .marginStart(dpToPx(20f))

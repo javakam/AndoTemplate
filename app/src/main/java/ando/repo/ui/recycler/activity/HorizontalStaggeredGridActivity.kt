@@ -5,7 +5,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import ando.repo.ui.recycler.adapter.HorizontalDataAdapter
 import ando.repo.ui.recycler.dpToPx
-import ando.library.widget.recycler.decoration.DecorationProvider
+import ando.library.widget.recycler.decoration.RecyclerDecorationProvider
 import ando.repo.R
 
 class HorizontalStaggeredGridActivity : BaseActivity() {
@@ -25,7 +25,7 @@ class HorizontalStaggeredGridActivity : BaseActivity() {
     }
 
     override fun initItemDecoration(recyclerView: RecyclerView, adapter: RecyclerView.Adapter<BaseViewHolder>) {
-        DecorationProvider.staggeredGrid()
+        RecyclerDecorationProvider.staggeredGrid()
             .spacingSize(dpToPx(10f))
             .includeEdge()
             .build()

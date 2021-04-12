@@ -3,7 +3,7 @@ package ando.library.widget.recycler.decoration
 /**
  * From https://github.com/zyyoona7/RecyclerViewItemDecoration
  */
-object DecorationProvider {
+object RecyclerDecorationProvider {
     fun linear() = LinearItemDecoration.Builder()
 
     fun grid() = GridItemDecoration.Builder()

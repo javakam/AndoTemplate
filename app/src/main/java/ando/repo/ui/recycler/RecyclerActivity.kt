@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import ando.repo.ui.recycler.activity.*
-import ando.library.widget.recycler.decoration.DecorationProvider
+import ando.library.widget.recycler.decoration.RecyclerDecorationProvider
 import android.view.View
 
 /**
@@ -31,7 +31,7 @@ class RecyclerActivity : AppCompatActivity() {
         val adapter = MainAdapter()
         mainRv.adapter = adapter
 
-        DecorationProvider.staggeredGrid()
+        RecyclerDecorationProvider.staggeredGrid()
             .includeEdge()
             .includeStartEdge()
             .spacingSize(dpToPx(10f))
@@ -41,7 +41,7 @@ class RecyclerActivity : AppCompatActivity() {
         adapter.run {
             mainRv.adapter = this
 
-            DecorationProvider.staggeredGrid()
+            RecyclerDecorationProvider.staggeredGrid()
                 .includeEdge()
                 .includeStartEdge()
                 .spacingSize(dpToPx(10f))
