@@ -8,8 +8,8 @@ ext {
             targetSdkVersion : 30,
             versionCode      : 1,
             versionName      : "1.0.0",
-            vAndoLib         : "1.3.0",
-            vAndoTool        : "1.0.0",
+            vAndoLib         : "5.0.0",
+            vAndoTool        : "2.0.0",
             vBanner          : "1.2.0",
             vIndicator       : "1.0.0",
             vIndicatorUsage  : "1.0.0"

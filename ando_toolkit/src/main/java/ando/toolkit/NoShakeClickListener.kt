@@ -13,8 +13,8 @@ abstract class NoShakeClickListener @JvmOverloads constructor(interval: Long = 5
     View.OnClickListener {
 
     private var mTimeInterval = 500L
-    private var mLastClickTime: Long = 0   //最近一次点击的时间
-    private var mLastClickViewId = 0       //最近一次点击的控件ID
+    private var mLastClickTime: Long = 0  //最近一次点击的时间
+    private var mLastClickViewId = 0      //最近一次点击的控件ID
 
     init {
         mTimeInterval = interval
@@ -46,6 +46,6 @@ abstract class NoShakeClickListener @JvmOverloads constructor(interval: Long = 5
         }
     }
 
-    protected open fun onFastClick(v: View?) {}
-    protected abstract fun onSingleClick(v: View?)
+    protected open fun onFastClick(v: View) {}
+    protected abstract fun onSingleClick(v: View)
 }

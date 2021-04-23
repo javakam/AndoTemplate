@@ -9,6 +9,7 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.core.view.isVisible
 import ando.toolkit.NoShakeClickListener
+import android.annotation.SuppressLint
 
 /**
  * 为view添加OnGlobalLayoutListener监听并在测量完成后自动取消监听同时执行[globalAction]函数
@@ -20,6 +21,7 @@ inline fun <T : View> T.afterMeasured(crossinline globalAction: T.() -> Unit) {
     viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
         override fun onGlobalLayout() {
             if (measuredWidth > 0 && measuredHeight > 0) {
+                @SuppressLint("ObsoleteSdkInt")
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                     viewTreeObserver.removeOnGlobalLayoutListener(this)
                 } else {
@@ -68,8 +70,8 @@ inline var TextView.isSelectable: Boolean
     set(value) = setTextIsSelectable(value)
 
 
-fun View?.visibleOrGone(visible: Boolean) {
-    this?.run {
+fun View.visibleOrGone(visible: Boolean) {
+    this.run {
         if (visible) {
             if (!isVisible) visibility = View.VISIBLE
         } else {
@@ -78,8 +80,8 @@ fun View?.visibleOrGone(visible: Boolean) {
     }
 }
 
-fun View?.visibleOrInvisible(visible: Boolean) {
-    this?.run {
+fun View.visibleOrInvisible(visible: Boolean) {
+    this.run {
         if (visible) {
             if (!isVisible) visibility = View.VISIBLE
         } else {
@@ -88,28 +90,28 @@ fun View?.visibleOrInvisible(visible: Boolean) {
     }
 }
 
-fun View?.visible() {
-    this?.run {
+fun View.visible() {
+    this.run {
         if (!isVisible) visibility = View.VISIBLE
     }
 }
 
-fun View?.invisible() {
-    this?.run {
+fun View.invisible() {
+    this.run {
         if (isVisible) visibility = View.INVISIBLE
     }
 }
 
-fun View?.gone() {
-    this?.run {
+fun View.gone() {
+    this.run {
         if (isVisible) visibility = View.GONE
     }
 }
 
-fun View?.noShake(interval: Long = 500L, block: (v: View?) -> Unit) {
-    this?.apply {
+fun View.noShake(interval: Long = 500L, block: (v: View?) -> Unit) {
+    this.apply {
         setOnClickListener(object : NoShakeClickListener(interval) {
-            override fun onSingleClick(v: View?) {
+            override fun onSingleClick(v: View) {
                 block.invoke(v)
             }
         })

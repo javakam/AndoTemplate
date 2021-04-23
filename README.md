@@ -533,6 +533,8 @@ class CustomHolder(v: View) : BaseViewHolder(v) {
 }
 ```
 
+#### SwitchButton todo 用法案例
+
 🍎 LiveData + Retrofit
 https://github.com/pivincii/livedata_retrofit
 

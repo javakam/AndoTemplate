@@ -5,7 +5,7 @@ import android.graphics.Color;
 import android.view.Gravity;
 import android.view.View;
 
-import org.jetbrains.annotations.Nullable;
+import androidx.annotation.NonNull;
 
 import ando.repo.R;
 import ando.repo.bean.ChannelBean;
@@ -43,8 +43,8 @@ public class IndicatorScrollNavAdapter extends BaseCommonNavigatorAdapter<Channe
 
         titleView.setOnClickListener(new NoShakeClickListener() {
             @Override
-            protected void onSingleClick(@Nullable View v) {
-                triggerScrollWithTabClickEvent(index,false);
+            protected void onSingleClick(@NonNull View v) {
+                triggerScrollWithTabClickEvent(index, false);
             }
         });
         return titleView;
