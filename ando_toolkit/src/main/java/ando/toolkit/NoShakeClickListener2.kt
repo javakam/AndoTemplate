@@ -1,5 +1,6 @@
 package ando.toolkit
 
+import android.view.View
 import kotlin.math.abs
 
 /**
@@ -72,4 +73,24 @@ open class NoShakeClickListener2 @JvmOverloads constructor(interval: Long = 500L
 
     protected open fun onFastClick(item: Any?) {}
     protected open fun onSingleClick(item: Any?) {}
+}
+
+abstract class SimpleNoShakeListener : View.OnClickListener {
+    private var mLastClickTime: Long = 0// 单次点击事件
+    private val isFastDoubleClick: Boolean
+        get() {
+            val nowTime = System.currentTimeMillis()
+            return if (abs(nowTime - mLastClickTime) < 500) {
+                true  // 快速点击事件
+            } else {
+                mLastClickTime = nowTime
+                false // 单次点击事件
+            }
+        }
+
+    override fun onClick(v: View) {
+        if (!isFastDoubleClick) onSingleClick(v)
+    }
+
+    abstract fun onSingleClick(v: View)
 }

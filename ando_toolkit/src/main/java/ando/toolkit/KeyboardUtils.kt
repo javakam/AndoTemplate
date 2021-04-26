@@ -1,5 +1,7 @@
 package ando.toolkit
 
+import ando.toolkit.ext.DeviceUtils.getNavBarHeight
+import ando.toolkit.ext.DeviceUtils.getStatusBarHeight
 import android.app.Activity
 import android.content.Context
 import android.graphics.Rect
@@ -12,14 +14,17 @@ import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.FrameLayout
-import ando.toolkit.ext.DimensionUtils
-import ando.toolkit.ext.DimensionUtils.getNavBarHeight
-import ando.toolkit.ext.DimensionUtils.getStatusBarHeight
+import ando.toolkit.ext.inputMethodManager
 import ando.toolkit.log.L
+import android.annotation.SuppressLint
 import android.os.*
 import kotlin.math.abs
 
 /**
+ * # 输入法管理器
+ *
+ * From QMUI
+ *
  * @author javakam
  */
 object KeyboardUtils {
@@ -30,21 +35,14 @@ object KeyboardUtils {
 
     private const val TAG_ON_GLOBAL_LAYOUT_LISTENER = -8
 
-    /**
-     * Show the soft input.
-     */
+    private val imm: InputMethodManager by lazy { AppUtils.getContext().inputMethodManager }
+
+    fun isSoftInputActive(): Boolean = imm.isActive
+
     fun showSoftInput() {
-        val imm = AppUtils.getContext()
-            .getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.toggleSoftInput(
-            InputMethodManager.SHOW_FORCED,
-            InputMethodManager.HIDE_IMPLICIT_ONLY
-        )
+        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY)
     }
 
-    /**
-     * Show the soft input.
-     */
     fun showSoftInput(activity: Activity) {
         if (!isSoftInputVisible(activity)) {
             toggleSoftInput()
@@ -58,10 +56,7 @@ object KeyboardUtils {
      * @param flags Provides additional operating flags.  Currently may be
      * 0 or have the [InputMethodManager.SHOW_IMPLICIT] bit set.
      */
-    @JvmOverloads
     fun showSoftInput(view: View, flags: Int = 0) {
-        val imm = AppUtils.getContext()
-            .getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         view.isFocusable = true
         view.isFocusableInTouchMode = true
         view.requestFocus()
@@ -72,26 +67,11 @@ object KeyboardUtils {
                 ) toggleSoftInput()
             }
         })
-        imm.toggleSoftInput(
-            InputMethodManager.SHOW_FORCED,
-            InputMethodManager.HIDE_IMPLICIT_ONLY
-        )
+        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY)
     }
 
-    /**
-     * Hide the soft input.
-     *
-     * @param activity The activity.
-     */
-    fun hideSoftInput(activity: Activity) {
-        hideSoftInput(activity.window)
-    }
+    fun hideSoftInput(activity: Activity) = hideSoftInput(activity.window)
 
-    /**
-     * Hide the soft input.
-     *
-     * @param window The window.
-     */
     fun hideSoftInput(window: Window) {
         var view = window.currentFocus
         if (view == null) {
@@ -109,24 +89,12 @@ object KeyboardUtils {
         hideSoftInput(view)
     }
 
-    /**
-     * Hide the soft input.
-     *
-     * @param view The view.
-     */
     fun hideSoftInput(view: View) {
-        val imm = AppUtils.getContext()
-            .getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
     private var millis: Long = 0
 
-    /**
-     * Hide the soft input.
-     *
-     * @param activity The activity.
-     */
     fun hideSoftInputByToggle(activity: Activity) {
         val nowMillis = System.currentTimeMillis()
         val delta = nowMillis - millis
@@ -140,8 +108,6 @@ object KeyboardUtils {
      * Toggle the soft input display or not.
      */
     fun toggleSoftInput() {
-        val imm = AppUtils.getContext()
-            .getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.toggleSoftInput(0, 0)
     }
 
@@ -165,7 +131,7 @@ object KeyboardUtils {
             "KeyboardUtils", "getDecorViewInvisibleHeight: " + (decorView.bottom - outRect.bottom)
         )
         val delta = abs(decorView.bottom - outRect.bottom)
-        if (delta <= getNavBarHeight() + DimensionUtils.getStatusBarHeight()) {
+        if (delta <= getNavBarHeight() + getStatusBarHeight()) {
             sDecorViewDelta = delta
             return 0
         }
@@ -221,6 +187,7 @@ object KeyboardUtils {
         val contentView = window.findViewById<FrameLayout>(R.id.content)
         val tag = contentView.getTag(TAG_ON_GLOBAL_LAYOUT_LISTENER)
         if (tag is OnGlobalLayoutListener) {
+            @SuppressLint("ObsoleteSdkInt")
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                 contentView.viewTreeObserver.removeOnGlobalLayoutListener(tag)
             }
@@ -282,9 +249,7 @@ object KeyboardUtils {
      *
      * @param activity The activity.
      */
-    fun fixSoftInputLeaks(activity: Activity) {
-        fixSoftInputLeaks(activity.window)
-    }
+    fun fixSoftInputLeaks(activity: Activity) = fixSoftInputLeaks(activity.window)
 
     /**
      * Fix the leaks of soft input.

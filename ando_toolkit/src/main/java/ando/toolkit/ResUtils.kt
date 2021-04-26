@@ -94,13 +94,13 @@ object ResUtils {
     /**
      * 获取Drawable的数组
      */
-    fun getDrawableArray(context: Context, @ArrayRes resId: Int): Array<Drawable?> {
-        val ta = resources.obtainTypedArray(resId)
+    fun getDrawableArray(@ArrayRes resId: Int): Array<Drawable?> {
+        val ta = getContext().resources.obtainTypedArray(resId)
         val icons = arrayOfNulls<Drawable>(ta.length())
         for (i in 0 until ta.length()) {
             val id = ta.getResourceId(i, 0)
             if (id != 0) {
-                icons[i] = ContextCompat.getDrawable(context, id)
+                icons[i] = ContextCompat.getDrawable(getContext(), id)
             }
         }
         ta.recycle()

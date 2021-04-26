@@ -26,7 +26,7 @@ abstract class Loader @JvmOverloads constructor(
     defStyleRes: Int = 0
 ) :
     FrameLayout(context, attrs, defStyle, defStyleRes) {
-    var loadState: LoadState? = null
+    private var loadState: LoadState? = null
     private var loadingView: View? = null
     private var errorView: View? = null
     private var emptyView: View? = null

@@ -6,6 +6,7 @@ import android.widget.ImageView
 import androidx.annotation.DrawableRes
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.resource.bitmap.BitmapTransitionOptions
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestOptions
 
@@ -69,14 +70,20 @@ object GlideUtils {
                 .load(url)
                 .apply(noAnimate(placeholder))
         } else {
-            Glide.with(imageView.context).asBitmap().centerCrop().load(placeholder)
+            Glide.with(imageView.context)
+                .asBitmap()
+                .centerCrop()
+                .load(placeholder)
+                .transition(BitmapTransitionOptions.withCrossFade())
         }.into(imageView)
     }
 
     fun loadImage(imageView: ImageView, path: Any?) {
         Glide.with(imageView.context)
+            .asBitmap()
+            .centerCrop()
             .load(path)
-            .transition(DrawableTransitionOptions.withCrossFade())
+            .transition(BitmapTransitionOptions.withCrossFade())
             .into(imageView)
     }
 
@@ -89,55 +96,54 @@ object GlideUtils {
     }
 
     fun loadImage(imageView: ImageView, path: Any?, strategy: DiskCacheStrategy) {
-        val options = RequestOptions()
+        Glide.with(imageView.context)
+            .asBitmap()
             .centerCrop()
             .diskCacheStrategy(strategy)
-        Glide.with(imageView.context)
             .load(path)
-            .apply(options)
-            .transition(DrawableTransitionOptions.withCrossFade())
+            .transition(BitmapTransitionOptions.withCrossFade())
             .into(imageView)
     }
 
     fun loadGifImage(imageView: ImageView, path: Any?, strategy: DiskCacheStrategy) {
-        val options = RequestOptions()
-            .centerCrop()
-            .diskCacheStrategy(strategy)
         Glide.with(imageView.context)
             .asGif()
+            .centerCrop()
+            .diskCacheStrategy(strategy)
             .load(path)
-            .apply(options)
             .transition(DrawableTransitionOptions.withCrossFade())
             .into(imageView)
     }
 
     fun loadImage(imageView: ImageView, path: Any?, placeholder: Drawable?) {
-        val options = RequestOptions()
+        Glide.with(imageView.context)
+            .asBitmap()
             .centerCrop()
             .placeholder(placeholder)
-        Glide.with(imageView.context)
             .load(path)
-            .apply(options)
-            .transition(DrawableTransitionOptions.withCrossFade())
+            .transition(BitmapTransitionOptions.withCrossFade())
             .dontAnimate()
             .into(imageView)
     }
 
     fun loadImage(imageView: ImageView, path: Any?, options: RequestOptions) {
         Glide.with(imageView.context)
+            .asBitmap()
+            .centerCrop()
             .load(path)
             .apply(options)
+            .transition(BitmapTransitionOptions.withCrossFade())
             .into(imageView)
     }
 
     fun loadImage(imageView: ImageView, path: Any?, @DrawableRes placeholder: Int) {
-        val options = RequestOptions()
+        Glide.with(imageView.context)
+            .asBitmap()
             .centerCrop()
             .placeholder(placeholder)
-        Glide.with(imageView.context)
             .load(path)
-            .apply(options) // .transition(DrawableTransitionOptions.withCrossFade())
             .dontAnimate()
+            .transition(BitmapTransitionOptions.withCrossFade())
             .into(imageView)
     }
 
@@ -147,14 +153,13 @@ object GlideUtils {
         placeholder: Drawable?,
         strategy: DiskCacheStrategy
     ) {
-        val options = RequestOptions()
+        Glide.with(imageView.context)
+            .asBitmap()
             .centerCrop()
             .placeholder(placeholder)
             .diskCacheStrategy(strategy)
-        Glide.with(imageView.context)
             .load(path)
-            .apply(options)
-            .transition(DrawableTransitionOptions.withCrossFade())
+            .transition(BitmapTransitionOptions.withCrossFade())
             .dontAnimate()
             .into(imageView)
     }
@@ -165,14 +170,13 @@ object GlideUtils {
         @DrawableRes placeholder: Int,
         strategy: DiskCacheStrategy
     ) {
-        val options = RequestOptions()
+        Glide.with(imageView.context)
+            .asBitmap()
             .centerCrop()
             .placeholder(placeholder)
             .diskCacheStrategy(strategy)
-        Glide.with(imageView.context)
             .load(path)
-            .apply(options)
-            .transition(DrawableTransitionOptions.withCrossFade())
+            .transition(BitmapTransitionOptions.withCrossFade())
             .dontAnimate()
             .into(imageView)
     }
@@ -183,14 +187,12 @@ object GlideUtils {
         placeholder: Drawable?,
         strategy: DiskCacheStrategy
     ) {
-        val options = RequestOptions()
+        Glide.with(imageView.context)
+            .asGif()
             .centerCrop()
             .placeholder(placeholder)
             .diskCacheStrategy(strategy)
-        Glide.with(imageView.context)
-            .asGif()
             .load(path)
-            .apply(options)
             .transition(DrawableTransitionOptions.withCrossFade())
             .into(imageView)
     }
@@ -203,15 +205,14 @@ object GlideUtils {
         placeholder: Drawable?,
         strategy: DiskCacheStrategy
     ) {
-        val options = RequestOptions()
+        Glide.with(imageView.context)
+            .asBitmap()
             .centerCrop()
             .override(width, height)
             .placeholder(placeholder)
             .diskCacheStrategy(strategy)
-        Glide.with(imageView.context)
             .load(path)
-            .apply(options)
-            .transition(DrawableTransitionOptions.withCrossFade())
+            .transition(BitmapTransitionOptions.withCrossFade())
             .into(imageView)
     }
 

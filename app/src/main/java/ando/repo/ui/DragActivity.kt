@@ -1,20 +1,15 @@
 package ando.repo.ui
 
 import ando.dialog.core.DialogManager
-import ando.library.widget.SmartDragLayout
 import ando.repo.R
 import ando.repo.widget.BottomDialog
+import ando.repo.widget.SmartDragLayout
 import ando.toolkit.ext.screenHeight
 import ando.toolkit.ext.screenWidth
-import ando.toolkit.immersion.StatusBarUtils
-import ando.toolkit.log.L
 import android.content.Context
-import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.view.animation.AnimationUtils
-import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 
 /**

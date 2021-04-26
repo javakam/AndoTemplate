@@ -7,7 +7,6 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.Drawable
 import android.os.Build
-import android.util.Log
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
@@ -19,13 +18,11 @@ import androidx.annotation.ColorRes
 import ando.toolkit.OSUtils.isFlyme
 import ando.toolkit.OSUtils.isMiui
 import ando.toolkit.OSUtils.isOppo
-import ando.toolkit.WindowUtils
-import ando.toolkit.ext.DimensionUtils
 
 /**
  * # StatusBarUtils
  *
- * https://github.com/wuhenzhizao/android-titlebar
+ * Modified from https://github.com/wuhenzhizao/android-titlebar
  *
  * @author javakam
  * @date 2020/11/25 13:41
@@ -85,7 +82,6 @@ object StatusBarUtils {
                 field.isAccessible = true
                 field.setInt(activity.window.decorView, Color.TRANSPARENT) //改为透明
             } catch (e: Exception) {
-                Log.e(WindowUtils::class.java.simpleName, e.message)
             }
         }
         if (drawable == null) return
@@ -94,7 +90,7 @@ object StatusBarUtils {
             val count = rootView.childCount
             if (count > 0) {
                 val layout = rootView.getChildAt(0)
-                val statusBarHeight = DimensionUtils.getStatusBarHeight()
+                val statusBarHeight = getStatusBarHeight(activity)
                 val layoutParams = layout.layoutParams as FrameLayout.LayoutParams
                 layoutParams.topMargin = statusBarHeight
                 val statusBarView: ImageView
@@ -258,7 +254,7 @@ object StatusBarUtils {
     /**
      * 获取状态栏高度
      */
-    fun getStatusBarHeight(context: Context): Int {
+    private fun getStatusBarHeight(context: Context): Int {
         val resourceId = context.resources.getIdentifier("status_bar_height", "dimen", "android")
         return context.resources.getDimensionPixelSize(resourceId)
     }
@@ -266,7 +262,7 @@ object StatusBarUtils {
     /**
      * 获取导航栏高度
      */
-    fun getNavigationBarHeight(context: Context): Int {
+    private fun getNavigationBarHeight(context: Context): Int {
         val resourceId =
             context.resources.getIdentifier("navigation_bar_height", "dimen", "android")
         return context.resources.getDimensionPixelSize(resourceId)

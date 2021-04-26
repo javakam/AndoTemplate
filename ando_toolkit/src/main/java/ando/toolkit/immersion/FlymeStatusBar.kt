@@ -22,10 +22,7 @@ internal object FlymeStatusBar {
      * @param color 颜色
      * @param level 级别
      */
-    fun isBlackColor(color: Int, level: Int): Boolean {
-        val grey = toGrey(color)
-        return grey < level
-    }
+    fun isBlackColor(color: Int, level: Int): Boolean = (toGrey(color) < level)
 
     /**
      * 颜色转换成灰度值

@@ -137,36 +137,3 @@ fun View.realDpi(): Int {
     val ydpi = metric.ydpi
     return ((xdpi + ydpi) / 2.0f + 0.5f).toInt()
 }
-
-object DimensionUtils {
-
-    /**
-     * Return the navigation bar's height.
-     *
-     * @return the navigation bar's height
-     */
-    fun getNavBarHeight(): Int {
-        val res = Resources.getSystem()
-        val resourceId = res.getIdentifier("navigation_bar_height", "dimen", "android")
-        return if (resourceId != 0) res.getDimensionPixelSize(resourceId) else 0
-    }
-
-    /**
-     * 获取状态栏高度高度  the height of status bar
-     */
-    fun getStatusBarHeight(): Int {
-        val res = Resources.getSystem()
-        val resourceId = res.getIdentifier("status_bar_height", "dimen", "android")
-        return if (resourceId > 0) res.getDimensionPixelSize(resourceId) else 0
-    }
-
-    /**
-     * 获取系统状态栏高度  todo 2020年9月30日 14:56:48 测试
-     */
-    fun getStatusBarHeightDecor(activity: Activity): Int {
-        val localRect = Rect()
-        activity.window.decorView.getWindowVisibleDisplayFrame(localRect)
-        return localRect.top
-    }
-
-}

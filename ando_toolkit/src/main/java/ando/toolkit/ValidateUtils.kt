@@ -12,28 +12,28 @@ import java.util.regex.Pattern
  */
 object ValidateUtils {
 
-    /*----------常用输入验证------*/ //匹配双字节字符(包括汉字在内)：[^x00-xff]             ---已验证
+    /*----------常用输入验证------*/ //匹配双字节字符(包括汉字在内)：[^x00-xff]  ---已验证
     fun isDoubleByteString(inputString: String): Boolean {
         val pattern = Pattern.compile("[^x00-xff]")
         val matcher = pattern.matcher(inputString)
         return matcher.find()
     }
 
-    //匹配HTML标记的正则表达式：/< (.*)>.*|< (.*) />/      ---未验证：可以实现HTML过滤
+    //匹配HTML标记的正则表达式：/< (.*)>.*|< (.*) />/   ---未验证：可以实现HTML过滤
     fun isHtmlString(inputString: String): Boolean {
         val pattern = Pattern.compile("/< (.*)>.*|< (.*) />/")
         val matcher = pattern.matcher(inputString)
         return matcher.find()
     }
 
-    //匹配首尾空格的正则表达式：[\\s*)]+\\w+[\\s*$]         ---已验证
+    //匹配首尾空格的正则表达式：[\\s*)]+\\w+[\\s*$]   ---已验证
     fun isTrimStartAndEndInthisString(inputString: String): Boolean {
         val pattern = Pattern.compile("[\\s*)]+\\w+[\\s*$]")
         val matcher = pattern.matcher(inputString)
         return matcher.find()
     }
 
-    //邮箱规则：用户名@服务器名.后缀                                   ---已验证
+    //邮箱规则：用户名@服务器名.后缀  ---已验证
     //匹配Email地址的正则表达式：^([a-z0-9A-Z]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}
     fun isEmail(inputString: String): Boolean {
         val pattern =
@@ -42,7 +42,7 @@ object ValidateUtils {
         return matcher.find()
     }
 
-    //匹配网址URL的正则表达式：^http://[a-zA-Z0-9./\\s]      ---已验证
+    //匹配网址URL的正则表达式：^http://[a-zA-Z0-9./\\s]  ---已验证
     fun isUrl(inputString: String): Boolean {
         val pattern = Pattern.compile("^http://[a-zA-Z0-9./\\s]")
         val matcher = pattern.matcher(inputString)
@@ -50,7 +50,7 @@ object ValidateUtils {
     }
 
     //验证用户密码:“^[a-zA-Z]\\w{5,17}$”
-    //正确格式为：以字母开头，长度在6-18                      --已验证
+    //正确格式为：以字母开头，长度在6-18    --已验证
     fun isPassword(inputString: String): Boolean {
         val pattern = Pattern.compile("^[a-zA-Z]\\w{5,17}$")
         val matcher = pattern.matcher(inputString)
@@ -70,8 +70,8 @@ object ValidateUtils {
         return matcher.find()
     }
 
-    //验证固定电话号码   ^(([0-9]{3,4})|([0-9]{3,4})-)?[0-9]{7,8}$ ---已验证
-    fun isTelePhone(inputString: String): Boolean {
+    //验证固定电话号码   ^(([0-9]{3,4})|([0-9]{3,4})-)?[0-9]{7,8}$  ---已验证
+    fun isTelephone(inputString: String): Boolean {
         val pattern = Pattern.compile("^(([0-9]{3,4})|([0-9]{3,4})-)?[0-9]{7,8}$")
         val matcher = pattern.matcher(inputString)
         return matcher.find()
@@ -86,7 +86,7 @@ object ValidateUtils {
      * @return 校验通过返回true，否则返回false
      */
     fun isMobilePhone(mobile: String): Boolean =
-        Pattern.matches("^[1][35789][0-9]{9}$", mobile ?: "")
+        Pattern.matches("^[1][3-9][0-9]{9}$", mobile)
 
     //只能输入汉字，匹配中文字符的正则表达式：^[\u4e00-\u9fa5]*$--已验证
     fun isChineseString(inputString: String): Boolean {

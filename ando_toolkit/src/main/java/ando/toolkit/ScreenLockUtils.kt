@@ -23,7 +23,7 @@ object ScreenLockUtils {
      * 保持屏幕常亮
      */
     fun keepScreenOn(activity: Activity) {
-        var wakeLock:WakeLock? = mWakeLockArray[activity]
+        var wakeLock: WakeLock? = mWakeLockArray[activity]
         if (wakeLock == null) {
             val powerManager = activity.getSystemService(Context.POWER_SERVICE) as PowerManager
             @Suppress("DEPRECATION")
@@ -65,11 +65,11 @@ object ScreenLockUtils {
             return
         }
 
-        val mKeyguardManager =
-            activity.getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
+        val keyguardManager = activity.getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
+
         @Suppress("DEPRECATION")
-        val mKeyguardLock = mKeyguardManager.newKeyguardLock(activity.javaClass.name)
-        mKeyguardLock.disableKeyguard()
+        val keyguardLock = keyguardManager.newKeyguardLock(activity.javaClass.name)
+        keyguardLock.disableKeyguard()
         mIsUnlockArray[activity] = true
     }
 

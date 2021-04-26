@@ -1,9 +1,6 @@
 package ando.toolkit.ext
 
-import android.content.ClipData
-import android.content.ClipboardManager
-import android.content.Context
-import ando.toolkit.AppUtils
+import ando.toolkit.ClipboardUtils
 import java.util.*
 
 /**
@@ -41,14 +38,28 @@ fun String?.isVideoUrl(): Boolean {
     }
 }
 
-fun String.copyToClipBoard() {
-    val cm: ClipboardManager? =
-        AppUtils.getContext().getSystemService(Context.CLIPBOARD_SERVICE) as? ClipboardManager?
-    if (cm != null) {
-        //参数一：标签，可为空，参数二：要复制到剪贴板的文本
-        cm.primaryClip = ClipData.newPlainText(null, this)
-        if (cm.hasPrimaryClip()) {
-            cm.primaryClip?.getItemAt(0)?.text
-        }
+fun String.copyToClipBoard() = ClipboardUtils.copyText(this)
+
+/**
+ * 字符串转换unicode
+ */
+fun String.stringToUnicode(): String {
+    val unicode = StringBuffer()
+    for (element in this) {
+        unicode.append("\\u" + Integer.toHexString(element.toInt())) // 转换为unicode
     }
+    return unicode.toString()
+}
+
+/**
+ * unicode 转字符串
+ */
+fun String.unicodeToString(): String {
+    val string = StringBuffer()
+    val hex = this.split("\\\\u".toRegex()).toTypedArray()
+    for (i in 1 until hex.size) {
+        val data = hex[i].toInt(16) // 转换出每一个代码点
+        string.append(data.toChar()) // 追加成string
+    }
+    return string.toString()
 }

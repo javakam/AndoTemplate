@@ -39,7 +39,7 @@ inline fun <T : View> T.afterMeasured(crossinline globalAction: T.() -> Unit) {
  */
 fun EditText.afterTextChanged(afterTextChanged: (String) -> Unit) {
     this.addTextChangedListener(object : TextWatcher {
-        override fun afterTextChanged(editable: Editable?) {
+        override fun afterTextChanged(editable: Editable) {
             afterTextChanged.invoke(editable.toString())
         }
 
@@ -108,7 +108,7 @@ fun View.gone() {
     }
 }
 
-fun View.noShake(interval: Long = 500L, block: (v: View?) -> Unit) {
+fun View.noShake(interval: Long = 500L, block: (v: View) -> Unit) {
     this.apply {
         setOnClickListener(object : NoShakeClickListener(interval) {
             override fun onSingleClick(v: View) {

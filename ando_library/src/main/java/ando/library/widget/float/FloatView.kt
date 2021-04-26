@@ -1,6 +1,6 @@
 package ando.library.widget.float
 
-import ando.toolkit.ext.DimensionUtils.getStatusBarHeight
+import ando.toolkit.ext.DeviceUtils.getStatusBarHeight
 import ando.toolkit.ext.dp2px
 import android.annotation.SuppressLint
 import android.content.Context

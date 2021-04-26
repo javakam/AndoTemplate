@@ -1,9 +1,9 @@
 package ando.toolkit.ext
 
+import ando.toolkit.KeyboardUtils
 import android.app.Activity
 import android.content.Context
 import android.view.View
-import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 
 /**
@@ -15,28 +15,18 @@ import androidx.fragment.app.Fragment
 
 /* ---------- Context ---------- */
 
-private val Context.inputMethodManager: InputMethodManager
-    get() = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-
-fun Context.showSoftInput(view: View) {
-    view.isFocusable = true
-    view.isFocusableInTouchMode = true
-    view.requestFocus()
-    inputMethodManager.showSoftInput(view, InputMethodManager.SHOW_FORCED)
+fun Context.showSoftInput() {
+    if (this is Activity) KeyboardUtils.showSoftInput(this)
+    else KeyboardUtils.showSoftInput()
 }
 
-fun Context.hideSoftInput(view: View) {
-    inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
-}
+fun Context.showSoftInput(view: View) = KeyboardUtils.showSoftInput(view)
 
-fun Context.hideSoftInput(activity: Activity) {
-    val view: View = activity.currentFocus ?: activity.window.decorView
-    inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
-}
+fun Context.hideSoftInput(activity: Activity) = KeyboardUtils.hideSoftInput(activity.window)
 
-fun Context.isSoftInputActive(): Boolean {
-    return inputMethodManager.isActive
-}
+fun Context.hideSoftInput(view: View) = KeyboardUtils.hideSoftInput(view)
+
+fun Context.isSoftInputActive(): Boolean = KeyboardUtils.isSoftInputActive()
 
 /* ---------- Fragment ---------- */
 

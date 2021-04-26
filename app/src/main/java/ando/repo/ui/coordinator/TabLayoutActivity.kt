@@ -2,7 +2,7 @@ package ando.repo.ui.coordinator
 
 import ando.repo.R
 import ando.repo.ui.DisplayFragment
-import ando.toolkit.ext.DimensionUtils
+import ando.toolkit.ext.DeviceUtils.getStatusBarHeight
 import ando.toolkit.immersion.StatusBarUtils
 import android.os.Build
 import android.os.Bundle
@@ -92,7 +92,7 @@ open class TabLayoutActivity : AppCompatActivity() {
     private fun setStatusBarPaddingAndHeight(toolBar: View?) {
         if (toolBar == null) return
 
-        val statusBarHeight: Int = DimensionUtils.getStatusBarHeight()
+        val statusBarHeight: Int = getStatusBarHeight()
         toolBar.setPadding(
             toolBar.paddingLeft, statusBarHeight, toolBar.paddingRight,
             toolBar.paddingBottom
