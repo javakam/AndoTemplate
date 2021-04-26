@@ -1,4 +1,4 @@
-package ando.widget.banner.loopviewpager;
+package ando.widget.banner;
 
 import android.os.Parcelable;
 import android.util.SparseArray;
@@ -16,7 +16,7 @@ import androidx.viewpager.widget.PagerAdapter;
  * <p>
  * This class shouldn't be used directly
  */
-public class LoopPagerAdapterWrapper extends PagerAdapter {
+class LoopPagerAdapterWrapper extends PagerAdapter {
 
     /**
      * 轮播内部的Adapter
@@ -162,5 +162,4 @@ public class LoopPagerAdapterWrapper extends PagerAdapter {
             this.object = object;
         }
     }
-
 }

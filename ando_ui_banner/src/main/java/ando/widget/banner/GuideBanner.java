@@ -6,8 +6,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import ando.widget.banner.loopviewpager.LoopViewPager;
-
 /**
  * 引导页
  *
@@ -41,7 +39,7 @@ public class GuideBanner extends BaseBanner<Object> {
     @Override
     public View onCreateItemView(int position) {
         final View view = inflate(mContext, R.layout.banner_adapter_simple_guide, null);
-        ImageView iv = view.findViewById(R.id.iv_banner);
+        ImageView iv = view.findViewById(R.id.iv_banner_cover);
         TextView tvJump = view.findViewById(R.id.tv_banner_jump);
 
         final Object resId = mData.get(position);

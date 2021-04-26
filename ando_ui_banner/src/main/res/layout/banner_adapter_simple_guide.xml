@@ -5,10 +5,10 @@
     android:layout_height="match_parent">
 
     <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/iv_banner"
+        android:id="@+id/iv_banner_cover"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center"
+        android:layout_centerInParent="true"
         android:adjustViewBounds="true"
         android:scaleType="fitXY" />
 
@@ -17,6 +17,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
+        android:layout_marginStart="0dp"
         android:layout_marginTop="28dp"
         android:layout_marginEnd="15dp"
         android:layout_marginBottom="28dp"
@@ -24,9 +25,9 @@
         android:clickable="true"
         android:focusable="true"
         android:paddingStart="16dp"
-        android:paddingTop="5dp"
+        android:paddingTop="3dp"
         android:paddingEnd="16dp"
-        android:paddingBottom="5dp"
+        android:paddingBottom="3dp"
         android:text="@string/banner_jump"
         android:textColor="#FFFFFF"
         android:textSize="12sp"

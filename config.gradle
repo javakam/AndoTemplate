@@ -8,11 +8,11 @@ ext {
             targetSdkVersion : 30,
             versionCode      : 1,
             versionName      : "1.0.0",
-            vAndoLib         : "6.0.0", //ando_library   'com.github.javakam:library:x.0.0@aar'
-            vAndoTool        : "4.0.0", //ando_toolkit   'com.github.javakam:toolkit:X.0.0@aar'
-            vBanner          : "1.2.0", //ando_ui_banner 'com.github.javakam:widget.banner:X.1.0@aar'
-            vIndicator       : "1.0.0", //ando_ui_indicator  'com.github.javakam:widget.indicator.core:1.0.0@aar'
-            vIndicatorUsage  : "1.0.0"  //ando_ui_indicator_usage  'com.github.javakam:widget.indicator.usage:1.0.0@aar'
+            vAndoLib         : "7.0.0", //ando_library   'com.github.javakam:library:x.0.0@aar'
+            vAndoTool        : "4.0.0", //ando_toolkit   'com.github.javakam:toolkit:x.0.0@aar'
+            vBanner          : "2.0.0", //ando_ui_banner 'com.github.javakam:widget.banner:x.0.0@aar'
+            vIndicator       : "1.0.0", //ando_ui_indicator  'com.github.javakam:widget.indicator.core:x.0.0@aar'
+            vIndicatorUsage  : "1.0.0"  //ando_ui_indicator_usage  'com.github.javakam:widget.indicator.usage:x.0.0@aar'
     ]
 
     version =

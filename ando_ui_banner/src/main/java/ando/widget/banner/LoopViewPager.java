@@ -1,4 +1,4 @@
-package ando.widget.banner.loopviewpager;
+package ando.widget.banner;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -16,7 +16,7 @@ import java.util.List;
  * @author javakam
  * @date 2019/1/14 下午10:13
  */
-public class LoopViewPager extends ViewPager {
+class LoopViewPager extends ViewPager {
 
     private static final boolean DEFAULT_BOUNDARY_CASHING = false;
     private LoopPagerAdapterWrapper mAdapter;
@@ -108,19 +108,19 @@ public class LoopViewPager extends ViewPager {
 
     public LoopViewPager(Context context) {
         super(context);
-        init(context);
+        init();
     }
 
     public LoopViewPager(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init(context);
+        init();
     }
 
-    private void init(Context context) {
+    private void init() {
         if (onPageChangeListener != null) {
             super.removeOnPageChangeListener(onPageChangeListener);
+            super.addOnPageChangeListener(onPageChangeListener);
         }
-        super.addOnPageChangeListener(onPageChangeListener);
     }
 
     private final OnPageChangeListener onPageChangeListener = new OnPageChangeListener() {
@@ -161,7 +161,7 @@ public class LoopViewPager extends ViewPager {
             if (mOnPageChangeListeners != null) {
                 for (int i = 0; i < mOnPageChangeListeners.size(); i++) {
                     OnPageChangeListener listener = mOnPageChangeListeners.get(i);
-                    if (listener != null) {
+                    if (mAdapter != null && listener != null) {
                         if (realPosition != mAdapter.getRealCount() - 1) {
                             listener.onPageScrolled(realPosition, positionOffset, positionOffsetPixels);
                         } else {

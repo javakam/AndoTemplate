@@ -6,6 +6,9 @@ import android.os.Looper;
 import java.util.HashMap;
 import java.util.concurrent.ExecutorService;
 
+/**
+ * https://github.com/ddnosh/android-tiny-task
+ */
 public class TinyTaskExecutor {
 
     private volatile static TinyTaskExecutor sTinyTaskExecutor;

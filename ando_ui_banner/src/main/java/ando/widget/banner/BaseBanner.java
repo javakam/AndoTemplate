@@ -27,8 +27,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import ando.widget.banner.loopviewpager.LoopViewPager;
-
 /**
  * 轮播组件
  *
@@ -283,8 +281,8 @@ public abstract class BaseBanner<T> extends RelativeLayout {
 
         if (mInternalPageListener != null) {
             mViewPager.removeOnPageChangeListener(mInternalPageListener);
+            mViewPager.addOnPageChangeListener(mInternalPageListener);
         }
-        mViewPager.addOnPageChangeListener(mInternalPageListener);
     }
 
     /**
@@ -511,7 +509,7 @@ public abstract class BaseBanner<T> extends RelativeLayout {
         private boolean isFastDoubleClick() {
             long nowTime = System.currentTimeMillis();
             if (Math.abs(nowTime - mLastClickTime) < 500) {
-                return true; // 快速点击事件
+                return true;  // 快速点击事件
             } else {
                 mLastClickTime = nowTime;
                 return false; // 单次点击事件
@@ -520,14 +518,9 @@ public abstract class BaseBanner<T> extends RelativeLayout {
 
         @Override
         public void onClick(View v) {
-            if (isFastDoubleClick()) {
-                onFastClick(v);
-            } else {
+            if (!isFastDoubleClick()) {
                 onSingleClick(v);
             }
-        }
-
-        protected void onFastClick(View v) {
         }
 
         protected abstract void onSingleClick(View v);
@@ -572,7 +565,7 @@ public abstract class BaseBanner<T> extends RelativeLayout {
     }
 
     private static class FixedSpeedScroller extends Scroller {
-        private int mScrollSpeed = 450;
+        private final int mScrollSpeed;
 
         public FixedSpeedScroller(Context context, Interpolator interpolator, int scrollSpeed) {
             super(context, interpolator);
