@@ -61,7 +61,7 @@ object KeyboardUtils {
         view.isFocusableInTouchMode = true
         view.requestFocus()
         imm.showSoftInput(view, flags, object : ResultReceiver(Handler(Looper.getMainLooper())) {
-            override fun onReceiveResult(resultCode: Int, resultData: Bundle) {
+            override fun onReceiveResult(resultCode: Int, resultData: Bundle?) {
                 if (resultCode == InputMethodManager.RESULT_UNCHANGED_HIDDEN
                     || resultCode == InputMethodManager.RESULT_HIDDEN
                 ) toggleSoftInput()
