@@ -148,7 +148,7 @@ dependencies {
 
     implementation 'com.github.javakam:dialog.core:1.5.0@aar'
     implementation 'com.github.javakam:dialog.usage:1.5.0@aar'
-    implementation 'com.github.javakam:dialog.bottomsheet:1.5.0@aar'
+    implementation 'com.github.javakam:dialog.bottomsheet:2.0.0@aar'
 
     //implementation 'com.github.javakam:library:5.0.0@aar'
     //implementation 'com.github.javakam:toolkit:2.0.0@aar'
