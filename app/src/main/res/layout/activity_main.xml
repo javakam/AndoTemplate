@@ -64,7 +64,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical|start"
-            android:text="SmartDragLayout 拖拽布局"
+            android:text="SmartDragLayout 拖拽布局(TODO)"
+            android:textAllCaps="false" />
+
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/bt_widget_bottom_sheet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical|start"
+            android:text="BottomSheet 分享弹窗"
             android:textAllCaps="false" />
 
     </LinearLayout>

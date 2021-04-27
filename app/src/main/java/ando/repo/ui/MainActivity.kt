@@ -48,6 +48,10 @@ class MainActivity : AppCompatActivity() {
             AppRouter.toWidgetDrag(this)
         }
 
+        //底部弹窗
+        click(R.id.bt_widget_bottom_sheet) {
+        }
+
     }
 
 }
