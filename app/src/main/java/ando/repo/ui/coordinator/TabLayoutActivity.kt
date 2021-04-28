@@ -3,7 +3,7 @@ package ando.repo.ui.coordinator
 import ando.repo.R
 import ando.repo.ui.DisplayFragment
 import ando.toolkit.ext.DeviceUtils.getStatusBarHeight
-import ando.toolkit.immersion.StatusBarUtils
+import ando.toolkit.StatusBarUtils
 import android.os.Build
 import android.os.Bundle
 import android.util.TypedValue
@@ -35,7 +35,7 @@ open class TabLayoutActivity : AppCompatActivity() {
     private val mViewPagerAdapter: TabFragmentStateAdapter<TabItem> by lazy { TabFragmentStateAdapter() }
 
     private fun initImmersive() {
-        StatusBarUtils.transparentStatusBar(window)
+        StatusBarUtils.translucent(window)
         //window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         //window?.statusBarColor = Color.parseColor("#E0000000")
     }

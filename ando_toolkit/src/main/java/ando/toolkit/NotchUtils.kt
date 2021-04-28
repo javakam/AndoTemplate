@@ -50,6 +50,10 @@ object NotchUtils {
      */
     private const val NOTCH_OPPO = "com.oppo.feature.screen.heteromorphism"
 
+    fun isNotchOfficialSupport(): Boolean {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.P
+    }
+
     /**
      * 判断是否是刘海屏
      * Has notch screen boolean.

@@ -1,330 +1,199 @@
 package ando.toolkit
 
-import android.annotation.TargetApi
+import android.annotation.SuppressLint
+import android.app.ActivityManager
 import android.app.AppOpsManager
 import android.content.Context
 import android.content.res.Configuration
 import android.os.Binder
 import android.os.Build
 import android.os.Environment
-import android.text.TextUtils
-import ando.toolkit.AppUtils.getContext
+import android.os.StatFs
 import java.io.*
 import java.lang.reflect.Method
+import java.nio.charset.StandardCharsets
 import java.util.*
+import java.util.regex.Matcher
 import java.util.regex.Pattern
 
+/**
+ * From https://github.com/Tencent/QMUI_Android/blob/master/qmui/src/main/java/com/qmuiteam/qmui/util/QMUIDeviceHelper.java
+ *
+ * 注: 需要混淆
+ */
 object OSUtils {
 
-    private const val ROM_MIUI = "MIUI"
-    private const val ROM_EMUI = "EMUI"
-    private const val ROM_FLYME = "FLYME"
-    private const val ROM_OPPO = "OPPO"
-    private const val ROM_SMARTISAN = "SMARTISAN"
-    private const val ROM_VIVO = "VIVO"
-    private const val ROM_QIKU = "QIKU"
-    private const val KEY_VERSION_MIUI = "ro.miui.ui.version.name"
-    private const val KEY_VERSION_EMUI = "ro.build.version.emui"
-    private const val KEY_VERSION_OPPO = "ro.build.version.opporom"
-    private const val KEY_VERSION_SMARTISAN = "ro.smartisan.version"
-    private const val KEY_VERSION_VIVO = "ro.vivo.os.version"
-    private var sName: String? = null
-    private var sVersion: String? = null
-
-    val isEmui: Boolean get() = check(ROM_EMUI)
-    val isMiui: Boolean get() = check(ROM_MIUI)
-    val isVivo: Boolean get() = check(ROM_VIVO)
-    val isOppo: Boolean get() = check(ROM_OPPO)
-    val isFlyme: Boolean get() = check(ROM_FLYME)
-    val isSmartisan: Boolean get() = check(ROM_SMARTISAN)
-    fun is360(): Boolean = check(ROM_QIKU) || check("360")
-
-    val name: String?
-        get() {
-            if (sName == null) {
-                check("")
-            }
-            return sName
-        }
-
-    val version: String?
-        get() {
-            if (sVersion == null) {
-                check("")
-            }
-            return sVersion
-        }
-
-    private fun check(rom: String): Boolean {
-        if (sName != null) {
-            return sName == rom
-        }
-        if (!TextUtils.isEmpty(getProp(KEY_VERSION_MIUI).also { sVersion = it })) {
-            sName = ROM_MIUI
-        } else if (!TextUtils.isEmpty(getProp(KEY_VERSION_EMUI).also { sVersion = it })) {
-            sName = ROM_EMUI
-        } else if (!TextUtils.isEmpty(getProp(KEY_VERSION_OPPO).also { sVersion = it })) {
-            sName = ROM_OPPO
-        } else if (!TextUtils.isEmpty(getProp(KEY_VERSION_VIVO).also { sVersion = it })) {
-            sName = ROM_VIVO
-        } else if (!TextUtils.isEmpty(getProp(KEY_VERSION_SMARTISAN).also { sVersion = it })) {
-            sName = ROM_SMARTISAN
-        } else {
-            sVersion = Build.DISPLAY
-            if (sVersion?.toUpperCase(Locale.getDefault())?.contains(ROM_FLYME) == true) {
-                sName = ROM_FLYME
-            } else {
-                sVersion = Build.UNKNOWN
-                sName = Build.MANUFACTURER.toUpperCase(Locale.getDefault())
-            }
-        }
-        return sName == rom
-    }
-
-    private fun getProp(name: String): String? {
-        val line: String
-        var input: BufferedReader? = null
-        try {
-            val p = Runtime.getRuntime().exec("getprop $name")
-            input = BufferedReader(InputStreamReader(p.inputStream), 1024)
-            line = input.readLine()
-            input.close()
-        } catch (ex: IOException) {
-            return null
-        } finally {
-            if (input != null) {
-                try {
-                    input.close()
-                } catch (e: IOException) {
-                    e.printStackTrace()
-                }
-            }
-        }
-        return line
-    }
-
-}
-
-///////////////////////////////////////////////////////////////////
-
-/**
- * 屏幕类型
- */
-enum class ScreenType {
-    /**
-     * 未知
-     */
-    UNKNOWN,
-
-    /**
-     * 手机
-     */
-    PHONE,
-
-    /**
-     * 小平板（7寸左右）
-     */
-    SMALL_TABLET,
-
-    /**
-     * 大平板（10寸左右）
-     */
-    BIG_TABLET
-}
-
-/**
- * 设备类型工具类
- *
- * @author javakam
- * @date 2019/3/22 10:56
- */
-object OSUtils2 {
-
-    private val PATTERN_FLYME_VERSION = Pattern.compile("(\\d+\\.){2}\\d")
-
-    //
-    const val ROM_MIUI = "miui"
-    const val ROM_EMUI = "emui"
-    const val ROM_FLYME = "flyme"
-    const val ROM_BBK = "bbk"
-    const val ROM_VIVO = "vivo"
-    const val ROM_OPPO = "oppo"
-    const val ROM_HUAWEI = "huawei"
-    const val ROM_HONOR = "honor"
-    const val ROM_SMARTISAN = "smartisan"
-    const val ROM_QIKU = "qiku"
-    const val ROM_360 = "360"
-    const val ROM_ZTEC2016 = "zte c2016"
-    const val ROM_ZUKZ1 = "zuk z1"
-
-    //
-    private const val KEY_VERSION_MIUI = "ro.miui.ui.version.name"
-    private const val KEY_VERSION_FLYME = "ro.build.display.id"
-    private const val KEY_VERSION_EMUI = "ro.build.version.emui"
-    private const val KEY_VERSION_OPPO = "ro.build.version.opporom"
-    private const val KEY_VERSION_SMARTISAN = "ro.smartisan.version"
-    private const val KEY_VERSION_VIVO = "ro.vivo.os.version"
-
-    //
+    private const val TAG = "QMUIDeviceHelper"
+    private const val KEY_MIUI_VERSION_NAME = "ro.miui.ui.version.name"
+    private const val KEY_FLYME_VERSION_NAME = "ro.build.display.id"
+    private const val FLYME = "flyme"
+    private const val ZTEC2016 = "zte c2016"
+    private const val ZUKZ1 = "zuk z1"
     private const val ESSENTIAL = "essential"
-    private val BOARD_MEIZU by lazy { arrayOf("m9", "M9", "mx", "MX") }
+    private val MEIZUBOARD = arrayOf("m9", "M9", "mx", "MX")
+    private const val POWER_PROFILE_CLASS = "com.android.internal.os.PowerProfile"
+    private const val CPU_FILE_PATH_0 = "/sys/devices/system/cpu/"
+    private const val CPU_FILE_PATH_1 = "/sys/devices/system/cpu/possible"
+    private const val CPU_FILE_PATH_2 = "/sys/devices/system/cpu/present"
+    private val CPU_FILTER =
+        FileFilter { pathname -> Pattern.matches("cpu[0-9]", pathname.name) }
 
-    //
-    private lateinit var sMiuiVersionName: String
-    private lateinit var sFlymeVersionName: String
-    private lateinit var sEmuiVersionName: String
-    private lateinit var sOppoVersionName: String
-    private lateinit var sSmartisanVersionName: String
-    private lateinit var sVivoVersionName: String
-
-    //
-    private var sScreenType = ScreenType.UNKNOWN
+    private var sMiuiVersionName: String? = null
+    private var sFlymeVersionName: String? = null
     private var sIsTabletChecked = false
-    private const val sIsTabletValue = false
-    private val BRAND: String by lazy { Build.BRAND.toLowerCase(Locale.getDefault()) }
+    private var sIsTabletValue = false
+    private val BRAND = Build.BRAND.toLowerCase(Locale.ROOT)
+    private var sTotalMemory: Long = -1
+    private var sInnerStorageSize: Long = -1
+    private var sExtraStorageSize: Long = -1
+    private var sBatteryCapacity = -1.0
+    private var sCpuCoreCount = -1
 
-    /**
-     * 检验设备屏幕的尺寸
-     * @return ScreenType
-     */
-    private fun checkScreenSize(context: Context): ScreenType {
-        val screenSize =
-            context.resources.configuration.screenLayout and Configuration.SCREENLAYOUT_SIZE_MASK
-        return if (screenSize >= Configuration.SCREENLAYOUT_SIZE_LARGE) {
-            //证明是平板
-            if (screenSize >= Configuration.SCREENLAYOUT_SIZE_XLARGE) {
-                ScreenType.BIG_TABLET
-            } else ScreenType.SMALL_TABLET
-        } else ScreenType.PHONE
+    init {
+        val properties = Properties()
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+            // android 8.0，读取 /system/uild.prop 会报 permission denied
+            var fileInputStream: FileInputStream? = null
+            try {
+                fileInputStream = FileInputStream(File(Environment.getRootDirectory(), "build.prop"))
+                properties.load(fileInputStream)
+            } catch (e: Exception) {
+                //"read file error"
+            } finally {
+                fileInputStream?.close()
+            }
+        }
+
+        var clzSystemProperties: Class<*>? = null
+        try {
+            clzSystemProperties = Class.forName("android.os.SystemProperties")
+            val getMethod = clzSystemProperties.getDeclaredMethod("get", String::class.java)
+            // miui
+            sMiuiVersionName = getLowerCaseName(properties, getMethod, KEY_MIUI_VERSION_NAME)
+            //flyme
+            sFlymeVersionName = getLowerCaseName(properties, getMethod, KEY_FLYME_VERSION_NAME)
+        } catch (e: Exception) {
+            //"read SystemProperties error"
+        }
+    }
+
+    private fun _isTablet(context: Context): Boolean {
+        return context.resources.configuration.screenLayout and Configuration.SCREENLAYOUT_SIZE_MASK >=
+                Configuration.SCREENLAYOUT_SIZE_LARGE
     }
 
     /**
-     * 判断是否平板设备
-     *
-     * @return true:平板,false:手机
+     * 判断是否为平板设备
      */
-    val screenType: ScreenType
-        get() {
-            if (sIsTabletChecked) {
-                return sScreenType
-            }
-            sScreenType = checkScreenSize(getContext())
-            sIsTabletChecked = true
-            return sScreenType
+    fun isTablet(context: Context): Boolean {
+        if (sIsTabletChecked) {
+            return sIsTabletValue
         }
+        sIsTabletValue = _isTablet(context)
+        sIsTabletChecked = true
+        return sIsTabletValue
+    }
 
     /**
-     * 是否是平板
+     * 判断是否是flyme系统
      */
-    val isTablet: Boolean
-        get() = screenType == ScreenType.SMALL_TABLET || screenType == ScreenType.BIG_TABLET
+    fun isFlyme(): Boolean {
+        return !sFlymeVersionName.isNullOrBlank() && sFlymeVersionName?.contains(FLYME) ?: false
+    }
 
     /**
      * 判断是否是MIUI系统
      */
-    val isMIUI: Boolean
-        get() = sMiuiVersionName.isNotBlank()
-    val isMIUIV5: Boolean
-        get() = "v5".equals(sMiuiVersionName, ignoreCase = true)
-    val isMIUIV6: Boolean
-        get() = "v6".equals(sMiuiVersionName, ignoreCase = true)
-    val isMIUIV7: Boolean
-        get() = "v7".equals(sMiuiVersionName, ignoreCase = true)
-    val isMIUIV8: Boolean
-        get() = "v8".equals(sMiuiVersionName, ignoreCase = true)
-    val isMIUIV9: Boolean
-        get() = "v9".equals(sMiuiVersionName, ignoreCase = true)
-    val isMIUIV10: Boolean
-        get() = "v10".equals(sMiuiVersionName, ignoreCase = true)
-    val isMIUIV11: Boolean
-        get() = "v11".equals(sMiuiVersionName, ignoreCase = true)
-    val isMIUIV12: Boolean
-        get() = "v12".equals(sMiuiVersionName, ignoreCase = true)
+    fun isMIUI(): Boolean = !sMiuiVersionName.isNullOrBlank()
 
-    //查不到默认高于5.2.4
-    val isFlymeVersionHigher5_2_4: Boolean
-        get() {
-            //查不到默认高于5.2.4
-            var isHigher = true
-            if ("" != sFlymeVersionName) {
-                val matcher = PATTERN_FLYME_VERSION.matcher(sFlymeVersionName)
+    fun isMIUIV5(): Boolean = ("v5" == sMiuiVersionName)
+
+    fun isMIUIV6(): Boolean = ("v6" == sMiuiVersionName)
+
+    fun isMIUIV7(): Boolean = ("v7" == sMiuiVersionName)
+
+    fun isMIUIV8(): Boolean = ("v8" == sMiuiVersionName)
+
+    fun isMIUIV9(): Boolean = ("v9" == sMiuiVersionName)
+
+    fun isFlymeLowerThan(majorVersion: Int): Boolean {
+        return isFlymeLowerThan(majorVersion, 0, 0)
+    }
+
+    fun isFlymeLowerThan(majorVersion: Int, minorVersion: Int, patchVersion: Int): Boolean {
+        var isLower = false
+        if (!sFlymeVersionName.isNullOrBlank()) {
+            try {
+                val pattern = Pattern.compile("(\\d+\\.){2}\\d")
+
+                @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
+                val matcher: Matcher = pattern.matcher(sFlymeVersionName)
                 if (matcher.find()) {
-                    val versionString = matcher.group()
-                    if (!TextUtils.isEmpty(versionString) && "" != versionString) {
-                        val version = versionString.split("\\.").toTypedArray()
-                        if (version.size == 3) {
-                            if (version[0].toInt() < 5) {
-                                isHigher = false
-                            } else if (version[0].toInt() > 5) {
-                                isHigher = true
-                            } else {
-                                if (version[1].toInt() < 2) {
-                                    isHigher = false
-                                } else if (version[1].toInt() > 2) {
-                                    isHigher = true
-                                } else {
-                                    if (version[2].toInt() < 4) {
-                                        isHigher = false
-                                    } else if (version[2].toInt() >= 5) {
-                                        isHigher = true
-                                    }
-                                }
+                    val versionString: String = matcher.group()
+                    if (versionString.isNotEmpty()) {
+                        val version = versionString.split("\\.".toRegex()).toTypedArray()
+                        if (version.isNotEmpty()) {
+                            if (version[0].toInt() < majorVersion) {
+                                isLower = true
+                            }
+                        }
+                        if (version.size >= 2 && minorVersion > 0) {
+                            if (version[1].toInt() < majorVersion) {
+                                isLower = true
+                            }
+                        }
+                        if (version.size >= 3 && patchVersion > 0) {
+                            if (version[2].toInt() < majorVersion) {
+                                isLower = true
                             }
                         }
                     }
                 }
+            } catch (ignore: Throwable) {
             }
-            return isMeizu && isHigher
         }
-
-    /**
-     * 判断是否是 flyme 系统
-     */
-    val isFlyme: Boolean
-        get() = !TextUtils.isEmpty(sFlymeVersionName) && sFlymeVersionName.contains(ROM_FLYME)
-
-    //两种方式有待验证...
-    //Log.e("123",!TextUtils.isEmpty(sSmartisanVersionName) && sSmartisanVersionName.contains(ROM_SMARTISAN));
-    val isSmartisan: Boolean
-        get() = BRAND.contains(ROM_SMARTISAN)
-
-    fun is360(): Boolean {
-        return BRAND.contains(ROM_QIKU) || BRAND.contains(ROM_360)
+        return isMeizu() && isLower
     }
 
-    val isMeizu: Boolean
-        get() = isPhone(BOARD_MEIZU) || isFlyme
+
+    fun isMeizu(): Boolean = (isPhone(MEIZUBOARD) || isFlyme())
 
     /**
      * 判断是否为小米
+     *
      * https://dev.mi.com/doc/?p=254
      */
-    val isXiaomi: Boolean
-        get() = "xiaomi" == Build.MANUFACTURER.toLowerCase(Locale.getDefault())
-    val isVivo: Boolean
-        get() = BRAND.contains(ROM_VIVO) || BRAND.contains(ROM_BBK)
-    val isOppo: Boolean
-        get() = BRAND.contains(ROM_OPPO)
-    val isHuawei: Boolean
-        get() = BRAND.contains(ROM_HUAWEI) || BRAND.contains(ROM_HONOR)
-    val isEssentialPhone: Boolean
-        get() = BRAND.contains(ESSENTIAL)
+    fun isXiaomi(): Boolean = (Build.MANUFACTURER.toLowerCase(Locale.getDefault()) == "xiaomi")
+
+    fun isVivo(): Boolean {
+        return BRAND.contains("vivo") || BRAND.contains("bbk")
+    }
+
+    fun isOppo(): Boolean {
+        return BRAND.contains("oppo")
+    }
+
+    fun isHuawei(): Boolean {
+        return BRAND.contains("huawei") || BRAND.contains("honor")
+    }
+
+    fun isEssentialPhone(): Boolean {
+        return BRAND.contains("essential")
+    }
 
     /**
      * 判断是否为 ZUK Z1 和 ZTK C2016。
      * 两台设备的系统虽然为 android 6.0，但不支持状态栏icon颜色改变，因此经常需要对它们进行额外判断。
      */
-    val isZUKZ1: Boolean
-        get() {
-            val board = Build.MODEL
-            return board != null && board.toLowerCase(Locale.getDefault()).contains(ROM_ZUKZ1)
-        }
+    fun isZUKZ1(): Boolean {
+        val board = Build.MODEL
+        return board != null && board.toLowerCase(Locale.getDefault()).contains(ZUKZ1)
+    }
 
-    val isZTKC2016: Boolean
-        get() {
-            val board = Build.MODEL
-            return board != null && board.toLowerCase(Locale.getDefault()).contains(ROM_ZTEC2016)
-        }
+    fun isZTKC2016(): Boolean {
+        val board = Build.MODEL
+        return board != null && board.toLowerCase(Locale.getDefault()).contains(ZTEC2016)
+    }
 
     private fun isPhone(boards: Array<String>): Boolean {
         val board = Build.BOARD ?: return false
@@ -336,50 +205,140 @@ object OSUtils2 {
         return false
     }
 
-    /**
-     * 判断悬浮窗权限（目前主要用户魅族与小米的检测）
-     */
-    fun isFloatWindowOpAllowed(context: Context): Boolean {
-        val version = Build.VERSION.SDK_INT
-        return if (version >= Build.VERSION_CODES.KITKAT) {
-            checkOp(context, 24) // 24 是 AppOpsManager.OP_SYSTEM_ALERT_WINDOW 的值，该值无法直接访问
-        } else {
-            try {
-                context.applicationInfo.flags and 1 shl 27 == 1 shl 27
-            } catch (e: Exception) {
-                e.printStackTrace()
-                false
+    fun getTotalMemory(context: Context): Long {
+        if (sTotalMemory != -1L) {
+            return sTotalMemory
+        }
+        val memoryInfo = ActivityManager.MemoryInfo()
+        val activityManager = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+        activityManager.getMemoryInfo(memoryInfo)
+        sTotalMemory = memoryInfo.totalMem
+        return sTotalMemory
+    }
+
+    fun getInnerStorageSize(): Long {
+        if (sInnerStorageSize != -1L) {
+            return sInnerStorageSize
+        }
+        val dataDir = Environment.getDataDirectory() ?: return 0
+        sInnerStorageSize = dataDir.totalSpace
+        return sInnerStorageSize
+    }
+
+    fun hasExtraStorage(): Boolean {
+        return Environment.MEDIA_MOUNTED == Environment.getExternalStorageState()
+    }
+
+    fun getExtraStorageSize(): Long {
+        if (sExtraStorageSize != -1L) {
+            return sExtraStorageSize
+        }
+        if (!hasExtraStorage()) {
+            return 0
+        }
+        val path = Environment.getExternalStorageDirectory()
+        val stat = StatFs(path.path)
+        val blockSize = stat.blockSizeLong
+        val availableBlocks = stat.blockCountLong
+        sExtraStorageSize = blockSize * availableBlocks
+        return sExtraStorageSize
+    }
+
+    fun getTotalStorageSize(): Long {
+        return getInnerStorageSize() + getExtraStorageSize()
+    }
+
+    // From Matrix
+    fun getCpuCoreCount(): Int {
+        if (sCpuCoreCount != -1) {
+            return sCpuCoreCount
+        }
+        var cores: Int
+        try {
+            cores = getCoresFromFile(CPU_FILE_PATH_1)
+            if (cores == 0) {
+                cores = getCoresFromFile(CPU_FILE_PATH_2)
             }
+            if (cores == 0) {
+                cores = getCoresFromCPUFiles(CPU_FILE_PATH_0)
+            }
+        } catch (e: Exception) {
+            cores = 0
+        }
+        if (cores == 0) {
+            cores = 1
+        }
+        sCpuCoreCount = cores
+        return cores
+    }
+
+    private fun getCoresFromCPUFiles(path: String): Int {
+        val list = File(path).listFiles(CPU_FILTER)
+        return list?.size ?: 0
+    }
+
+    private fun getCoresFromFile(file: String): Int {
+        var ins: InputStream? = null
+        return try {
+            ins = FileInputStream(file)
+            val buf = BufferedReader(InputStreamReader(ins, StandardCharsets.UTF_8))
+            val fileContents = buf.readLine()
+            buf.close()
+            if (fileContents == null || !fileContents.matches(Regex("0-[\\d]+$"))) {
+                return 0
+            }
+            val num = fileContents.substring(2)
+            num.toInt() + 1
+        } catch (e: IOException) {
+            0
+        } finally {
+            ins?.close()
         }
     }
 
-    @TargetApi(Build.VERSION_CODES.KITKAT)
-    private fun checkOp(context: Context, op: Int): Boolean {
+    /**
+     * 判断悬浮窗权限（目前主要用户魅族与小米的检测）。
+     */
+    fun isFloatWindowOpAllowed(context: Context): Boolean {
         val version = Build.VERSION.SDK_INT
-        if (version >= Build.VERSION_CODES.KITKAT) {
-            val manager = context.getSystemService(Context.APP_OPS_SERVICE) as AppOpsManager
-            try {
-                val method = manager.javaClass.getDeclaredMethod(
-                    "checkOp",
-                    Int::class.javaPrimitiveType,
-                    Int::class.javaPrimitiveType,
-                    String::class.java
-                )
-                val property = method.invoke(
-                    manager,
-                    op,
-                    Binder.getCallingUid(),
-                    context.packageName
-                ) as Int
-                return AppOpsManager.MODE_ALLOWED == property
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
+        return checkOp(context, 24) // 24 是AppOpsManager.OP_SYSTEM_ALERT_WINDOW 的值，该值无法直接访问
+    }
+
+    @SuppressLint("PrivateApi")
+    fun getBatteryCapacity(context: Context?): Double {
+        if (sBatteryCapacity != -1.0) {
+            return sBatteryCapacity
+        }
+        val ret: Double = try {
+            val cls = Class.forName(POWER_PROFILE_CLASS)
+            val instance = cls.getConstructor(Context::class.java).newInstance(context)
+            val method = cls.getMethod("getBatteryCapacity")
+            method.invoke(instance) as Double
+        } catch (ignore: Exception) {
+            -1.0
+        }
+        sBatteryCapacity = ret
+        return sBatteryCapacity
+    }
+
+    private fun checkOp(context: Context, op: Int): Boolean {
+        val manager = context.getSystemService(Context.APP_OPS_SERVICE) as AppOpsManager
+        try {
+            val method = manager.javaClass.getDeclaredMethod(
+                "checkOp",
+                Int::class.javaPrimitiveType,
+                Int::class.javaPrimitiveType,
+                String::class.java
+            )
+            val property = method.invoke(manager, op, Binder.getCallingUid(), context.packageName) as Int
+            return AppOpsManager.MODE_ALLOWED == property
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
         return false
     }
 
-    private fun getLowerCaseName(p: Properties, get: Method, key: String): String {
+    private fun getLowerCaseName(p: Properties, get: Method, key: String): String? {
         var name = p.getProperty(key)
         if (name == null) {
             try {
@@ -387,72 +346,8 @@ object OSUtils2 {
             } catch (ignored: Exception) {
             }
         }
-        if (name != null) {
-            name = name.toLowerCase(Locale.getDefault())
-        }
-        return name ?: ""
-    }
-
-    init {
-        val properties = Properties()
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-            // android 8.0，读取 /system/build.prop 会报 permission denied
-            var fis: FileInputStream? = null
-            try {
-                fis = FileInputStream(File(Environment.getRootDirectory(), "build.prop"))
-                properties.load(fis)
-            } catch (e: Exception) {
-                e.printStackTrace()
-            } finally {
-                fis?.close()
-            }
-        }
-        val clzSystemProperties: Class<*>?
-        try {
-            clzSystemProperties = Class.forName("android.os.SystemProperties")
-            val getMethod: Method = clzSystemProperties.getDeclaredMethod(
-                "get",
-                String::class.java
-            )
-            // miui
-            sMiuiVersionName = getLowerCaseName(
-                properties,
-                getMethod,
-                KEY_VERSION_MIUI
-            )
-            //flyme
-            sFlymeVersionName = getLowerCaseName(
-                properties,
-                getMethod,
-                KEY_VERSION_FLYME
-            )
-            //emui
-            sEmuiVersionName = getLowerCaseName(
-                properties,
-                getMethod,
-                KEY_VERSION_EMUI
-            )
-            //oppo
-            sOppoVersionName = getLowerCaseName(
-                properties,
-                getMethod,
-                KEY_VERSION_OPPO
-            )
-            //smartisan
-            sSmartisanVersionName = getLowerCaseName(
-                properties,
-                getMethod,
-                KEY_VERSION_SMARTISAN
-            )
-            //vivo
-            sVivoVersionName = getLowerCaseName(
-                properties,
-                getMethod,
-                KEY_VERSION_VIVO
-            )
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
+        if (name != null) name = name.toLowerCase(Locale.getDefault())
+        return name
     }
 
 }

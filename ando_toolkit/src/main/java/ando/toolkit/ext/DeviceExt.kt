@@ -1,17 +1,16 @@
 package ando.toolkit.ext
 
+import ando.toolkit.log.L
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.PackageManager
+import android.content.res.Resources
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.util.DisplayMetrics
 import android.view.View
 import android.view.WindowManager
 import androidx.fragment.app.Fragment
-import ando.toolkit.log.L
-import android.app.Activity
-import android.content.res.Resources
-import android.graphics.Rect
 
 /**
  * Title: 扩展函数 - 设备信息
@@ -194,7 +193,7 @@ object DeviceUtils {
     }
 
     /**
-     * 获取状态栏高度高度  the height of status bar
+     * 获取状态栏高度  the height of status bar
      */
     fun getStatusBarHeight(): Int {
         val res = Resources.getSystem()
@@ -203,11 +202,37 @@ object DeviceUtils {
     }
 
     /**
-     * 获取系统状态栏高度  todo 2020年9月30日 14:56:48 测试
+     * 底部导航条是否开启
+     *
+     * @return 底部导航条是否显示
      */
-    fun getStatusBarHeightDecor(activity: Activity): Int {
-        val localRect = Rect()
-        activity.window.decorView.getWindowVisibleDisplayFrame(localRect)
-        return localRect.top
+    fun isNavigationBarExist(): Boolean {
+        return getNavBarHeight() > 0
+    }
+
+    /**
+     * 检测是否有虚拟导航栏
+     */
+    fun checkDeviceHasNavigationBar(context: Context): Boolean {
+        var hasNavigationBar = false
+        val rs = context.resources
+        val id = rs.getIdentifier("config_showNavigationBar", "bool", "android")
+        if (id > 0) {
+            hasNavigationBar = rs.getBoolean(id)
+        }
+        try {
+            @SuppressLint("PrivateApi")
+            val systemPropertiesClass = Class.forName("android.os.SystemProperties")
+            val m = systemPropertiesClass.getMethod("get", String::class.java)
+            val navBarOverride = m.invoke(systemPropertiesClass, "qemu.hw.mainkeys") as String
+            if ("1" == navBarOverride) {
+                hasNavigationBar = false
+            } else if ("0" == navBarOverride) {
+                hasNavigationBar = true
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return hasNavigationBar
     }
 }
