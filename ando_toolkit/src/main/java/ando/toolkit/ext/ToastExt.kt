@@ -9,9 +9,7 @@ import androidx.fragment.app.Fragment
 import ando.toolkit.AppUtils.getContext
 
 /**
- * Title: ToastExt
- *
- * Description:
+ * # ToastExt
  *
  * @author javakam
  * @date 2019/1/19

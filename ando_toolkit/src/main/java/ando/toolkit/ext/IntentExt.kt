@@ -1,97 +1,21 @@
 package ando.toolkit.ext
 
 import android.annotation.SuppressLint
-import android.app.Activity
-import android.app.Service
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.os.Bundle
 import androidx.annotation.RequiresPermission
 import androidx.fragment.app.Fragment
 
 /**
- * Title: 扩展函数 - Intent
- * <p>
- * Description:
- * </p>
+ * # Intent
+ *
  * @author javakam
  * @date 2020/9/29  15:00
  */
 
-inline fun <reified T : Context> Context.createIntent(extras: Bundle? = null): Intent {
-    val intent = Intent(this, T::class.java)
-    extras?.let {
-        intent.putExtras(it)
-    }
-    return intent
-}
-
-
-/**
- * Activity startActivity extensions
- */
-
-/**
- * @param extras
- */
-inline fun <reified T : Activity> Activity.startActivity(extras: Bundle? = null) {
-    startActivity(createIntent<T>(extras))
-}
-
-/**
- * @param extras Nullable
- * @param requestCode
- */
-inline fun <reified T : Activity> Activity.startActivityForResult(
-    extras: Bundle? = null,
-    requestCode: Int
-) {
-    startActivityForResult(createIntent<T>(extras), requestCode)
-}
-
-/**
- * Service startActivity extensions
- */
-
-/**
- * @param extras Nullable
- */
-inline fun <reified T : Service> Service.startActivity(extras: Bundle? = null) {
-    startActivity(createIntent<T>(extras))
-}
-
-/**
- * Fragment startActivity extensions
- */
-
-/**
- * @param extras Nullable
- */
-inline fun <reified T : Activity> Fragment.startActivity(extras: Bundle? = null) {
-    startActivity(activity?.createIntent<T>(extras))
-}
-
-/**
- * @param extras
- * @param requestCode
- */
-inline fun <reified T : Activity> Fragment.startActivityForResult(
-    extras: Bundle? = null,
-    requestCode: Int
-) {
-    startActivityForResult(activity?.createIntent<T>(extras), requestCode)
-}
-
-/**
- * Context startService extensions
- */
-inline fun <reified T : Service> Context.startService(extras: Bundle? = null) {
-    startService(createIntent<T>(extras))
-}
-
-/* ---------- from anko ---------- */
+/* ---------- From Anko ---------- */
 
 /**
  *  send sms

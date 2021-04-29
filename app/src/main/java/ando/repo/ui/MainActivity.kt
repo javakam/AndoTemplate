@@ -52,6 +52,11 @@ class MainActivity : AppCompatActivity() {
         click(R.id.bt_widget_bottom_sheet) {
         }
 
+        //String Expand
+        click(R.id.bt_widget_string_expand) {
+            AppRouter.toStringExpand(this)
+        }
+
     }
 
 }

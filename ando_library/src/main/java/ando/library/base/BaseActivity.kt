@@ -85,6 +85,7 @@ abstract class BaseActivity : AppCompatActivity() {
         if (resources != null && resources.configuration.fontScale != 1.0f) {
             val configuration = resources.configuration
             configuration.fontScale = 1.0f
+            @Suppress("DEPRECATION")
             resources.updateConfiguration(configuration, resources.displayMetrics)
         }
         return resources

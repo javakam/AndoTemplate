@@ -10,6 +10,7 @@ import ando.repo.ui.indicator.IndicatorActivity
 import ando.repo.ui.indicator.IndicatorViewPagerActivity
 import ando.repo.ui.indicator.IndicatorViewPagerNoActivity
 import ando.repo.ui.recycler.RecyclerActivity
+import ando.repo.ui.string.StringExpandActivity
 import android.app.Activity
 import android.content.Intent
 
@@ -67,5 +68,9 @@ object AppRouter {
 
     fun toWidgetDrag(activity: Activity) {
         activity.startActivity(Intent(activity, DragActivity::class.java))
+    }
+
+    fun toStringExpand(activity: Activity) {
+        activity.startActivity(Intent(activity, StringExpandActivity::class.java))
     }
 }

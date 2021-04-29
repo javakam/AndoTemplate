@@ -2,6 +2,7 @@ package ando.toolkit.ext
 
 import android.content.ClipboardManager
 import android.content.Context
+import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 
 /**
@@ -14,6 +15,9 @@ inline val Context.vibrator: android.os.Vibrator
 
 inline val Context.layoutInflater: android.view.LayoutInflater
     get() = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as android.view.LayoutInflater
+
+inline val Context.windowManager: WindowManager
+    get() = getSystemService(Context.WINDOW_SERVICE) as WindowManager
 
 inline val Context.inputMethodManager: InputMethodManager
     get() = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager

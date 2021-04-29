@@ -54,7 +54,6 @@ object ProcessUtils {
 
     private fun getCurrentProcessNameByAms(context: Context): String {
         val am = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
-            ?: return ""
         val info = am.runningAppProcesses
         if (info == null || info.size == 0) {
             return ""

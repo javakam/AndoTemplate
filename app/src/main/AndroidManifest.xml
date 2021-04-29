@@ -83,18 +83,17 @@
             android:configChanges="uiMode|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize"
             android:screenOrientation="portrait" />
         <activity android:name=".ui.recycler.activity.VerticalLinearActivity" />
-        <activity android:name=".ui.recycler.activity.VerticalSectionLinearActivity" />
         <activity android:name=".ui.recycler.activity.HorizontalLinearActivity" />
-        <activity android:name=".ui.recycler.activity.HorizontalSectionLinearActivity" />
         <activity android:name=".ui.recycler.activity.VerticalGridActivity" />
-        <activity android:name=".ui.recycler.activity.VerticalSectionGridActivity" />
         <activity android:name=".ui.recycler.activity.HorizontalGridActivity" />
-        <activity android:name=".ui.recycler.activity.HorizontalSectionGridActivity" />
         <activity android:name=".ui.recycler.activity.VerticalStaggeredGridActivity" />
         <activity android:name=".ui.recycler.activity.HorizontalStaggeredGridActivity" />
         <activity
             android:name=".ui.DragActivity"
             android:configChanges="uiMode|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.string.StringExpandActivity"
             android:screenOrientation="portrait" />
 
     </application>

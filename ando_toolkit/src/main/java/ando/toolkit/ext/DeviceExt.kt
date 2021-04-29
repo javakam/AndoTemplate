@@ -13,10 +13,8 @@ import android.view.WindowManager
 import androidx.fragment.app.Fragment
 
 /**
- * Title: 扩展函数 - 设备信息
- * <p>
- * Description:
- * </p>
+ * # 设备信息
+ *
  * @author javakam
  * @date 2020/9/29  16:56
  */
@@ -85,6 +83,7 @@ val Context.screenRelatedInformation: String
     get() {
         val windowManager = getSystemService(Context.WINDOW_SERVICE) as WindowManager
         val outMetrics = DisplayMetrics()
+        @Suppress("DEPRECATION")
         windowManager.defaultDisplay.getMetrics(outMetrics)
         val widthPixels = outMetrics.widthPixels
         val heightPixels = outMetrics.heightPixels

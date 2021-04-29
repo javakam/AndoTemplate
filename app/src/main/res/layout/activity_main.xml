@@ -76,6 +76,14 @@
             android:text="BottomSheet 分享弹窗"
             android:textAllCaps="false" />
 
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/bt_widget_string_expand"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical|start"
+            android:text="String 扩展"
+            android:textAllCaps="false" />
+
     </LinearLayout>
 
 </androidx.core.widget.NestedScrollView>

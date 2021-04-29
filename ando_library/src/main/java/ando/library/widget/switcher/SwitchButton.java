@@ -215,7 +215,7 @@ public class SwitchButton extends CompoundButton {
         typedArray = attrs == null ? null : getContext().obtainStyledAttributes(attrs, new int[]{android.R.attr.focusable, android.R.attr.clickable});
         if (typedArray != null) {
             boolean focusable = typedArray.getBoolean(0, true);
-            boolean clickable = typedArray.getBoolean(1, focusable);
+            boolean clickable = typedArray.getBoolean(0, focusable);
             setFocusable(focusable);
             setClickable(clickable);
             typedArray.recycle();

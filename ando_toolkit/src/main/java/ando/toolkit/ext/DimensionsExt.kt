@@ -1,18 +1,13 @@
 package ando.toolkit.ext
 
-import android.app.Activity
 import android.content.Context
-import android.content.res.Resources
-import android.graphics.Rect
 import android.view.View
 import androidx.annotation.DimenRes
 import androidx.fragment.app.Fragment
 
 /**
- * Title: 扩展函数 - 尺寸转换
- * <p>
- * Description:
- * </p>
+ * # 尺寸
+ *
  * @author javakam
  * @date 2020/9/29  14:53
  */

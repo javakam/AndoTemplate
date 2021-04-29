@@ -1,11 +1,8 @@
 package ando.toolkit.ext
 
 import android.os.Build
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.View
 import android.view.ViewTreeObserver
-import android.widget.EditText
 import android.widget.TextView
 import androidx.core.view.isVisible
 import ando.toolkit.NoShakeClickListener
@@ -31,21 +28,6 @@ inline fun <T : View> T.afterMeasured(crossinline globalAction: T.() -> Unit) {
                 globalAction()
             }
         }
-    })
-}
-
-/**
- * Extension function to simplify setting an afterTextChanged action to EditText components.
- */
-fun EditText.afterTextChanged(afterTextChanged: (String) -> Unit) {
-    this.addTextChangedListener(object : TextWatcher {
-        override fun afterTextChanged(editable: Editable) {
-            afterTextChanged.invoke(editable.toString())
-        }
-
-        override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-
-        override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
     })
 }
 
