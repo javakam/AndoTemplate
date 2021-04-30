@@ -1,8 +1,10 @@
 package ando.toolkit
 
 import android.text.*
+import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.text.style.ForegroundColorSpan
+import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.annotation.ColorInt
@@ -10,38 +12,50 @@ import androidx.annotation.ColorInt
 /**
  * # StringExpandUtils
  *
- * Description:
- *      StaticLayout 源码分析 https://jaeger.itscoder.com/android/2016/08/05/staticlayout-source-analyse.html
- *      Android TextView实现查看全部和收起功能 https://www.jianshu.com/p/838d407e0df0
+ * - StaticLayout 源码分析 https://jaeger.itscoder.com/android/2016/08/05/staticlayout-source-analyse.html
  *
- * @author Changbao
+ * - Android TextView实现展开和收起功能 https://www.jianshu.com/p/838d407e0df0
+ *
+ * @author javakam
  * @date 2020/5/10  11:06
  */
 object StringExpandUtils {
 
+    interface OnClickListener {
+        fun onSpanClick(foldString: SpannableString, expandString: SpannableString, foldHeight: Int)
+        fun onViewClick(v: View)
+    }
+
     /**
      * Array<SpannableString> 第一个元素 notExpandString展开的内容  ; 第二个元素 expandString收起的内容
      *
-     * endText "...[ 详情 ]"   "...查看全部"
+     * endText "...[ 详情 ]"   "...展开"
      *
      * expandHeight 计算得出 ContentView 最后展开的高度
      */
     fun obtain(
-        tv: TextView, maxLine: Int, content: String,
-        upText: String?, endText: String, @ColorInt endTextColor: Int, endTextBoundWithColor: Int,
-        callBack: ((foldString: SpannableString, expandString: SpannableString, foldHeight: Int) -> Unit)? = null
+        tv: TextView,
+        maxLine: Int,
+        content: String,
+        upText: String?,
+        @ColorInt upTextColor: Int,
+        endText: String?,
+        @ColorInt endTextColor: Int,
+        endTextColorBound: Int,
+        isDebug: Boolean = false,
+        listener: OnClickListener? = null
     ) {
-        if (content.isBlank() || endText.isBlank()) {
+        if (content.isBlank() || endText.isNullOrBlank()) {
             return
         }
         //获取TextView的画笔对象
         val paint = tv.paint
-        //每行文本的布局宽度
-//      val width = context.resources.displayMetrics.widthPixels - (40F * tv.context.resources.displayMetrics.density + 0.5f).toInt()
+        //endText 宽度测量 https://juejin.cn/post/6956801334930571294/
         val width: Int = tv.context.resources.displayMetrics.run {
-            this.widthPixels - (Layout.getDesiredWidth(endText, paint) * this.density + 0.5f).toInt()
+            // (40F * tv.context.resources.displayMetrics.density + 0.5f).toInt()
+            this.widthPixels - Layout.getDesiredWidth(endText, paint).toInt()
         }
-        //实例化StaticLayout 传入相应参数
+
         val staticLayout: StaticLayout = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
             StaticLayout.Builder.obtain(content, 0, content.length, paint, width)
                 .setAlignment(Layout.Alignment.ALIGN_NORMAL)
@@ -61,63 +75,75 @@ object StringExpandUtils {
             )
         }
 
-        //判断content是行数是否超过最大限制行数3行
+        val realEndTextColorBound = if (endTextColorBound > 0) endTextColorBound else endText.length
+
+        //判断 content 是行数是否超过最大限制行数 maxLine 行
+        if (isDebug) {
+            Log.i("StringExpand", "staticLayout.lineCount = ${staticLayout.lineCount} maxLine = $maxLine \n")
+        }
         if (staticLayout.lineCount > maxLine) {
-            //定义展开后的文本内容
-            val expandString = if (upText.isNullOrBlank()) {
-                SpannableString("")
-            } else {
-                val upString = "$content  $upText"
-                //"收起" 设成蓝色
+            //"收起" 后文本内容
+            val upString = "$content$upText"
+            val expandString: SpannableString = if (!upText.isNullOrBlank()) {
                 SpannableString(upString).apply {
                     setSpan(
-                        ForegroundColorSpan(endTextColor),
-                        content.length,
-                        upString.length,
+                        ForegroundColorSpan(upTextColor), content.length, upString.length,
                         Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
                     )
                 }
+            } else SpannableString("")
+
+            //"展开"
+            //获取第 maxLine 行最后一个文字的下标
+            val index = staticLayout.getLineStart(maxLine) - 1
+            val substring = content.substring(0, index - endText.length) + endText
+            val foldString = SpannableString(substring).apply {
+                setSpan(
+                    ForegroundColorSpan(endTextColor), substring.length - realEndTextColorBound, substring.length,
+                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                )
+            }
+            if (isDebug) {
+                Log.i(
+                    "StringExpand",
+                    "getLineStart=${staticLayout.getLineStart(maxLine)} " +
+                            "getLineEnd=${staticLayout.getLineEnd(maxLine)} " +
+                            "index = $index \n\n" +
+                            "$content \n\n  $substring \n\n  $upString"
+                )
             }
 
-            //获取到 maxLine 最后一个文字的下标
-            val index = staticLayout.getLineStart(maxLine) - 1
-            //"查看全部"
-            //String substring = content.substring(0, index - 5) + "..." + "查看全部";
-            val substring = content.substring(0, index - endText.length) + endText
-            val foldString = SpannableString(substring)
-
-            //https://www.jianshu.com/p/71ae03df679d
-            var clickHandled = false
+            //设置监听
             val clickableSpan: ClickableSpan = object : ClickableSpan() {
                 override fun onClick(widget: View?) {
-                    clickHandled = true // 标记为已处理
-
-                    //计算得出 ContentView 最后展开的高度
+                    //计算出"展开/收起"后的高度
                     val foldHeight = staticLayout.height + tv.paddingTop + tv.paddingBottom
-                    callBack?.invoke(foldString, expandString, foldHeight)
+                    listener?.onSpanClick(foldString, expandString, foldHeight)
+                }
+
+                override fun updateDrawState(ds: TextPaint?) {
+                    //super.updateDrawState(ds)
+                    //ds?.color = ds?.linkColor //解决 ClickableSpan 和 ForegroundColorSpan 颜色冲突问题
+                    ds?.isUnderlineText = false //去掉下划线
                 }
             }
+            //"展开"监听
             foldString.setSpan(
-                clickableSpan, substring.length - endTextBoundWithColor,
-                substring.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+                clickableSpan, substring.length - realEndTextColorBound, substring.length,
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
             )
+            //"收起"监听
+            if (!upText.isNullOrBlank()) {
+                expandString.setSpan(clickableSpan, content.length, upString.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+            }
+            //使 ClickableSpan 生效
+            tv.movementMethod = LinkMovementMethod.getInstance()
 
-            //给"查看全部"设成蓝色
-            foldString.setSpan(
-                ForegroundColorSpan(endTextColor), substring.length - endTextBoundWithColor,
-                substring.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-            )
             //设置收起后的文本内容
             tv.text = foldString
             tv.setOnClickListener(object : SimpleNoShakeListener() {
                 override fun onSingleClick(v: View) {
-                    if (clickHandled) { // 若已处理则直接返回
-                        clickHandled = false
-                        return
-                    }
-                    //计算得出 ContentView 最后展开的高度
-                    val foldHeight = staticLayout.height + tv.paddingTop + tv.paddingBottom
-                    callBack?.invoke(foldString, expandString, foldHeight)
+                    listener?.onViewClick(v)
                 }
             })
 

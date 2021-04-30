@@ -47,7 +47,7 @@ class SpanUtils {
     @kotlin.annotation.Retention(AnnotationRetention.SOURCE)
     annotation class Align
 
-    private var mText: CharSequence
+    private var mText: CharSequence = ""
     private var flag = 0
     private var foregroundColor = 0
     private var backgroundColor = 0
@@ -1610,7 +1610,6 @@ class SpanUtils {
     }
 
     init {
-        mText = ""
         setDefault()
     }
 }
