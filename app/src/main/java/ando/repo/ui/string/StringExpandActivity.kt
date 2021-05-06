@@ -1,17 +1,19 @@
 package ando.repo.ui.string
 
 import ando.repo.R
+import ando.toolkit.ExpandableTextViewUtils
 import ando.toolkit.StringExpandUtils
 import ando.toolkit.ext.toastShort
 import android.graphics.Color
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.SpannableString
 import android.util.Log
 import android.view.View
 import android.view.animation.Animation
-import android.widget.RelativeLayout
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import com.scwang.smart.refresh.layout.util.SmartUtil.dp2px
+
 
 class StringExpandActivity : AppCompatActivity() {
 
@@ -22,10 +24,13 @@ class StringExpandActivity : AppCompatActivity() {
         sample1()  //字符串后面直接拼接
         sample2()  //展开/收起 & 无动画
         sample3()  //展开/收起 & 动画
+        sample4()  //ExpandableTextView
     }
 
+    /**
+     * 字符串后面直接拼接
+     */
     private fun sample1() {
-        val strPrefix = "《字符串后面直接拼接》 "
         val tvNoExpand: TextView = findViewById(R.id.tv_string_expand_no_expand)
 
         val upTextColor = Color.RED
@@ -34,7 +39,7 @@ class StringExpandActivity : AppCompatActivity() {
             .obtain(
                 tvNoExpand,
                 4,
-                strPrefix + strContent,
+                strContent,
                 "",
                 upTextColor,
                 "...查看全部",
@@ -54,8 +59,10 @@ class StringExpandActivity : AppCompatActivity() {
                 })
     }
 
+    /**
+     * 展开/收起 & 无动画
+     */
     private fun sample2() {
-        val strPrefix = "《展开/收起 & 无动画》 "
         val tvNoAnimation: TextView = findViewById(R.id.tv_string_expand_no_animation)
 
         val upTextColor = Color.RED
@@ -64,7 +71,7 @@ class StringExpandActivity : AppCompatActivity() {
             .obtain(
                 tvNoAnimation,
                 3,
-                strPrefix + strContent,
+                strContent,
                 "...收起",
                 upTextColor,
                 " ...查看全部",
@@ -99,12 +106,11 @@ class StringExpandActivity : AppCompatActivity() {
     private var lastClickTime = 0L
     private val MIN_CLICK_DELAY_TIME = 500L
 
+    /**
+     * 展开/收起 & 动画
+     */
     private fun sample3() {
-        val strPrefix = "《展开/收起 & 动画》 "
-
-        val contentView: RelativeLayout = findViewById(R.id.rl_string_expand)
         val tv: TextView = findViewById(R.id.tv_string_expand)
-
         var expandHeight = 0
 
         val upTextColor = Color.RED
@@ -113,13 +119,13 @@ class StringExpandActivity : AppCompatActivity() {
             .obtain(
                 tv,
                 4,
-                strPrefix + strContent,
+                strContent,
                 "...收起",
                 upTextColor,
                 "...查看全部",
                 endTextColor,
-                1,
-                false,
+                3,
+                true,
                 object : StringExpandUtils.OnClickListener {
                     override fun onSpanClick(
                         foldString: SpannableString,
@@ -132,18 +138,21 @@ class StringExpandActivity : AppCompatActivity() {
                         lastClickTime = currentTime
                         if (isFastClick) return
 
+                        Log.e("123", "${tv.isSelected}  $expandHeight  ${tv.height}")
+
                         val animation: ExpandCollapseAnimation?
                         if (tv.isSelected) {
-                            //收起的状态
+                            //收起 -> 展开
                             //因为现在是收起的状态，所以可以得到 contentView 开始执行动画的高度
                             expandHeight = tv.height
-                            animation = ExpandCollapseAnimation(contentView, expandHeight, foldHeight)
+
+                            animation = ExpandCollapseAnimation(tv, expandHeight, foldHeight)
                             animation.fillAfter = true
                             animation.setAnimationListener(object : Animation.AnimationListener {
                                 override fun onAnimationStart(animation: Animation?) {
-                                    //将 contentView 高度设置为 textview 的高度，以此让textview是一行一行的展示
-                                    contentView.layoutParams.height = expandHeight
-                                    contentView.requestLayout()
+                                    //将 tv 高度设置为 textview 的高度，以此让textview是一行一行的展示
+                                    tv.layoutParams.height = expandHeight
+                                    tv.requestLayout()
                                     tv.text = expandString
                                     tv.isSelected = false
                                 }
@@ -152,13 +161,15 @@ class StringExpandActivity : AppCompatActivity() {
                                 override fun onAnimationRepeat(animation: Animation?) {}
                             })
                         } else {
-                            //展开
-                            animation = ExpandCollapseAnimation(contentView, foldHeight, expandHeight)
+                            //展开 -> 收起
+                            animation = ExpandCollapseAnimation(tv, foldHeight, expandHeight)
                             animation.fillAfter = true
                             animation.setAnimationListener(object : Animation.AnimationListener {
                                 override fun onAnimationStart(animation: Animation?) {}
                                 override fun onAnimationEnd(animation: Animation?) {
-                                    //  动画结束后 TextView 设置展开的状态
+                                    tv.layoutParams.height = foldHeight
+                                    tv.requestLayout()
+                                    // 动画结束后 TextView 设置展开的状态
                                     tv.text = foldString
                                     tv.isSelected = true
                                 }
@@ -167,15 +178,46 @@ class StringExpandActivity : AppCompatActivity() {
                             })
                         }
 
-                        contentView.clearAnimation()
-                        // 执行动画
-                        contentView.startAnimation(animation)
+                        tv.clearAnimation()
+                        tv.startAnimation(animation)
                     }
 
                     override fun onViewClick(v: View) {
                     }
                 }
             )
+    }
+
+    private fun sample4() {
+        val expandableTextView = findViewById<TextView>(R.id.expanded_text)
+        val expandUtil =
+            ExpandableTextViewUtils(expandableTextView)
+
+        @Suppress("DEPRECATION")
+        val viewWidth = windowManager.defaultDisplay.width - dp2px(20F)
+        expandUtil.initWidth(viewWidth)
+            .setMaxLines(3)
+            .setOpenOrCloseByUserHandle(true)//自定义控制事件
+            .setHasAnimation(true)
+            .setCloseInNewLine(true) //true 新插入一行显示"收起"按钮
+            .setOpenSuffixColor(Color.RED)
+            .setCloseSuffixColor(Color.BLUE)
+            .setOpenSuffix(" 查看全部")
+            .setCloseSuffix(" 收起")
+            .setOriginalText(strContent)
+            .setOnClickListener(object : ExpandableTextViewUtils.OnClickListener {
+                override fun onOpenClick() {
+                    expandUtil.switchOpenClose()
+                }
+
+                override fun onCloseClick() {
+                }
+
+                override fun onViewClick(v: View) {
+                    expandUtil.switchOpenClose()
+                }
+            })
+
     }
 
     companion object {

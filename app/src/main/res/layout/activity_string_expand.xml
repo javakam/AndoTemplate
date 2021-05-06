@@ -1,4 +1,5 @@
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -11,7 +12,7 @@
             android:id="@+id/tv_string_expand_no_expand"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="20dp"
+            android:padding="15dp"
             android:textSize="12sp" />
 
         <View
@@ -23,7 +24,7 @@
             android:id="@+id/tv_string_expand_no_animation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="20dp"
+            android:padding="15dp"
             android:textSize="12sp" />
 
         <View
@@ -32,7 +33,6 @@
             android:background="@android:color/darker_gray" />
 
         <RelativeLayout
-            android:id="@+id/rl_string_expand"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -40,9 +40,22 @@
                 android:id="@+id/tv_string_expand"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="20dp"
+                android:padding="15dp"
                 android:textSize="12sp" />
         </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray" />
+
+        <TextView
+            android:id="@+id/expanded_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:textSize="12sp"
+            tools:text="Hello World!" />
     </LinearLayout>
 
 </androidx.core.widget.NestedScrollView>

@@ -12,9 +12,9 @@ import androidx.annotation.ColorInt
 /**
  * # StringExpandUtils
  *
- * - StaticLayout 源码分析 https://jaeger.itscoder.com/android/2016/08/05/staticlayout-source-analyse.html
+ * - StaticLayout 源码分析  https://jaeger.itscoder.com/android/2016/08/05/staticlayout-source-analyse.html
  *
- * - Android TextView实现展开和收起功能 https://www.jianshu.com/p/838d407e0df0
+ * - 收起动画异常  https://juejin.cn/post/6844903952757047309
  *
  * @author javakam
  * @date 2020/5/10  11:06
@@ -53,7 +53,7 @@ object StringExpandUtils {
         //endText 宽度测量 https://juejin.cn/post/6956801334930571294/
         val width: Int = tv.context.resources.displayMetrics.run {
             // (40F * tv.context.resources.displayMetrics.density + 0.5f).toInt()
-            this.widthPixels - Layout.getDesiredWidth(endText, paint).toInt()
+            this.widthPixels - Layout.getDesiredWidth(endText, paint).toInt() - tv.paddingLeft - tv.paddingRight
         }
 
         val staticLayout: StaticLayout = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
@@ -94,8 +94,9 @@ object StringExpandUtils {
             } else SpannableString("")
 
             //"展开"
-            //获取第 maxLine 行最后一个文字的下标
-            val index = staticLayout.getLineStart(maxLine) - 1
+            //计算原文截取位置
+            //val index = staticLayout.getLineStart(maxLine) - 1
+            val index = staticLayout.getLineEnd(maxLine - 1)
             val substring = content.substring(0, index - endText.length) + endText
             val foldString = SpannableString(substring).apply {
                 setSpan(
@@ -116,6 +117,9 @@ object StringExpandUtils {
             //设置监听
             val clickableSpan: ClickableSpan = object : ClickableSpan() {
                 override fun onClick(widget: View?) {
+                    if (isDebug) {
+                        Log.w("StringExpand", "foldString=$foldString \n expandString=$expandString")
+                    }
                     //计算出"展开/收起"后的高度
                     val foldHeight = staticLayout.height + tv.paddingTop + tv.paddingBottom
                     listener?.onSpanClick(foldString, expandString, foldHeight)
@@ -156,5 +160,6 @@ object StringExpandUtils {
             tv.setOnClickListener(null)
         }
     }
+
 
 }
