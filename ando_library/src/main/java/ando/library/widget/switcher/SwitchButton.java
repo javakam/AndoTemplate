@@ -32,34 +32,33 @@ import androidx.core.content.ContextCompat;
 import ando.library.R;
 
 /**
- *
  * Material
  * <style name="SwitchButtonStyleMD">
- *     <item name="swb_thumbDrawable">@drawable/swb_md_thumb</item>
- *     <item name="swb_backColor">@color/swb_md_back_color</item>
- *     <item name="swb_thumbRangeRatio">1.5</item>
- *     <item name="swb_thumbMarginLeft">-16dp</item>
- *     <item name="swb_thumbMarginTop">-14dp</item>
- *     <item name="swb_thumbMarginRight">-16dp</item>
- *     <item name="swb_thumbMarginBottom">-14dp</item>
- *     <item name="swb_thumbWidth">@dimen/swb_md_thumb_ripple_size</item>
- *     <item name="swb_thumbHeight">@dimen/swb_md_thumb_ripple_size</item>
+ * <item name="swb_thumbDrawable">@drawable/swb_md_thumb</item>
+ * <item name="swb_backColor">@color/swb_md_back_color</item>
+ * <item name="swb_thumbRangeRatio">1.5</item>
+ * <item name="swb_thumbMarginLeft">-16dp</item>
+ * <item name="swb_thumbMarginTop">-14dp</item>
+ * <item name="swb_thumbMarginRight">-16dp</item>
+ * <item name="swb_thumbMarginBottom">-14dp</item>
+ * <item name="swb_thumbWidth">@dimen/swb_md_thumb_ripple_size</item>
+ * <item name="swb_thumbHeight">@dimen/swb_md_thumb_ripple_size</item>
  * </style>
- *
+ * <p>
  * IOS
  * <SwitchButton
- *      android:id="@+id/sb_ios"
- *      style="@style/SwitchButtonStyle"
- *      android:layout_width="wrap_content"
- *      android:layout_height="wrap_content"
- *      app:swb_animationDuration="300"
- *      app:swb_backDrawable="@drawable/ios_back_drawable"
- *      app:swb_thumbDrawable="@drawable/ios_thumb_selector"
- *      app:swb_thumbMarginBottom="-8dp"
- *      app:swb_thumbMarginLeft="-5dp"
- *      app:swb_thumbMarginRight="-5dp"
- *      app:swb_thumbMarginTop="-2.5dp"
- *      app:swb_thumbRangeRatio="1.4" />
+ * android:id="@+id/sb_ios"
+ * style="@style/SwitchButtonStyle"
+ * android:layout_width="wrap_content"
+ * android:layout_height="wrap_content"
+ * app:swb_animationDuration="300"
+ * app:swb_backDrawable="@drawable/ios_back_drawable"
+ * app:swb_thumbDrawable="@drawable/ios_thumb_selector"
+ * app:swb_thumbMarginBottom="-8dp"
+ * app:swb_thumbMarginLeft="-5dp"
+ * app:swb_thumbMarginRight="-5dp"
+ * app:swb_thumbMarginTop="-2.5dp"
+ * app:swb_thumbRangeRatio="1.4" />
  */
 public class SwitchButton extends CompoundButton {
 
@@ -283,8 +282,9 @@ public class SwitchButton extends CompoundButton {
         }
     }
 
+    @SuppressWarnings("deprecation")
     private Layout makeLayout(CharSequence text) {
-        return new StaticLayout(text, mTextPaint, (int) Math.ceil(Layout.getDesiredWidth(text, mTextPaint)), Layout.Alignment.ALIGN_CENTER, 1.f, 0, false);
+        return new StaticLayout(text, mTextPaint, (int) Math.ceil(Layout.getDesiredWidth(text, mTextPaint)), Layout.Alignment.ALIGN_CENTER, 1.0F, 0, false);
     }
 
     @Override

@@ -55,7 +55,7 @@ abstract class Loader @JvmOverloads constructor(
     }
 
     private fun initState(attrs: AttributeSet?, defStyle: Int) {
-        val theme = mContext.theme
+        val theme = context.theme
         val array = theme.obtainStyledAttributes(attrs, R.styleable.Loader, defStyle, 0)
         mState = array.getInt(R.styleable.Loader_state, LoadState.UNLOADED.stateValue())
         for (loadState in LoadState.values()) {

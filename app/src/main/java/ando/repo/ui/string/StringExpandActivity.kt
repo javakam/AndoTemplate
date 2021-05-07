@@ -190,11 +190,10 @@ class StringExpandActivity : AppCompatActivity() {
 
     private fun sample4() {
         val expandableTextView = findViewById<TextView>(R.id.expanded_text)
-        val expandUtil =
-            ExpandableTextViewUtils(expandableTextView)
+        val expandUtil = ExpandableTextViewUtils.obtain(expandableTextView)
 
         @Suppress("DEPRECATION")
-        val viewWidth = windowManager.defaultDisplay.width - dp2px(20F)
+        val viewWidth = windowManager.defaultDisplay.width - dp2px(40F)
         expandUtil.initWidth(viewWidth)
             .setMaxLines(3)
             .setOpenOrCloseByUserHandle(true)//自定义控制事件

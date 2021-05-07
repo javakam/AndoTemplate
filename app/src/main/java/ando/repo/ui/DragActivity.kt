@@ -46,7 +46,7 @@ class DragActivity : AppCompatActivity() {
                     }
 
                     override fun onDrag(y: Int, percent: Float, isScrollUp: Boolean) {
-                        printW("[${window.attributes.height}] onDrag y = [${y}], percent = [${percent}], isScrollUp = [${isScrollUp}]")
+                        printW("[${window?.attributes?.height?:0}] onDrag y = [${y}], percent = [${percent}], isScrollUp = [${isScrollUp}]")
 
                         window?.apply {
                             val param = attributes

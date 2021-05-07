@@ -147,7 +147,7 @@ class RippleView @JvmOverloads constructor(
                 onCompletionListener?.onComplete(this)
                 return
             } else {
-                Handler(Looper.myLooper()).postDelayed({ invalidate() }, frameRate.toLong())
+                Handler(Looper.myLooper() ?: Looper.getMainLooper()).postDelayed({ invalidate() }, frameRate.toLong())
             }
             if (timer == 0) {
                 canvas.save()
@@ -292,7 +292,7 @@ class RippleView @JvmOverloads constructor(
         canvas.drawARGB(0, 0, 0, 0)
         canvas.drawCircle(mX, mY, radius.toFloat(), paint)
         paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_IN)
-        canvas.drawBitmap(originBitmap, rect, rect, paint)
+        canvas.drawBitmap(originBitmap ?: return output, rect, rect, paint)
         return output
     }
 

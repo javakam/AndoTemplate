@@ -38,7 +38,7 @@ public class GuideBanner extends BaseBanner<Object> {
 
     @Override
     public View onCreateItemView(int position) {
-        final View view = inflate(mContext, R.layout.banner_adapter_simple_guide, null);
+        final View view = inflate(getContext(), R.layout.banner_adapter_simple_guide, null);
         ImageView iv = view.findViewById(R.id.iv_banner_cover);
         TextView tvJump = view.findViewById(R.id.tv_banner_jump);
 

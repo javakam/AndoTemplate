@@ -128,7 +128,6 @@ public abstract class BaseBanner<T> extends RelativeLayout {
     }
 
     private void initAttrs(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        mContext = context;
         mDisplayMetrics = context.getResources().getDisplayMetrics();
 
         TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.BaseBanner, defStyleAttr, defStyleRes);
@@ -414,7 +413,7 @@ public abstract class BaseBanner<T> extends RelativeLayout {
             Field mScroller = ViewPager.class.getDeclaredField("mScroller");
             mScroller.setAccessible(true);
             AccelerateDecelerateInterpolator interpolator = new AccelerateDecelerateInterpolator();
-            FixedSpeedScroller speedScroller = new FixedSpeedScroller(mContext, interpolator, mScrollSpeed);
+            FixedSpeedScroller speedScroller = new FixedSpeedScroller(getContext(), interpolator, mScrollSpeed);
             mScroller.set(mViewPager, speedScroller);
         } catch (Exception e) {
             e.printStackTrace();

@@ -384,14 +384,15 @@ object StatusBarUtils {
         if (sTransparentValue != null) {
             return sTransparentValue
         }
-        val systemSharedLibraryNames = context.packageManager
-            .systemSharedLibraryNames
+        val systemSharedLibraryNames = context.packageManager.systemSharedLibraryNames
         var fieldName: String? = null
-        for (lib in systemSharedLibraryNames) {
-            if ("touchwiz" == lib) {
-                fieldName = "SYSTEM_UI_FLAG_TRANSPARENT_BACKGROUND"
-            } else if (lib.startsWith("com.sonyericsson.navigationbar")) {
-                fieldName = "SYSTEM_UI_FLAG_TRANSPARENT"
+        if (systemSharedLibraryNames != null) {
+            for (lib in systemSharedLibraryNames) {
+                if ("touchwiz" == lib) {
+                    fieldName = "SYSTEM_UI_FLAG_TRANSPARENT_BACKGROUND"
+                } else if (lib.startsWith("com.sonyericsson.navigationbar")) {
+                    fieldName = "SYSTEM_UI_FLAG_TRANSPARENT"
+                }
             }
         }
         if (fieldName != null) {
@@ -718,7 +719,7 @@ object StatusBarUtils {
      * @param dialog 弹窗
      */
     fun showDialogInFullScreen(dialog: Dialog) {
-        showWindowInFullScreen(dialog.window, object : OnWindowShowListener {
+        showWindowInFullScreen(dialog.window ?: return, object : OnWindowShowListener {
             override fun show(window: Window) {
                 dialog.show()
             }

@@ -55,7 +55,7 @@ public class ImageBanner extends BaseBanner<BannerItem> {
 
     @Override
     public View onCreateItemView(int position) {
-        View view = inflate(mContext, R.layout.banner_adapter_simple_image, null);
+        View view = inflate(getContext(), R.layout.banner_adapter_simple_image, null);
         ImageView iv = view.findViewById(R.id.iv_banner_cover);
 
         //解决Glide资源释放的问题，详细见 http://blog.csdn.net/shangmingchao/article/details/51125554

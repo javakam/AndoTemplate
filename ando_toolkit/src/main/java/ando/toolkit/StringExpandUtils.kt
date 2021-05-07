@@ -53,7 +53,8 @@ object StringExpandUtils {
         //endText 宽度测量 https://juejin.cn/post/6956801334930571294/
         val width: Int = tv.context.resources.displayMetrics.run {
             // (40F * tv.context.resources.displayMetrics.density + 0.5f).toInt()
-            this.widthPixels - Layout.getDesiredWidth(endText, paint).toInt() - tv.paddingLeft - tv.paddingRight
+            //this.widthPixels - Layout.getDesiredWidth(endText, paint).toInt() - tv.paddingLeft - tv.paddingRight
+            this.widthPixels - 130
         }
 
         val staticLayout: StaticLayout = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
@@ -95,8 +96,8 @@ object StringExpandUtils {
 
             //"展开"
             //计算原文截取位置
-            //val index = staticLayout.getLineStart(maxLine) - 1
-            val index = staticLayout.getLineEnd(maxLine - 1)
+            val index = staticLayout.getLineStart(maxLine) - 1
+            //val index = staticLayout.getLineEnd(maxLine - 1)
             val substring = content.substring(0, index - endText.length) + endText
             val foldString = SpannableString(substring).apply {
                 setSpan(
@@ -116,7 +117,7 @@ object StringExpandUtils {
 
             //设置监听
             val clickableSpan: ClickableSpan = object : ClickableSpan() {
-                override fun onClick(widget: View?) {
+                override fun onClick(widget: View) {
                     if (isDebug) {
                         Log.w("StringExpand", "foldString=$foldString \n expandString=$expandString")
                     }
@@ -125,10 +126,10 @@ object StringExpandUtils {
                     listener?.onSpanClick(foldString, expandString, foldHeight)
                 }
 
-                override fun updateDrawState(ds: TextPaint?) {
+                override fun updateDrawState(ds: TextPaint) {
                     //super.updateDrawState(ds)
                     //ds?.color = ds?.linkColor //解决 ClickableSpan 和 ForegroundColorSpan 颜色冲突问题
-                    ds?.isUnderlineText = false //去掉下划线
+                    ds.isUnderlineText = false //去掉下划线
                 }
             }
             //"展开"监听

@@ -978,10 +978,10 @@ class SpanUtils {
         typeface?.apply {
             mBuilder.setSpan(CustomTypefaceSpan(this), start, end, flag)
         }
-
-        if (alignment != null) {
-            mBuilder.setSpan(AlignmentSpan.Standard(alignment), start, end, flag)
+        alignment?.apply {
+            mBuilder.setSpan(AlignmentSpan.Standard(this), start, end, flag)
         }
+
         if (clickSpan != null) {
             mBuilder.setSpan(clickSpan, start, end, flag)
         }
@@ -1463,20 +1463,22 @@ class SpanUtils {
             get() {
                 var drawable: Drawable? = null
                 when {
-                    mDrawable != null -> {
+                    (mDrawable != null) -> {
                         drawable = mDrawable
                     }
-                    mContentUri != null -> {
+                    (mContentUri != null) -> {
                         val bitmap: Bitmap
                         try {
-                            val ins = getContext().contentResolver.openInputStream(mContentUri)
-                            bitmap = BitmapFactory.decodeStream(ins)
-                            drawable = BitmapDrawable(getContext().resources, bitmap)
-                            drawable.setBounds(
-                                0, 0,
-                                drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight()
-                            )
-                            ins?.close()
+                            mContentUri?.apply {
+                                getContext().contentResolver.openInputStream(this)?.use {
+                                    bitmap = BitmapFactory.decodeStream(it)
+                                    drawable = BitmapDrawable(getContext().resources, bitmap)
+                                    drawable?.setBounds(
+                                        0, 0,
+                                        drawable?.intrinsicWidth ?: 0, drawable?.intrinsicHeight ?: 0
+                                    )
+                                }
+                            }
                         } catch (e: Exception) {
                             Log.e("sms", "Failed to loaded content $mContentUri", e)
                         }
@@ -1486,7 +1488,7 @@ class SpanUtils {
                             drawable = ContextCompat.getDrawable(getContext(), mResourceId)
                             drawable?.setBounds(
                                 0, 0,
-                                drawable.intrinsicWidth, drawable.intrinsicHeight
+                                drawable?.intrinsicWidth ?: 0, drawable?.intrinsicHeight ?: 0
                             )
                         } catch (e: Exception) {
                             Log.e("sms", "Unable to find resource: $mResourceId")

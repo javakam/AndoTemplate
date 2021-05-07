@@ -133,7 +133,7 @@ internal object BackgroundExecutor {
 private val crashLogger = { throwable: Throwable -> throwable.printStackTrace() }
 
 private object ContextHelper {
-    val handler = Handler(Looper.myLooper())
+    val handler = Handler(Looper.myLooper() ?: Looper.getMainLooper())
     val mainHandler = Handler(Looper.getMainLooper())
     val mainThread: Thread = Looper.getMainLooper().thread
 }

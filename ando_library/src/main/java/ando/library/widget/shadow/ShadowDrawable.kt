@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.view.View
 import androidx.core.view.ViewCompat
+import kotlin.math.min
 
 /**
  * 可以方便地生成圆角矩形/圆形的阴影
@@ -103,25 +104,27 @@ class ShadowDrawable private constructor(
                 mBgPaint.color = mBgColor[0]
             } else {
                 mBgPaint.shader = LinearGradient(
-                    mRect!!.left, mRect!!.height() / 2, mRect!!.right,
-                    mRect!!.height() / 2, mBgColor, null, Shader.TileMode.CLAMP
+                    mRect?.left ?: 0F, mRect?.height() ?: 0F / 2, mRect?.right ?: 0F,
+                    mRect?.height() ?: 0F / 2, mBgColor, null, Shader.TileMode.CLAMP
                 )
             }
         }
         if (mShape == SHAPE_RECTANGLE) {
-            canvas.drawRoundRect(mRect, mShapeRadius.toFloat(), mShapeRadius.toFloat(), mShadowPaint)
-            canvas.drawRoundRect(mRect, mShapeRadius.toFloat(), mShapeRadius.toFloat(), mBgPaint)
+            mRect?.apply {
+                canvas.drawRoundRect(this, mShapeRadius.toFloat(), mShapeRadius.toFloat(), mShadowPaint)
+                canvas.drawRoundRect(this, mShapeRadius.toFloat(), mShapeRadius.toFloat(), mBgPaint)
+            }
         } else {
             canvas.drawCircle(
-                mRect!!.centerX(),
-                mRect!!.centerY(),
-                Math.min(mRect!!.width(), mRect!!.height()) / 2,
+                mRect?.centerX() ?: 0F,
+                mRect?.centerY() ?: 0F,
+                min(mRect?.width() ?: 0F, mRect?.height() ?: 0F) / 2,
                 mShadowPaint
             )
             canvas.drawCircle(
-                mRect!!.centerX(),
-                mRect!!.centerY(),
-                Math.min(mRect!!.width(), mRect!!.height()) / 2,
+                mRect?.centerX() ?: 0F,
+                mRect?.centerY() ?: 0F,
+                min(mRect?.width() ?: 0F, mRect?.height() ?: 0F) / 2,
                 mBgPaint
             )
         }

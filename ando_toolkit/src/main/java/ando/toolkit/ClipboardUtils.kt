@@ -16,7 +16,7 @@ object ClipboardUtils {
      * @param text 文本
      */
     fun copyText(text: CharSequence?) {
-        cm.primaryClip = ClipData.newPlainText("text", text)
+        cm.setPrimaryClip(ClipData.newPlainText("text", text))
     }
 
     /**
@@ -37,8 +37,10 @@ object ClipboardUtils {
      * @param uri uri
      */
     fun copyUri(uri: Uri?) {
-        cm.primaryClip = ClipData.newUri(
-            AppUtils.getContext().contentResolver, "uri", uri
+        cm.setPrimaryClip(
+            ClipData.newUri(
+                AppUtils.getContext().contentResolver, "uri", uri
+            )
         )
     }
 
@@ -60,7 +62,7 @@ object ClipboardUtils {
      * @param intent 意图
      */
     fun copyIntent(intent: Intent?) {
-        cm.primaryClip = ClipData.newIntent("intent", intent)
+        cm.setPrimaryClip(ClipData.newIntent("intent", intent))
     }
 
     /**
