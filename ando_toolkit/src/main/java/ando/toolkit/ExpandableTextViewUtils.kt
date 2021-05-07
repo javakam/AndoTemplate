@@ -215,7 +215,7 @@ class ExpandableTextViewUtils private constructor(private val mTextView: TextVie
                     //动画结束后textview设置展开的状态
                     mTextView.layoutParams.height = mOpenHeight
                     mTextView.requestLayout()
-                    //animating = false
+                    animating = false
                 }
 
                 override fun onAnimationRepeat(animation: Animation) {}
@@ -245,7 +245,7 @@ class ExpandableTextViewUtils private constructor(private val mTextView: TextVie
 
                     mTextView.maxLines = mMaxLines
                     mTextView.text = mCloseSpannableStr
-                    //animating = false
+                    animating = false
                 }
 
                 override fun onAnimationRepeat(animation: Animation) {}
