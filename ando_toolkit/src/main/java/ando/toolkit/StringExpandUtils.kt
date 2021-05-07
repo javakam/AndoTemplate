@@ -96,7 +96,7 @@ object StringExpandUtils {
 
             //"展开"
             //计算原文截取位置
-            val index = staticLayout.getLineStart(maxLine) - 1
+            val index = staticLayout.getLineStart(maxLine - 1)
             //val index = staticLayout.getLineEnd(maxLine - 1)
             val substring = content.substring(0, index - endText.length) + endText
             val foldString = SpannableString(substring).apply {

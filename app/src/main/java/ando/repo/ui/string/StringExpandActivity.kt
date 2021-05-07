@@ -193,9 +193,9 @@ class StringExpandActivity : AppCompatActivity() {
         val expandUtil = ExpandableTextViewUtils.obtain(expandableTextView)
 
         @Suppress("DEPRECATION")
-        val viewWidth = windowManager.defaultDisplay.width - dp2px(40F)
+        val viewWidth = windowManager.defaultDisplay.width - dp2px(20F)
         expandUtil.initWidth(viewWidth)
-            .setMaxLines(3)
+            .setMaxLines(2)
             .setOpenOrCloseByUserHandle(true)//自定义控制事件
             .setHasAnimation(true)
             .setCloseInNewLine(true) //true 新插入一行显示"收起"按钮
@@ -210,10 +210,10 @@ class StringExpandActivity : AppCompatActivity() {
                 }
 
                 override fun onCloseClick() {
+                    expandUtil.switchOpenClose()
                 }
 
                 override fun onViewClick(v: View) {
-                    expandUtil.switchOpenClose()
                 }
             })
 

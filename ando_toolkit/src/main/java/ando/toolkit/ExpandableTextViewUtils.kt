@@ -11,6 +11,7 @@ import android.text.method.MovementMethod
 import android.text.style.AlignmentSpan
 import android.text.style.ClickableSpan
 import android.text.style.StyleSpan
+import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.view.animation.Animation
@@ -25,44 +26,67 @@ import androidx.annotation.ColorInt
  */
 class ExpandableTextViewUtils private constructor(private val mTextView: TextView) {
 
+    companion object {
+        val ELLIPSIS_STRING = String(charArrayOf('\u2026'))
+        private const val DEFAULT_MAX_LINE = 3
+        private const val DEFAULT_OPEN_SUFFIX = " 展开"
+        private const val DEFAULT_CLOSE_SUFFIX = " 收起"
+        fun obtain(textView: TextView): ExpandableTextViewUtils {
+            return ExpandableTextViewUtils(textView)
+        }
+    }
+
     @Volatile
     var animating = false
     var isClosed = false
-    private var mMaxLines = DEFAULT_MAX_LINE
+    private var mMaxLines: Int = DEFAULT_MAX_LINE
 
     /**
      * TextView可展示宽度，包含paddingLeft和paddingRight
      */
-    private var initWidth = 0
+    private var initWidth: Int = 0
     private var mOpenSpannableStr: SpannableStringBuilder? = null
     private var mCloseSpannableStr: SpannableStringBuilder? = null
     private var isOpenOrCloseByUserHandle = false //false 自动触发"展开/收起";true 自定义事件控制
     private var hasAnimation = false
     private var mOpenAnim: Animation? = null
     private var mCloseAnim: Animation? = null
-    private var mOpenHeight = 0
-    private var mCloseHeight = 0
+    private var mOpenHeight: Int = 0
+    private var mCloseHeight: Int = 0
     private var mExpandable = false
     private var mCloseInNewLine = false
     private var mOpenSuffixSpan: SpannableString? = null
     private var mCloseSuffixSpan: SpannableString? = null
     private var mOpenSuffixStr = DEFAULT_OPEN_SUFFIX
     private var mCloseSuffixStr = DEFAULT_CLOSE_SUFFIX
-    private var mOpenSuffixColor = 0
-    private var mCloseSuffixColor = 0
+    private var mOpenSuffixColor: Int = 0
+    private var mCloseSuffixColor: Int = 0
     private var mCharSequenceToSpannableHandler: CharSequenceToSpannableHandler? = null
     private var mStateListener: OnStateListener? = null
     private var mClickListener: OnClickListener? = null
 
+    init {
+        mCloseSuffixColor = Color.parseColor("#F23030")
+        mOpenSuffixColor = mCloseSuffixColor
+        mTextView.movementMethod = OverLinkMovementMethod.instance
+        mTextView.includeFontPadding = false
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            mTextView.forceHasOverlappingRendering(false)
+        }
+    }
+
     fun setOriginalText(originalText: CharSequence): ExpandableTextViewUtils {
-        mExpandable = false
+        this.mExpandable = false
+
+        updateOpenSuffixSpan()
+        updateCloseSuffixSpan()
+
         mCloseSpannableStr = SpannableStringBuilder()
-        val maxLines = mMaxLines
-        val tempText = charSequenceToSpannable(originalText)
         mOpenSpannableStr = charSequenceToSpannable(originalText)
-        if (maxLines != -1) {
-            val layout: StaticLayout = createStaticLayout(tempText)
-            mExpandable = layout.lineCount > maxLines
+        if (mMaxLines != -1) {
+            val layout: StaticLayout = createStaticLayout()
+            this.mExpandable = layout.lineCount > mMaxLines
+
             if (mExpandable) {
                 //拼接展开内容
                 if (mCloseInNewLine) {
@@ -72,33 +96,14 @@ class ExpandableTextViewUtils private constructor(private val mTextView: TextVie
                     mOpenSpannableStr?.append(mCloseSuffixSpan)
                 }
                 //计算原文截取位置
-                val endPos = layout.getLineEnd(maxLines - 1)
+                val endPos = layout.getLineStart(mMaxLines - 1)
                 mCloseSpannableStr = if (originalText.length <= endPos) {
                     charSequenceToSpannable(originalText)
                 } else {
                     charSequenceToSpannable(originalText.subSequence(0, endPos))
                 }
-                var tempText2 = charSequenceToSpannable(mCloseSpannableStr).append(ELLIPSIS_STRING)
                 if (mOpenSuffixSpan != null) {
-                    tempText2.append(mOpenSuffixSpan)
-                }
-                //循环判断，收起内容添加展开后缀后的内容
-                var tempLayout = createStaticLayout(tempText2)
-                while (tempLayout.lineCount > maxLines) {
-                    val lastSpace = mCloseSpannableStr?.length ?: 0 - 1
-                    if (lastSpace == -1) {
-                        break
-                    }
-                    mCloseSpannableStr = if (originalText.length <= lastSpace) {
-                        charSequenceToSpannable(originalText)
-                    } else {
-                        charSequenceToSpannable(originalText.subSequence(0, lastSpace))
-                    }
-                    tempText2 = charSequenceToSpannable(mCloseSpannableStr).append(ELLIPSIS_STRING)
-                    if (mOpenSuffixSpan != null) {
-                        tempText2.append(mOpenSuffixSpan)
-                    }
-                    tempLayout = createStaticLayout(tempText2)
+                    charSequenceToSpannable(mCloseSpannableStr).append(ELLIPSIS_STRING).append(mOpenSuffixSpan)
                 }
                 var lastSpace: Int = mCloseSpannableStr?.length ?: 0 - (mOpenSuffixSpan?.length ?: 0)
                 if (lastSpace >= 0 && originalText.length > lastSpace) {
@@ -108,9 +113,11 @@ class ExpandableTextViewUtils private constructor(private val mTextView: TextVie
                     mCloseSpannableStr = charSequenceToSpannable(originalText.subSequence(0, lastSpace))
                 }
                 //计算收起的文本高度
-                mCloseHeight = tempLayout.height + mTextView.paddingTop + mTextView.paddingBottom
+                mCloseHeight = mTextView.height + mTextView.paddingTop + mTextView.paddingBottom
                 mCloseSpannableStr?.append(ELLIPSIS_STRING)
                 mCloseSpannableStr?.append(mOpenSuffixSpan)
+
+                Log.w("123", "$mCloseHeight  mOpenSpannableStr= $mOpenSpannableStr \n mCloseSpannableStr=$mCloseSpannableStr")
             }
         }
         isClosed = mExpandable
@@ -128,12 +135,12 @@ class ExpandableTextViewUtils private constructor(private val mTextView: TextVie
 
     private fun hasEnCharCount(str: CharSequence?): Int {
         var count = 0
-        if (!str.isNullOrBlank()) {
-            for (i in str.indices) {
-                val c = str[i]
-                if (c in ' '..'~') {
-                    count++
-                }
+        if (str.isNullOrBlank()) return count
+
+        for (i in str.indices) {
+            val c = str[i]
+            if (c in ' '..'~') {
+                count++
             }
         }
         return count
@@ -166,9 +173,9 @@ class ExpandableTextViewUtils private constructor(private val mTextView: TextVie
      */
     private fun open() {
         if (hasAnimation) {
-            val layout = createStaticLayout(mOpenSpannableStr)
-            mOpenHeight = layout.height + mTextView.paddingTop + mTextView.paddingBottom
+            mOpenHeight = mStaticLayout.height + mTextView.paddingTop + mTextView.paddingBottom
             executeOpenAnim()
+            Log.e("123", "open=${mTextView.height}  mCloseHeight= $mCloseHeight  mOpenHeight=$mOpenHeight")
         } else {
             mTextView.maxLines = Int.MAX_VALUE
             mTextView.text = mOpenSpannableStr
@@ -182,6 +189,7 @@ class ExpandableTextViewUtils private constructor(private val mTextView: TextVie
     private fun close() {
         if (hasAnimation) {
             executeCloseAnim()
+            Log.e("123", "close=${mTextView.height}  mCloseHeight= $mCloseHeight  mOpenHeight=$mOpenHeight")
         } else {
             mTextView.maxLines = mMaxLines
             mTextView.text = mCloseSpannableStr
@@ -207,7 +215,7 @@ class ExpandableTextViewUtils private constructor(private val mTextView: TextVie
                     //动画结束后textview设置展开的状态
                     mTextView.layoutParams.height = mOpenHeight
                     mTextView.requestLayout()
-                    animating = false
+                    //animating = false
                 }
 
                 override fun onAnimationRepeat(animation: Animation) {}
@@ -232,11 +240,12 @@ class ExpandableTextViewUtils private constructor(private val mTextView: TextVie
             mCloseAnim?.setAnimationListener(object : Animation.AnimationListener {
                 override fun onAnimationStart(animation: Animation) {}
                 override fun onAnimationEnd(animation: Animation) {
-                    animating = false
-                    mTextView.maxLines = mMaxLines
-                    mTextView.text = mCloseSpannableStr
                     mTextView.layoutParams.height = mCloseHeight
                     mTextView.requestLayout()
+
+                    mTextView.maxLines = mMaxLines
+                    mTextView.text = mCloseSpannableStr
+                    //animating = false
                 }
 
                 override fun onAnimationRepeat(animation: Animation) {}
@@ -250,10 +259,15 @@ class ExpandableTextViewUtils private constructor(private val mTextView: TextVie
         mTextView.startAnimation(mCloseAnim)
     }
 
+    private lateinit var mStaticLayout: StaticLayout
+
     @SuppressLint("ObsoleteSdkInt")
-    private fun createStaticLayout(spannable: SpannableStringBuilder?): StaticLayout {
+    private fun createStaticLayout(): StaticLayout {
+        if (this::mStaticLayout.isInitialized) return mStaticLayout
+
+        val spannable: SpannableStringBuilder? = mOpenSpannableStr
         val contentWidth = initWidth - mTextView.paddingLeft - mTextView.paddingRight
-        return when {
+        mStaticLayout = when {
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.M -> {
                 val builder = StaticLayout.Builder
                     .obtain(spannable ?: "", 0, spannable?.length ?: 0, mTextView.paint, contentWidth)
@@ -274,10 +288,11 @@ class ExpandableTextViewUtils private constructor(private val mTextView: TextVie
                 @Suppress("DEPRECATION")
                 StaticLayout(
                     spannable, mTextView.paint, contentWidth, Layout.Alignment.ALIGN_NORMAL,
-                    getFloatField("mSpacingMult", 1f), getFloatField("mSpacingAdd", 0f), mTextView.includeFontPadding
+                    getFloatField("mSpacingMult", 1F), getFloatField("mSpacingAdd", 0f), mTextView.includeFontPadding
                 )
             }
         }
+        return mStaticLayout
     }
 
     private fun getFloatField(fieldName: String, defaultValue: Float): Float {
@@ -306,7 +321,11 @@ class ExpandableTextViewUtils private constructor(private val mTextView: TextVie
             spannableStringBuilder = mCharSequenceToSpannableHandler?.charSequenceToSpannable(charSequence)
         }
         if (spannableStringBuilder == null) {
-            spannableStringBuilder = SpannableStringBuilder(charSequence)
+            spannableStringBuilder = if (!charSequence.isNullOrBlank() && charSequence is SpannableStringBuilder) {
+                charSequence
+            } else {
+                SpannableStringBuilder(charSequence)
+            }
         }
         return spannableStringBuilder
     }
@@ -330,7 +349,6 @@ class ExpandableTextViewUtils private constructor(private val mTextView: TextVie
      */
     fun setOpenSuffix(openSuffix: String): ExpandableTextViewUtils {
         mOpenSuffixStr = openSuffix
-        updateOpenSuffixSpan()
         return this
     }
 
@@ -339,7 +357,6 @@ class ExpandableTextViewUtils private constructor(private val mTextView: TextVie
      */
     fun setOpenSuffixColor(@ColorInt openSuffixColor: Int): ExpandableTextViewUtils {
         mOpenSuffixColor = openSuffixColor
-        updateOpenSuffixSpan()
         return this
     }
 
@@ -348,7 +365,6 @@ class ExpandableTextViewUtils private constructor(private val mTextView: TextVie
      */
     fun setCloseSuffix(closeSuffix: String): ExpandableTextViewUtils {
         mCloseSuffixStr = closeSuffix
-        updateCloseSuffixSpan()
         return this
     }
 
@@ -357,7 +373,6 @@ class ExpandableTextViewUtils private constructor(private val mTextView: TextVie
      */
     fun setCloseSuffixColor(@ColorInt closeSuffixColor: Int): ExpandableTextViewUtils {
         mCloseSuffixColor = closeSuffixColor
-        updateCloseSuffixSpan()
         return this
     }
 
@@ -366,7 +381,6 @@ class ExpandableTextViewUtils private constructor(private val mTextView: TextVie
      */
     fun setCloseInNewLine(closeInNewLine: Boolean): ExpandableTextViewUtils {
         mCloseInNewLine = closeInNewLine
-        updateCloseSuffixSpan()
         return this
     }
 
@@ -398,7 +412,7 @@ class ExpandableTextViewUtils private constructor(private val mTextView: TextVie
      */
     private fun updateOpenSuffixSpan() {
         if (mOpenSuffixStr.isBlank()) {
-            mOpenSuffixSpan = null
+            mOpenSuffixSpan = SpannableString("")
             return
         }
         mOpenSuffixSpan = SpannableString(mOpenSuffixStr)
@@ -424,7 +438,7 @@ class ExpandableTextViewUtils private constructor(private val mTextView: TextVie
      */
     private fun updateCloseSuffixSpan() {
         if (TextUtils.isEmpty(mCloseSuffixStr)) {
-            mCloseSuffixSpan = null
+            mCloseSuffixSpan = SpannableString("")
             return
         }
         mCloseSuffixSpan = SpannableString(mCloseSuffixStr)
@@ -514,25 +528,4 @@ class ExpandableTextViewUtils private constructor(private val mTextView: TextVie
         }
     }
 
-    companion object {
-        val ELLIPSIS_STRING = String(charArrayOf('\u2026'))
-        private const val DEFAULT_MAX_LINE = 3
-        private const val DEFAULT_OPEN_SUFFIX = " 展开"
-        private const val DEFAULT_CLOSE_SUFFIX = " 收起"
-        fun obtain(textView: TextView): ExpandableTextViewUtils {
-            return ExpandableTextViewUtils(textView)
-        }
-    }
-
-    init {
-        mCloseSuffixColor = Color.parseColor("#F23030")
-        mOpenSuffixColor = mCloseSuffixColor
-        mTextView.movementMethod = OverLinkMovementMethod.instance
-        mTextView.includeFontPadding = false
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            mTextView.forceHasOverlappingRendering(false)
-        }
-        updateOpenSuffixSpan()
-        updateCloseSuffixSpan()
-    }
 }
