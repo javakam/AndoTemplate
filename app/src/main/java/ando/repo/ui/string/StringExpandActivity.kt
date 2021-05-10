@@ -1,8 +1,8 @@
 package ando.repo.ui.string
 
 import ando.repo.R
-import ando.toolkit.ExpandableTextViewUtils
 import ando.toolkit.StringExpandUtils
+import ando.toolkit.ext.dp2px
 import ando.toolkit.ext.toastShort
 import android.graphics.Color
 import android.os.Bundle
@@ -12,8 +12,6 @@ import android.view.View
 import android.view.animation.Animation
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.scwang.smart.refresh.layout.util.SmartUtil.dp2px
-
 
 class StringExpandActivity : AppCompatActivity() {
 
@@ -46,7 +44,7 @@ class StringExpandActivity : AppCompatActivity() {
                 endTextColor,
                 4,
                 false,
-                object : StringExpandUtils.OnClickListener {
+                object : StringExpandUtils.OnExpandStringListener {
                     override fun onSpanClick(
                         foldString: SpannableString,
                         expandString: SpannableString,
@@ -78,7 +76,7 @@ class StringExpandActivity : AppCompatActivity() {
                 endTextColor,
                 0,
                 true,
-                object : StringExpandUtils.OnClickListener {
+                object : StringExpandUtils.OnExpandStringListener {
                     override fun onSpanClick(
                         foldString: SpannableString,
                         expandString: SpannableString,
@@ -126,7 +124,7 @@ class StringExpandActivity : AppCompatActivity() {
                 endTextColor,
                 3,
                 true,
-                object : StringExpandUtils.OnClickListener {
+                object : StringExpandUtils.OnExpandStringListener {
                     override fun onSpanClick(
                         foldString: SpannableString,
                         expandString: SpannableString,
@@ -190,21 +188,22 @@ class StringExpandActivity : AppCompatActivity() {
 
     private fun sample4() {
         val expandableTextView = findViewById<TextView>(R.id.expanded_text)
-        val expandUtil = ExpandableTextViewUtils.obtain(expandableTextView)
+        val expandUtil = StringExpandUtils.obtain(expandableTextView)
 
         @Suppress("DEPRECATION")
-        val viewWidth = windowManager.defaultDisplay.width - dp2px(20F)
-        expandUtil.initWidth(viewWidth)
+        val viewWidth = windowManager.defaultDisplay.width - dp2px(20F) //1025
+        expandUtil.initWidth(0)
+            .setDebug(true)
             .setMaxLines(2)
             .setOpenOrCloseByUserHandle(true)//自定义控制事件
             .setHasAnimation(true)
-            .setCloseInNewLine(true) //true 新插入一行显示"收起"按钮
+            .setCloseInNewLine(false) //true 文本最后新插入一行显示"收起"
             .setOpenSuffixColor(Color.RED)
             .setCloseSuffixColor(Color.BLUE)
             .setOpenSuffix(" 查看全部")
             .setCloseSuffix(" 收起")
             .setOriginalText(strContent)
-            .setOnClickListener(object : ExpandableTextViewUtils.OnClickListener {
+            .setOnClickListener(object : StringExpandUtils.OnClickListener {
                 override fun onOpenClick() {
                     expandUtil.switchOpenClose()
                 }
