@@ -76,12 +76,12 @@ object ProcessUtils {
             val loadedApkField = app.javaClass.getField("mLoadedApk")
             loadedApkField.isAccessible = true
             val loadedApk = loadedApkField[app]
-            var activityThreadField: Field? = null
+            val activityThreadField: Field?
             if (loadedApk != null) {
                 activityThreadField = loadedApk.javaClass.getDeclaredField("mActivityThread")
                 activityThreadField.isAccessible = true
                 val activityThread = activityThreadField[loadedApk]
-                var getProcessName: Method? = null
+                val getProcessName: Method?
                 if (activityThread != null) {
                     getProcessName = activityThread.javaClass.getDeclaredMethod("getProcessName")
                     processName = getProcessName.invoke(activityThread) as String

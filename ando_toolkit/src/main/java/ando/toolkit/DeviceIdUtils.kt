@@ -95,7 +95,7 @@ object DeviceIdUtils {
                 val hash = getHashByString(sbDeviceId.toString())
                 val sha1 = bytesToHex(hash)
                 //返回最终的 DeviceId
-                if (sha1?.length ?: 0 > 0) return sha1
+                if (sha1.isNotEmpty()) return sha1
             } catch (ex: Exception) {
                 ex.printStackTrace()
             }
@@ -110,6 +110,7 @@ object DeviceIdUtils {
     fun getIMEI(context: Context): String =
         try {
             val tm = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+            @Suppress("DEPRECATION")
             tm.deviceId
         } catch (ex: Exception) {
             ex.printStackTrace()
@@ -139,6 +140,7 @@ object DeviceIdUtils {
     @SuppressLint("HardwareIds")
     private fun getSERIAL(): String =
         try {
+            @Suppress("DEPRECATION")
             Build.SERIAL
         } catch (ex: Exception) {
             ex.printStackTrace()
@@ -156,7 +158,9 @@ object DeviceIdUtils {
         val dev =
             "3883756" + Build.BOARD.length % 10 + Build.BRAND.length % 10 + Build.DEVICE.length % 10
         +Build.HARDWARE.length % 10 + Build.ID.length % 10 + Build.MODEL.length % 10
+        @Suppress("DEPRECATION")
         +Build.PRODUCT.length % 10 + Build.SERIAL.length % 10
+        @Suppress("DEPRECATION")
         UUID(dev.hashCode().toLong(), Build.SERIAL.hashCode().toLong()).toString()
     } catch (ex: Exception) {
         ex.printStackTrace()
@@ -186,7 +190,7 @@ object DeviceIdUtils {
      * @param data 数据
      * @return 16进制字符串
      */
-    private fun bytesToHex(data: ByteArray): String? {
+    private fun bytesToHex(data: ByteArray): String {
         val sb = java.lang.StringBuilder()
         var stmp: String
         for (n in data.indices) {

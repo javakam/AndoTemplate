@@ -81,7 +81,7 @@ class DrawableUtils private constructor() {
 
     fun createBitmapFromWebView(view: WebView, scale: Float = 1f): Bitmap? {
         view.clearFocus()
-        val viewHeight = (view.contentHeight * view.scale).toInt()
+        @Suppress("DEPRECATION") val viewHeight = (view.contentHeight * view.scale).toInt()
         val bitmap = createBitmapSafely(
             (view.width * scale).toInt(),
             (viewHeight * scale).toInt(),
@@ -240,7 +240,7 @@ class DrawableUtils private constructor() {
         return if (!(intrinsicWidth > 0 && intrinsicHeight > 0)) {
             null
         } else try {
-            val config =
+            @Suppress("DEPRECATION") val config =
                 if (drawable.opacity != PixelFormat.OPAQUE) Bitmap.Config.ARGB_8888 else Bitmap.Config.RGB_565
             val bitmap = Bitmap.createBitmap(intrinsicWidth, intrinsicHeight, config)
             val canvas = Canvas(bitmap)

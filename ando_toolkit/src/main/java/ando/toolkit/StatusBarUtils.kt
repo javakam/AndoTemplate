@@ -146,19 +146,17 @@ object StatusBarUtils {
     @TargetApi(28)
     private fun handleDisplayCutoutMode(window: Window) {
         val decorView = window.decorView
-        if (decorView != null) {
-            if (ViewCompat.isAttachedToWindow(decorView)) {
-                realHandleDisplayCutoutMode(window, decorView)
-            } else {
-                decorView.addOnAttachStateChangeListener(object : View.OnAttachStateChangeListener {
-                    override fun onViewAttachedToWindow(v: View) {
-                        v.removeOnAttachStateChangeListener(this)
-                        realHandleDisplayCutoutMode(window, v)
-                    }
+        if (ViewCompat.isAttachedToWindow(decorView)) {
+            realHandleDisplayCutoutMode(window, decorView)
+        } else {
+            decorView.addOnAttachStateChangeListener(object : View.OnAttachStateChangeListener {
+                override fun onViewAttachedToWindow(v: View) {
+                    v.removeOnAttachStateChangeListener(this)
+                    realHandleDisplayCutoutMode(window, v)
+                }
 
-                    override fun onViewDetachedFromWindow(v: View) {}
-                })
-            }
+                override fun onViewDetachedFromWindow(v: View) {}
+            })
         }
     }
 
@@ -697,6 +695,7 @@ object StatusBarUtils {
                 activity.window.navigationBarColor = color
             }
             Build.VERSION.SDK_INT >= KITKAT -> {
+                @Suppress("DEPRECATION")
                 activity.window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION)
                 val decorView = activity.window.decorView as ViewGroup
                 val navigationBar = View(activity)

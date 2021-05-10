@@ -116,7 +116,9 @@ object TimeUtils {
             s += "秒"
         }
         temp %= sper
-        mi = temp.toString() + ""
+        if (!isWhole) {
+            mi = temp.toString() + ""
+        }
         if (isFormat) {
             if (temp in 10..99) {
                 mi = "0$temp"
@@ -637,7 +639,7 @@ object TimeUtils {
      * @param nowDate 日期参数格式 yyyy-MM-dd
      * @return true setDate <= nowDate
      */
-    fun compared(setDate: String?, nowDate: String?): Boolean {
+    fun compared(setDate: String, nowDate: String): Boolean {
         val dateFormat = sdf(DATE_FORMAT2)
         try {
             val date1 = dateFormat.parse(setDate)
@@ -657,7 +659,7 @@ object TimeUtils {
      * @param nowDate 日期参数格式 yyyy-MM-dd HH:mm
      * @return true setDate <= nowDate and default
      */
-    fun compared2(setDate: String?, nowDate: String?): Boolean {
+    fun compared2(setDate: String, nowDate: String): Boolean {
         val dateFormat = sdf(DATE_FORMAT1)
         try {
             val date1 = dateFormat.parse(setDate)

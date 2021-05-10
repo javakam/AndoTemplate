@@ -69,6 +69,7 @@ object ScreenLockUtils {
 
         @Suppress("DEPRECATION")
         val keyguardLock = keyguardManager.newKeyguardLock(activity.javaClass.name)
+        @Suppress("DEPRECATION")
         keyguardLock.disableKeyguard()
         mIsUnlockArray[activity] = true
     }

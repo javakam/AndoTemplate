@@ -64,8 +64,9 @@ object OSUtils {
             }
         }
 
-        var clzSystemProperties: Class<*>? = null
+        val clzSystemProperties: Class<*>?
         try {
+            @SuppressLint("PrivateApi")
             clzSystemProperties = Class.forName("android.os.SystemProperties")
             val getMethod = clzSystemProperties.getDeclaredMethod("get", String::class.java)
             // miui
@@ -236,7 +237,7 @@ object OSUtils {
         if (!hasExtraStorage()) {
             return 0
         }
-        val path = Environment.getExternalStorageDirectory()
+        @Suppress("DEPRECATION") val path = Environment.getExternalStorageDirectory()
         val stat = StatFs(path.path)
         val blockSize = stat.blockSizeLong
         val availableBlocks = stat.blockCountLong
@@ -300,7 +301,6 @@ object OSUtils {
      * 判断悬浮窗权限（目前主要用户魅族与小米的检测）。
      */
     fun isFloatWindowOpAllowed(context: Context): Boolean {
-        val version = Build.VERSION.SDK_INT
         return checkOp(context, 24) // 24 是AppOpsManager.OP_SYSTEM_ALERT_WINDOW 的值，该值无法直接访问
     }
 

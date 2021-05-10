@@ -24,6 +24,7 @@ import androidx.fragment.app.Fragment
 /**
  * 获取版本号  eg: 123
  */
+@Suppress("DEPRECATION")
 val Context.versionCode: Long
     get() = try {
         val packageInfo = packageManager.getPackageInfo(packageName, 0)

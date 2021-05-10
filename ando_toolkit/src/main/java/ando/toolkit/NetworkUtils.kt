@@ -447,7 +447,7 @@ object NetworkUtils {
         get() {
             try {
                 val nis = NetworkInterface.getNetworkInterfaces()
-                val adds = LinkedList<InetAddress>()
+                //val adds = LinkedList<InetAddress>()
                 while (nis.hasMoreElements()) {
                     val ni = nis.nextElement()
                     if (!ni.isUp || ni.isLoopback) {

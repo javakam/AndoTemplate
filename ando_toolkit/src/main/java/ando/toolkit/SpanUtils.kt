@@ -1180,8 +1180,7 @@ class SpanUtils {
         ) {
             if ((text as Spanned).getSpanStart(this) == start) {
                 val style = p.style
-                var oldColor = 0
-                oldColor = p.color
+                val oldColor: Int = p.color
                 p.color = color
                 p.style = Paint.Style.FILL
                 if (c.isHardwareAccelerated) {
@@ -1246,7 +1245,7 @@ class SpanUtils {
                     return drawable.bitmap
                 }
             }
-            val bitmap: Bitmap =
+            @Suppress("DEPRECATION") val bitmap: Bitmap =
                 if (drawable.intrinsicWidth <= 0 || drawable.intrinsicHeight <= 0) {
                     Bitmap.createBitmap(
                         1, 1,
@@ -1266,6 +1265,7 @@ class SpanUtils {
 
         private fun uri2Bitmap(uri: Uri): Bitmap {
             return try {
+                @Suppress("DEPRECATION")
                 MediaStore.Images.Media.getBitmap(getContext().contentResolver, uri)
             } catch (e: IOException) {
                 e.printStackTrace()
@@ -1299,27 +1299,27 @@ class SpanUtils {
             text: CharSequence, start: Int, end: Int,
             first: Boolean, layout: Layout
         ) {
-            var x = x
+            var realX = x
             val st = (text as Spanned).getSpanStart(this)
             val itop = layout.getLineTop(layout.getLineForOffset(st))
             if (dir < 0) {
-                x -= mBitmap.width
+                realX -= mBitmap.width
             }
             val delta = totalHeight - mBitmap.height
             if (delta > 0) {
                 when (mVerticalAlignment) {
                     Companion.ALIGN_TOP -> {
-                        c.drawBitmap(mBitmap, x.toFloat(), itop.toFloat(), p)
+                        c.drawBitmap(mBitmap, realX.toFloat(), itop.toFloat(), p)
                     }
                     Companion.ALIGN_CENTER -> {
-                        c.drawBitmap(mBitmap, x.toFloat(), itop + delta / 2.toFloat(), p)
+                        c.drawBitmap(mBitmap, realX.toFloat(), itop + delta / 2.toFloat(), p)
                     }
                     else -> {
-                        c.drawBitmap(mBitmap, x.toFloat(), itop + delta.toFloat(), p)
+                        c.drawBitmap(mBitmap, realX.toFloat(), itop + delta.toFloat(), p)
                     }
                 }
             } else {
-                c.drawBitmap(mBitmap, x.toFloat(), itop.toFloat(), p)
+                c.drawBitmap(mBitmap, realX.toFloat(), itop.toFloat(), p)
             }
         }
 
