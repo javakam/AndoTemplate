@@ -65,22 +65,6 @@ object GlideUtils {
         return options
     }
 
-    fun loadImage(iv: ImageView, url: String?, placeholder: Int = -1) {
-        if (url != null && url.startsWith("http")) {
-            Glide.with(iv.context)
-                .asBitmap()
-                .centerCrop()
-                .load(url)
-                .apply(noAnimate(placeholder))
-        } else {
-            Glide.with(iv.context)
-                .asBitmap()
-                .centerCrop()
-                .load(placeholder)
-                .transition(BitmapTransitionOptions.withCrossFade())
-        }.into(iv)
-    }
-
     fun loadImage(iv: ImageView, path: Any?) {
         loadImage(iv, path, placeholder = null, error = null, strategy = null, options = null).into(iv)
     }
@@ -97,7 +81,7 @@ object GlideUtils {
         loadImage(iv, path, placeholder = placeholder, error = null, strategy = strategy, options = null).into(iv)
     }
 
-    fun loadImage(iv: ImageView, path: Any?, @DrawableRes placeholder: Int = -1) {
+    fun loadImage(iv: ImageView, path: Any?, @DrawableRes placeholder: Int) {
         loadImage(
             iv, path, placeholder = getDrawable(iv, placeholder),
             error = null, strategy = null, options = null

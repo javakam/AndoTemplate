@@ -8,7 +8,7 @@ ext {
             targetSdkVersion : 30,
             versionCode      : 1,
             versionName      : "1.0.0",
-            vAndoLib         : "8.0.0", //ando_library   'com.github.javakam:library:x.x.x@aar'
+            vAndoLib         : "8.1.0", //ando_library   'com.github.javakam:library:x.x.x@aar'
             vAndoTool        : "6.0.0", //ando_toolkit   'com.github.javakam:toolkit:x.x.x@aar'
             vBanner          : "3.0.0", //ando_ui_banner 'com.github.javakam:widget.banner:x.x.x@aar'
             vIndicator       : "1.0.0", //ando_ui_indicator  'com.github.javakam:widget.indicator.core:x.x.x@aar'
