@@ -11,9 +11,9 @@
         </attr>
     </declare-styleable>
 
-    <!--=============================== RadiusImageView ======================================-->
-    <attr name="RadiusImageViewStyle" format="reference" />
-    <declare-styleable name="RadiusImageView">
+    <!--=============================== RoundImageView ======================================-->
+    <attr name="RoundImageViewStyle" format="reference" />
+    <declare-styleable name="RoundImageView">
         <!--边框宽度，默认：0-->
         <attr name="riv_border_width" format="dimension" />
         <!--边框的颜色，默认：Color.GRAY-->

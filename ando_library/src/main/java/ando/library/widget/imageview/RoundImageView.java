@@ -34,7 +34,7 @@ import ando.library.R;
  * 1.注意事项:  android:clickable="true" 自己处理事件
  * 2.使用方案:
  * case : 剪裁为圆形+边框+点击效果
- *      <ando.xxx.RadiusImageView
+ *      <ando.xxx.RoundImageView
  *                 android:layout_width="150dp"
  *                 android:layout_height="wrap_content"
  *                 android:clickable="true"
@@ -48,7 +48,7 @@ import ando.library.R;
  *
  *
  * case : 剪裁为椭圆形+边框+点击效果
- *         <ando.xxx.RadiusImageView
+ *         <ando.xxx.RoundImageView
  *                 android:layout_width="150dp"
  *                 android:layout_height="wrap_content"
  *                 android:clickable="true"
@@ -63,7 +63,7 @@ import ando.library.R;
  *
  * case : 剪裁为圆角矩形+边框+点击效果
  *
- *        <ando.xxx.RadiusImageView
+ *        <ando.xxx.RoundImageView
  *                 android:layout_width="150dp"
  *                 android:layout_height="wrap_content"
  *                 android:clickable="true"
@@ -77,7 +77,7 @@ import ando.library.R;
  *
  * case : 约束布局 ConstraintLayout 中 , 创建宽高比为3:2的图片
  *
- *       <ando.xxx.RadiusImageView
+ *       <ando.xxx.RoundImageView
  *                 android:id="@+id/iv_logo"
  *                 android:layout_width="@dimen/dp_120"
  *                 android:layout_height="0dp"
@@ -98,7 +98,7 @@ import ando.library.R;
  * @author javakam
  * @date 2018/12/1 下午11:59
  */
-public class RadiusImageView extends AppCompatImageView {
+public class RoundImageView extends AppCompatImageView {
     private static final int DEFAULT_BORDER_COLOR = Color.GRAY;
 
     private static final Bitmap.Config BITMAP_CONFIG = Bitmap.Config.ARGB_8888;
@@ -133,15 +133,15 @@ public class RadiusImageView extends AppCompatImageView {
     private int mWidth;
     private int mHeight;
 
-    public RadiusImageView(Context context) {
-        this(context, null, R.attr.RadiusImageViewStyle);
+    public RoundImageView(Context context) {
+        this(context, null, R.attr.RoundImageViewStyle);
     }
 
-    public RadiusImageView(Context context, AttributeSet attrs) {
-        this(context, attrs, R.attr.RadiusImageViewStyle);
+    public RoundImageView(Context context, AttributeSet attrs) {
+        this(context, attrs, R.attr.RoundImageViewStyle);
     }
 
-    public RadiusImageView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public RoundImageView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
         initAttrs(context, attrs, defStyleAttr);
@@ -155,24 +155,24 @@ public class RadiusImageView extends AppCompatImageView {
 
         setScaleType(ScaleType.CENTER_CROP);
 
-        TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.RadiusImageView, defStyleAttr, 0);
-        mBorderWidth = array.getDimensionPixelSize(R.styleable.RadiusImageView_riv_border_width, 0);
-        mBorderColor = array.getColor(R.styleable.RadiusImageView_riv_border_color, DEFAULT_BORDER_COLOR);
+        TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.RoundImageView, defStyleAttr, 0);
+        mBorderWidth = array.getDimensionPixelSize(R.styleable.RoundImageView_riv_border_width, 0);
+        mBorderColor = array.getColor(R.styleable.RoundImageView_riv_border_color, DEFAULT_BORDER_COLOR);
         mSelectedBorderWidth = array.getDimensionPixelSize(
-                R.styleable.RadiusImageView_riv_selected_border_width, mBorderWidth);
-        mSelectedBorderColor = array.getColor(R.styleable.RadiusImageView_riv_selected_border_color, mBorderColor);
-        mSelectedMaskColor = array.getColor(R.styleable.RadiusImageView_riv_selected_mask_color, Color.TRANSPARENT);
+                R.styleable.RoundImageView_riv_selected_border_width, mBorderWidth);
+        mSelectedBorderColor = array.getColor(R.styleable.RoundImageView_riv_selected_border_color, mBorderColor);
+        mSelectedMaskColor = array.getColor(R.styleable.RoundImageView_riv_selected_mask_color, Color.TRANSPARENT);
         if (mSelectedMaskColor != Color.TRANSPARENT) {
             mSelectedColorFilter = new PorterDuffColorFilter(mSelectedMaskColor, PorterDuff.Mode.DARKEN);
         }
 
-        mIsTouchSelectModeEnabled = array.getBoolean(R.styleable.RadiusImageView_riv_is_touch_select_mode_enabled, true);
-        mIsCircle = array.getBoolean(R.styleable.RadiusImageView_riv_is_circle, false);
+        mIsTouchSelectModeEnabled = array.getBoolean(R.styleable.RoundImageView_riv_is_touch_select_mode_enabled, true);
+        mIsCircle = array.getBoolean(R.styleable.RoundImageView_riv_is_circle, false);
         if (!mIsCircle) {
-            mIsOval = array.getBoolean(R.styleable.RadiusImageView_riv_is_oval, false);
+            mIsOval = array.getBoolean(R.styleable.RoundImageView_riv_is_oval, false);
         }
         if (!mIsOval) {
-            mCornerRadius = array.getDimensionPixelSize(R.styleable.RadiusImageView_riv_corner_radius, 0);
+            mCornerRadius = array.getDimensionPixelSize(R.styleable.RoundImageView_riv_corner_radius, 0);
         }
         array.recycle();
     }
@@ -248,7 +248,6 @@ public class RadiusImageView extends AppCompatImageView {
         }
         mSelectedMaskColor = selectedMaskColor;
     }
-
 
     public void setCircle(boolean isCircle) {
         if (mIsCircle != isCircle) {
@@ -397,7 +396,6 @@ public class RadiusImageView extends AppCompatImageView {
         }
     }
 
-
     @Override
     public void setImageDrawable(Drawable drawable) {
         super.setImageDrawable(drawable);
@@ -415,7 +413,6 @@ public class RadiusImageView extends AppCompatImageView {
         if (drawable == null) {
             return null;
         }
-
         if (drawable instanceof BitmapDrawable) {
             Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
             if (bitmap == null) {
@@ -431,7 +428,6 @@ public class RadiusImageView extends AppCompatImageView {
                 float scale = Math.max(minScaleX, minScaleY);
                 Matrix matrix = new Matrix();
                 matrix.postScale(scale, scale);
-
                 return Bitmap.createBitmap(bitmap, 0, 0, (int) bmWidth, (int) bmHeight, matrix, false);
             } else {
                 return bitmap;
@@ -440,13 +436,11 @@ public class RadiusImageView extends AppCompatImageView {
 
         try {
             Bitmap bitmap;
-
             if (drawable instanceof ColorDrawable) {
                 bitmap = Bitmap.createBitmap(COLOR_DRAWABLE_DIMEN, COLOR_DRAWABLE_DIMEN, BITMAP_CONFIG);
             } else {
                 bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), BITMAP_CONFIG);
             }
-
             Canvas canvas = new Canvas(bitmap);
             drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
             drawable.draw(canvas);
@@ -549,7 +543,6 @@ public class RadiusImageView extends AppCompatImageView {
         }
 
         int borderWidth = mIsSelected ? mSelectedBorderWidth : mBorderWidth;
-
         if (mBitmap == null || mBitmapShader == null) {
             drawBorder(canvas, borderWidth);
             return;
@@ -590,4 +583,5 @@ public class RadiusImageView extends AppCompatImageView {
         }
         return super.onTouchEvent(event);
     }
+
 }

@@ -53,7 +53,7 @@ GsonUtils
 透明处理(alpha)
 datetime
 悬浮窗(float)
-圆角ImageView(RadiusImageView)
+圆角ImageView(RoundImageView)
 状态视图(loader)
 RecycleView(BaseQuickAdapter/BaseViewHolder/RecyclerDecorationProvider)
 阴影视图(ShadowDrawable)

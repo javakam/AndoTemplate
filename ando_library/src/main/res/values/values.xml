@@ -5,12 +5,12 @@
     <style name="AndoRootTheme" parent="Theme.AppCompat.Light.NoActionBar" />
 
     <style name="AndoBaseTheme" parent="AndoRootTheme">
-        <item name="RadiusImageViewStyle">@style/RadiusImageView</item>
+        <item name="RoundImageViewStyle">@style/RoundImageView</item>
         <item name="RippleViewStyle">@style/RippleView</item>
     </style>
 
     <!--=============================== style ======================================-->
-    <style name="RadiusImageView">
+    <style name="RoundImageView">
         <item name="riv_border_width">0dp</item>
         <item name="riv_border_color">#717882</item>
         <item name="riv_is_touch_select_mode_enabled">true</item>
