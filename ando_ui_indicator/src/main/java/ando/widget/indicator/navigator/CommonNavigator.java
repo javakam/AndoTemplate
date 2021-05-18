@@ -136,6 +136,13 @@ public class CommonNavigator extends FrameLayout implements IPagerNavigator, Nav
      * 初始化title和indicator
      */
     private void initTitlesAndIndicator() {
+        //mAdjustMode false 时少量条目横向铺满,解决留白的问题
+        final int sw = getResources().getDisplayMetrics().widthPixels;
+        int minW = 0;
+        if (mNavigatorHelper.getTotalCount() > 0) {
+            minW = sw / mNavigatorHelper.getTotalCount();
+        }
+
         for (int i = 0, j = mNavigatorHelper.getTotalCount(); i < j; i++) {
             IPagerTitleView v = mAdapter.getTitleView(getContext(), i);
             if (v instanceof View) {
@@ -145,6 +152,7 @@ public class CommonNavigator extends FrameLayout implements IPagerNavigator, Nav
                     lp = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT);
                     lp.weight = mAdapter.getTitleWeight(getContext(), i);
                 } else {
+                    view.setMinimumWidth(minW);
                     lp = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT);
                 }
                 mTitleContainer.addView(view, lp);

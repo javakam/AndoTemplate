@@ -19,6 +19,13 @@
         android:background="@color/color_main_gray"
         android:overScrollMode="never" />
 
+    <ando.widget.indicator.MagicIndicator
+        android:id="@+id/indicator3"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_45"
+        android:background="@color/color_main_gray"
+        android:overScrollMode="never" />
+
     <androidx.viewpager.widget.ViewPager
         android:id="@id/viewpager"
         android:layout_width="match_parent"

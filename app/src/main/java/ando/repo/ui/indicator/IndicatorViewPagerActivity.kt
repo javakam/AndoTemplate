@@ -21,9 +21,12 @@ import androidx.viewpager.widget.ViewPager
 class IndicatorViewPagerActivity : AppCompatActivity() {
     private val mIndicator: MagicIndicator by lazy { findViewById(R.id.indicator) }
     private val mIndicator2: MagicIndicator by lazy { findViewById(R.id.indicator2) }
+    private val mIndicator3: MagicIndicator by lazy { findViewById(R.id.indicator3) }
     private val mViewPager: ViewPager by lazy { findViewById(R.id.viewpager) }
 
     private var mIndicatorHelper: MagicIndicatorHelper? = null
+    private var mIndicatorHelper2: MagicIndicatorHelper? = null
+    private var mIndicatorHelper3: MagicIndicatorHelper? = null
 
     //
     private val mChannels: MutableList<ChannelBean> = mutableListOf() //标题
@@ -36,19 +39,24 @@ class IndicatorViewPagerActivity : AppCompatActivity() {
                 //空视图处理
             } else {
                 //样式一
+                mIndicatorHelper = MagicIndicatorHelper(this, supportFragmentManager)
+                mIndicatorHelper?.bind(mIndicator, mViewPager)
                 mIndicatorHelper?.initIndicatorStyle1(mChannels, mFragments)
 
                 //样式二
-                val mIndicatorHelper2 = MagicIndicatorHelper(this, supportFragmentManager)
-                mIndicatorHelper2.bind(mIndicator2, mViewPager)
-                mIndicatorHelper2.initIndicatorStyle2(mChannels, mFragments)
+                mIndicatorHelper2 = MagicIndicatorHelper(this, supportFragmentManager)
+                mIndicatorHelper2?.bind(mIndicator2, mViewPager)
+                mIndicatorHelper2?.initIndicatorStyle2(mChannels, mFragments)
+
+                //样式三
+                mIndicatorHelper3 = MagicIndicatorHelper(this, supportFragmentManager)
+                mIndicatorHelper3?.bind(mIndicator3, mViewPager)
+                mIndicatorHelper3?.initIndicatorStyle3(mChannels, mFragments)
+
             }
         }
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_widget_indicator_viewpager)
-
-        mIndicatorHelper = MagicIndicatorHelper(this, supportFragmentManager)
-        mIndicatorHelper?.bind(mIndicator, mViewPager)
     }
 
     /**
@@ -81,6 +89,7 @@ class IndicatorViewPagerActivity : AppCompatActivity() {
                 ChannelBean("a3", "追番"),
                 ChannelBean("a4", "直播"),
                 ChannelBean("a5", "影视"),
+                ChannelBean("a5", "漫画"),
             )
             channels
         }, {

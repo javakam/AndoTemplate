@@ -17,7 +17,7 @@ import ando.widget.indicator.abs.IPagerIndicator;
 import ando.widget.indicator.abs.IPagerTitleView;
 
 /**
- * # CommonNavigatorAdapter
+ * # IndicatorScrollNavAdapter
  *
  * @author javakam
  * @date 2019/11/11  10:14

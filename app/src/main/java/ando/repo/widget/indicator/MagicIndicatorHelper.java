@@ -163,6 +163,68 @@ public class MagicIndicatorHelper {
         }
     }
 
+    /**
+     * 相较于 initIndicatorStyle2 , 展示仅有三个 Tab 的情况
+     */
+    public void initIndicatorStyle3(List<ChannelBean> channels, List<Fragment> fragments) {
+        if (fragments == null || mIndicator == null) {
+            return;
+        }
+
+        //取出三个
+        final List<ChannelBean> newChannels = new ArrayList<>();
+        final List<Fragment> newFragments = new ArrayList<>();
+        for (int i = 0; i < channels.size(); i++) {
+            if (i == 3) {
+                break;
+            }
+            newChannels.add(channels.get(i));
+            newFragments.add(fragments.get(i));
+        }
+
+        final List<String> titles = new ArrayList<>();
+        for (ChannelBean channel : newChannels) {
+            titles.add(channel.getTitle());
+        }
+        final BaseCommonNavigatorAdapter<ChannelBean> navAdapter = new BaseCommonNavigatorAdapter<ChannelBean>() {
+
+            @Override
+            public int getCount() {
+                return newChannels.size();
+            }
+
+            @Override
+            public IPagerTitleView getTitleView(Context context, final int index) {
+                SimplePagerTitleView titleView = new ColorTransitionPagerTitleView(context);
+                titleView.setMinWidth(ResUtils.INSTANCE.getDimensionPixelSize(R.dimen.dp_100));
+                titleView.setNormalColor(Color.GRAY);
+                titleView.setSelectedColor(Color.BLACK);
+                titleView.setText(newChannels.get(index).getTitle());
+                titleView.setOnClickListener(v -> mViewPager.setCurrentItem(index));
+                return titleView;
+            }
+
+            @Override
+            public IPagerIndicator getIndicator(Context context) {
+                LinePagerIndicator linePagerIndicator = new LinePagerIndicator(context);
+                linePagerIndicator.setMode(LinePagerIndicator.MODE_MATCH_EDGE);
+                linePagerIndicator.setColors(ContextCompat.getColor(context, R.color.color_main_blue));
+                return linePagerIndicator;
+            }
+        };
+
+        final CommonNavigator commonNavigator =
+                initIndicator(navAdapter, new IndicatorFragmentAdapter(mFragmentManager),
+                        newChannels, titles, newFragments, -1, false);
+        //分割线
+        if (commonNavigator != null) {
+            LinearLayout titleContainer = commonNavigator.getTitleContainer(); // must after setNavigator
+            titleContainer.setShowDividers(LinearLayout.SHOW_DIVIDER_MIDDLE);
+            titleContainer.setDividerPadding(28);
+            titleContainer.setDividerDrawable(ContextCompat.getDrawable(context, R.drawable.shape_indicator_splitter));
+        }
+    }
+
 //    /**
 //     * 登录
 //     */
