@@ -1,10 +1,8 @@
 package ando.toolkit
 
-import java.nio.charset.StandardCharsets
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 import java.util.*
-import kotlin.experimental.and
 
 /**
  * # MD5Utils
@@ -21,34 +19,41 @@ object MD5Utils {
             for (i in 0..count) {
                 format.plus("%s")
             }
-            md5Decode32(String.format(Locale.getDefault(), format, args))
+            encrypt32(String.format(Locale.getDefault(), format, args))
         }
 
     /**
-     * 32位MD5加密
+     * 32位
      *
-     * @param content 待加密内容
+     * @param isUpperCase 默认小写(false)
      */
-    fun md5Decode32(content: String): String {
-        val hash: ByteArray = try {
-            MessageDigest.getInstance("MD5").digest(content.toByteArray(StandardCharsets.UTF_8))
-        } catch (e: NoSuchAlgorithmException) {
-            throw RuntimeException("NoSuchAlgorithmException", e)
-        }
-        //对生成的16字节数组进行补零操作
-        val hex = StringBuilder(hash.size * 2)
-        for (b: Byte in hash) {
-            if (b and 0xFF.toByte() < 0x10) {
-                hex.append("0")
+    fun encrypt32(text: String, isUpperCase: Boolean = false): String {
+        var reMd5 = String()
+        try {
+            val md: MessageDigest = MessageDigest.getInstance("MD5")
+            md.update(text.toByteArray())
+            val b: ByteArray = md.digest()
+            var i: Int
+            val buf = StringBuffer("")
+            for (offset in b.indices) {
+                i = b[offset].toInt()
+                if (i < 0) i += 256
+                if (i < 16) buf.append("0")
+                buf.append(Integer.toHexString(i))
             }
-            hex.append(Integer.toHexString((b and 0xFF.toByte()).toInt()))
+            reMd5 = buf.toString()
+        } catch (e: NoSuchAlgorithmException) {
+            e.printStackTrace()
         }
-        return hex.toString()
+        return reMd5
     }
 
     /**
-     * 16位MD5加密
-     * 实际是截取的32位加密结果的中间部分(8-24位)
+     * 16位
+     *
+     * @param isUpperCase 默认小写(false)
      */
-    fun md5Decode16(content: String): String = md5Decode32(content).substring(8, 24)
+    fun encrypt16(text: String, isUpperCase: Boolean = false): String {
+        return encrypt32(text, isUpperCase).substring(8, 24)
+    }
 }
