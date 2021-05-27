@@ -76,7 +76,7 @@ class BannerActivity : AppCompatActivity() {
         val indicator = headerView.findViewById<MagicIndicator>(R.id.indicator)
         val roundNavigator = RoundRectNavigator(this)
         roundNavigator.isFollowTouch = true //是否跟随手指滑动
-        roundNavigator.totalCount = mBannerData.size
+        roundNavigator.totalCount = banner.size()
 
         roundNavigator.itemColor = Color.LTGRAY
         roundNavigator.indicatorColor = ContextCompat.getColor(this, R.color.color_main_blue)
@@ -108,7 +108,7 @@ class BannerActivity : AppCompatActivity() {
         val indicator2 = v.findViewById<MagicIndicator>(R.id.indicator2)
         val roundNavigator2 = RoundRectNavigator(this)
         roundNavigator2.isFollowTouch = true //是否跟随手指滑动
-        roundNavigator2.totalCount = mBannerData.size
+        roundNavigator2.totalCount = banner.size()
 
         roundNavigator2.itemColor = Color.WHITE
         roundNavigator2.indicatorColor = ContextCompat.getColor(this, R.color.color_main_red)
@@ -141,7 +141,7 @@ class BannerActivity : AppCompatActivity() {
         val scaleCircleNavigator = ScaleCircleNavigator(this)
         scaleCircleNavigator.setSkimOver(true)
         scaleCircleNavigator.setFollowTouch(true) //是否跟随手指滑动
-        scaleCircleNavigator.setCircleCount(mBannerData.size)
+        scaleCircleNavigator.setCircleCount(banner.size())
         scaleCircleNavigator.setNormalCircleColor(Color.WHITE)
         scaleCircleNavigator.setSelectedCircleColor(Color.BLUE)
         scaleCircleNavigator.setMaxRadius(10)
@@ -151,7 +151,7 @@ class BannerActivity : AppCompatActivity() {
 
 //        val bezierNavigator = BezierNavigator(this)
 //        bezierNavigator.isFollowTouch = true
-//        bezierNavigator.circleCount = mBannerData.size
+//        bezierNavigator.circleCount = banner.size()
 //        bezierNavigator.circleSpacing = 15
 //        bezierNavigator.setColors(
 //            Color.parseColor("#ff4a42"),

@@ -155,7 +155,7 @@ abstract class BaseQuickAdapter<T, VH : BaseViewHolder>
 
                 baseViewHolder = createBaseViewHolder(mHeaderLayout)
             }
-            EMPTY_VIEW -> {
+            EMPTY_VIEW  -> {
                 val emptyLayoutVp: ViewParent? = mEmptyLayout.parent
                 if (emptyLayoutVp is ViewGroup) {
                     emptyLayoutVp.removeView(mEmptyLayout)
@@ -171,7 +171,7 @@ abstract class BaseQuickAdapter<T, VH : BaseViewHolder>
 
                 baseViewHolder = createBaseViewHolder(mFooterLayout)
             }
-            else -> {
+            else        -> {
                 val viewHolder = onCreateDefViewHolder(parent, viewType)
                 bindViewClickListener(viewHolder, viewType)
                 //mDraggableModule?.initView(viewHolder)
@@ -213,17 +213,17 @@ abstract class BaseQuickAdapter<T, VH : BaseViewHolder>
         if (hasEmptyView()) {
             val header = headerWithEmptyEnable && hasHeaderLayout()
             return when (position) {
-                0 -> if (header) {
+                0    -> if (header) {
                     HEADER_VIEW
                 } else {
                     EMPTY_VIEW
                 }
-                1 -> if (header) {
+                1    -> if (header) {
                     EMPTY_VIEW
                 } else {
                     FOOTER_VIEW
                 }
-                2 -> FOOTER_VIEW
+                2    -> FOOTER_VIEW
                 else -> EMPTY_VIEW
             }
         }
@@ -251,7 +251,7 @@ abstract class BaseQuickAdapter<T, VH : BaseViewHolder>
     override fun onBindViewHolder(holder: VH, position: Int) {
         when (holder.itemViewType) {
             HEADER_VIEW, EMPTY_VIEW, FOOTER_VIEW -> return
-            else -> convert(holder, getItem(position - headerLayoutCount))
+            else                                 -> convert(holder, getItem(position - headerLayoutCount))
         }
     }
 
@@ -262,7 +262,7 @@ abstract class BaseQuickAdapter<T, VH : BaseViewHolder>
         }
         when (holder.itemViewType) {
             HEADER_VIEW, EMPTY_VIEW, FOOTER_VIEW -> return
-            else -> convert(holder, getItem(position - headerLayoutCount), payloads)
+            else                                 -> convert(holder, getItem(position - headerLayoutCount), payloads)
         }
     }
 
@@ -1039,7 +1039,7 @@ abstract class BaseQuickAdapter<T, VH : BaseViewHolder>
     /**
      * 使用新的数据集合替换掉原有数据集合内容
      */
-    open fun replaceData(newData: Collection<T>) {
+    open fun replaceData(newData: List<T>?) {
         if (newData !== this.data) {
             this.data.clear()
             if (!newData.isNullOrEmpty()) {
