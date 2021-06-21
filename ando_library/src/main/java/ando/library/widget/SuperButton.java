@@ -48,7 +48,7 @@ public class SuperButton extends AppCompatButton {
     private static final int defaultSelectorColor = 0x20000000;
 
     private int solidColor;
-    private int sSelectorSelectedColor;
+    private int sSelectorUnSelectedColor;
     private int selectorPressedColor;
     private int selectorDisableColor;
     private int selectorNormalColor;
@@ -133,7 +133,7 @@ public class SuperButton extends AppCompatButton {
         gravity = typedArray.getInt(R.styleable.SuperButton_sGravity, 0);
         shapeType = typedArray.getInt(R.styleable.SuperButton_sShapeType, GradientDrawable.RECTANGLE);
         solidColor = typedArray.getColor(R.styleable.SuperButton_sSolidColor, defaultColor);
-        sSelectorSelectedColor = typedArray.getColor(R.styleable.SuperButton_sSelectorSelectedColor, defaultSelectorColor);
+        sSelectorUnSelectedColor = typedArray.getColor(R.styleable.SuperButton_sSelectorUnSelectedColor, defaultSelectorColor);
         selectorPressedColor = typedArray.getColor(R.styleable.SuperButton_sSelectorPressedColor, defaultSelectorColor);
         selectorDisableColor = typedArray.getColor(R.styleable.SuperButton_sSelectorDisableColor, defaultSelectorColor);
         selectorNormalColor = typedArray.getColor(R.styleable.SuperButton_sSelectorNormalColor, defaultSelectorColor);
@@ -185,13 +185,13 @@ public class SuperButton extends AppCompatButton {
      */
     public StateListDrawable getSelector() {
         StateListDrawable stateListDrawable = new StateListDrawable();
-
         //注意该处的顺序，只要有一个状态与之相配，背景就会被换掉
         //所以不要把大范围放在前面了，如果sd.addState(new[]{},normal)放在第一个的话，就没有什么效果了
-        stateListDrawable.addState(new int[]{android.R.attr.state_pressed, android.R.attr.state_enabled}, getDrawable(android.R.attr.state_pressed));
+        stateListDrawable.addState(new int[]{android.R.attr.state_selected, android.R.attr.state_pressed, android.R.attr.state_enabled}, getDrawable(android.R.attr.state_pressed));
+        stateListDrawable.addState(new int[]{-android.R.attr.state_selected}, getDrawable(-android.R.attr.state_selected));
+        stateListDrawable.addState(new int[]{-android.R.attr.state_pressed}, getDrawable(-android.R.attr.state_pressed));
         stateListDrawable.addState(new int[]{-android.R.attr.state_enabled}, getDrawable(-android.R.attr.state_enabled));
         stateListDrawable.addState(new int[]{}, getDrawable(android.R.attr.state_enabled));
-
         return stateListDrawable;
     }
 
@@ -247,12 +247,16 @@ public class SuperButton extends AppCompatButton {
     private void setSelectorColor(int state) {
         if (gradientOrientation == -1) {
             Log.w("123", "setSelectorColor = " + state
+                    + "  " + android.R.attr.state_selected
                     + "  " + android.R.attr.state_pressed
                     + "  " + android.R.attr.state_enabled);
 
             switch (state) {
                 case android.R.attr.state_selected:
-                    gradientDrawable.setColor(sSelectorSelectedColor);
+                    gradientDrawable.setColor(selectorNormalColor);
+                    break;
+                case -android.R.attr.state_selected:
+                    gradientDrawable.setColor(sSelectorUnSelectedColor);
                     break;
                 case android.R.attr.state_pressed:
                     gradientDrawable.setColor(selectorPressedColor);
@@ -438,7 +442,7 @@ public class SuperButton extends AppCompatButton {
      * @return 对象
      */
     public SuperButton setShapeSelectorSelectedColor(int color) {
-        this.sSelectorSelectedColor = color;
+        this.sSelectorUnSelectedColor = color;
         return this;
     }
 
