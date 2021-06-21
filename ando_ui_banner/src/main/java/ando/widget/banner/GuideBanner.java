@@ -57,7 +57,7 @@ public class GuideBanner extends BaseBanner<Object> {
         return view;
     }
 
-    private OnJumpClickListener onJumpClickListener;
+    protected OnJumpClickListener onJumpClickListener;
 
     /**
      * 点击跳过或者立即体验的监听

@@ -3,12 +3,12 @@ package ando.widget.banner;
 import android.content.Context;
 import android.util.AttributeSet;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 无限轮播 ViewPager
@@ -16,7 +16,7 @@ import java.util.List;
  * @author javakam
  * @date 2019/1/14 下午10:13
  */
-class LoopViewPager extends ViewPager {
+public class LoopViewPager extends ViewPager {
 
     private static final boolean DEFAULT_BOUNDARY_CASHING = false;
     private LoopPagerAdapterWrapper mAdapter;

@@ -10,7 +10,7 @@
         android:layout_height="match_parent"
         android:layout_centerInParent="true"
         android:adjustViewBounds="true"
-        android:scaleType="fitXY" />
+        android:scaleType="centerCrop" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tv_banner_jump"
@@ -18,19 +18,19 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_marginStart="0dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="26dp"
         android:layout_marginEnd="15dp"
-        android:layout_marginBottom="28dp"
+        android:layout_marginBottom="26dp"
         android:background="@drawable/banner_bg_button_corner_black"
         android:clickable="true"
         android:focusable="true"
-        android:paddingStart="16dp"
+        android:paddingStart="18dp"
         android:paddingTop="3dp"
-        android:paddingEnd="16dp"
+        android:paddingEnd="18dp"
         android:paddingBottom="3dp"
         android:text="@string/banner_jump"
         android:textColor="#FFFFFF"
-        android:textSize="12sp"
+        android:textSize="13sp"
         android:visibility="gone"
         tools:ignore="RelativeOverlap"
         tools:visibility="visible" />

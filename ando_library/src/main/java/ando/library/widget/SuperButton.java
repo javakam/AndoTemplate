@@ -48,6 +48,7 @@ public class SuperButton extends AppCompatButton {
     private static final int defaultSelectorColor = 0x20000000;
 
     private int solidColor;
+    private int sSelectorSelectedColor;
     private int selectorPressedColor;
     private int selectorDisableColor;
     private int selectorNormalColor;
@@ -132,6 +133,7 @@ public class SuperButton extends AppCompatButton {
         gravity = typedArray.getInt(R.styleable.SuperButton_sGravity, 0);
         shapeType = typedArray.getInt(R.styleable.SuperButton_sShapeType, GradientDrawable.RECTANGLE);
         solidColor = typedArray.getColor(R.styleable.SuperButton_sSolidColor, defaultColor);
+        sSelectorSelectedColor = typedArray.getColor(R.styleable.SuperButton_sSelectorSelectedColor, defaultSelectorColor);
         selectorPressedColor = typedArray.getColor(R.styleable.SuperButton_sSelectorPressedColor, defaultSelectorColor);
         selectorDisableColor = typedArray.getColor(R.styleable.SuperButton_sSelectorDisableColor, defaultSelectorColor);
         selectorNormalColor = typedArray.getColor(R.styleable.SuperButton_sSelectorNormalColor, defaultSelectorColor);
@@ -249,6 +251,9 @@ public class SuperButton extends AppCompatButton {
                     + "  " + android.R.attr.state_enabled);
 
             switch (state) {
+                case android.R.attr.state_selected:
+                    gradientDrawable.setColor(sSelectorSelectedColor);
+                    break;
                 case android.R.attr.state_pressed:
                     gradientDrawable.setColor(selectorPressedColor);
                     break;
@@ -423,6 +428,17 @@ public class SuperButton extends AppCompatButton {
      */
     public SuperButton setTextGravity(int gravity) {
         this.gravity = gravity;
+        return this;
+    }
+
+    /**
+     * 设置选则状态的颜色
+     *
+     * @param color 颜色
+     * @return 对象
+     */
+    public SuperButton setShapeSelectorSelectedColor(int color) {
+        this.sSelectorSelectedColor = color;
         return this;
     }
 
