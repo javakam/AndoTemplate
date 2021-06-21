@@ -1,5 +1,6 @@
 package ando.toolkit.ext
 
+import ando.toolkit.AppUtils
 import ando.toolkit.log.L
 import android.annotation.SuppressLint
 import android.content.Context
@@ -156,6 +157,11 @@ val View.realScreenRelatedInformation: String get() = context.realScreenRelatedI
 /* ---------- DeviceUtils ---------- */
 
 object DeviceUtils {
+
+    fun getAppName(): String = AppUtils.getContext().appName
+    fun getVersionCode(): Long = AppUtils.getContext().versionCode
+    fun getVersionName(): String = AppUtils.getContext().versionName
+
     /**
      * 获取当前手机系统版本号
      */
