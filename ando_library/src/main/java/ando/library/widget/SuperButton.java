@@ -48,7 +48,7 @@ public class SuperButton extends AppCompatButton {
     private static final int defaultSelectorColor = 0x20000000;
 
     private int solidColor;
-    private int sSelectorUnSelectedColor;
+    private int sSelectorSelectedColor;
     private int selectorPressedColor;
     private int selectorDisableColor;
     private int selectorNormalColor;
@@ -133,7 +133,7 @@ public class SuperButton extends AppCompatButton {
         gravity = typedArray.getInt(R.styleable.SuperButton_sGravity, 0);
         shapeType = typedArray.getInt(R.styleable.SuperButton_sShapeType, GradientDrawable.RECTANGLE);
         solidColor = typedArray.getColor(R.styleable.SuperButton_sSolidColor, defaultColor);
-        sSelectorUnSelectedColor = typedArray.getColor(R.styleable.SuperButton_sSelectorUnSelectedColor, defaultSelectorColor);
+        sSelectorSelectedColor = typedArray.getColor(R.styleable.SuperButton_sSelectorSelectedColor, defaultSelectorColor);
         selectorPressedColor = typedArray.getColor(R.styleable.SuperButton_sSelectorPressedColor, defaultSelectorColor);
         selectorDisableColor = typedArray.getColor(R.styleable.SuperButton_sSelectorDisableColor, defaultSelectorColor);
         selectorNormalColor = typedArray.getColor(R.styleable.SuperButton_sSelectorNormalColor, defaultSelectorColor);
@@ -256,13 +256,13 @@ public class SuperButton extends AppCompatButton {
                     + "  " + android.R.attr.state_enabled);
 
             switch (state) {
-                case android.R.attr.state_selected:
+                case -android.R.attr.state_selected:
                 case -android.R.attr.state_pressed:
                 case android.R.attr.state_enabled:
                     gradientDrawable.setColor(selectorNormalColor);
                     break;
-                case -android.R.attr.state_selected:
-                    gradientDrawable.setColor(sSelectorUnSelectedColor);
+                case android.R.attr.state_selected:
+                    gradientDrawable.setColor(sSelectorSelectedColor);
                     break;
                 case android.R.attr.state_pressed:
                     gradientDrawable.setColor(selectorPressedColor);
@@ -445,7 +445,7 @@ public class SuperButton extends AppCompatButton {
      * @return 对象
      */
     public SuperButton setShapeSelectorSelectedColor(int color) {
-        this.sSelectorUnSelectedColor = color;
+        this.sSelectorSelectedColor = color;
         return this;
     }
 
