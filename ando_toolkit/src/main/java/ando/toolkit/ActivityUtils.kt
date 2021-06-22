@@ -1,5 +1,6 @@
 package ando.toolkit
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -61,6 +62,7 @@ object ActivityUtils {
     /**
      * 强制设置Activity的显示方向为垂直方向。
      */
+    @SuppressLint("SourceLockedOrientationActivity")
     fun setScreenVertical(activity: Activity) {
         activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
     }

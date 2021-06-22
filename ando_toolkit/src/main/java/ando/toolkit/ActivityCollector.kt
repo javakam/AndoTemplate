@@ -28,6 +28,7 @@ object ActivityCollector {
     fun add(weakRefActivity: WeakReference<Activity>?) = activityList.add(weakRefActivity)
 
     fun remove(weakRefActivity: WeakReference<Activity>?) {
+        weakRefActivity?.clear()
         val result = activityList.remove(weakRefActivity)
         L.i(TAG, "remove activity reference $result")
     }
@@ -42,11 +43,12 @@ object ActivityCollector {
 
     fun finishAll() {
         if (activityList.isNotEmpty()) {
-            for (activityWeakReference in activityList) {
-                val activity = activityWeakReference?.get()
+            for (activityWeak in activityList) {
+                val activity = activityWeak?.get()
                 if (activity != null && !activity.isFinishing && !activity.isDestroyed) {
                     activity.finish()
                 }
+                activityWeak?.clear()
             }
             activityList.clear()
         }
