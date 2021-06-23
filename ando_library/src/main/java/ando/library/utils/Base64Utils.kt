@@ -25,7 +25,7 @@ object Base64Utils {
         }
         val baos = ByteArrayOutputStream()
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
-        val photoString = String(encode(baos.toByteArray()))
+        val photoString = String(encodeToChars(baos.toByteArray()))
         bitmap.recycle()
         return photoString
     }
@@ -61,7 +61,7 @@ object Base64Utils {
                             }
                         }
                     }
-                    String(encode(sb.toString().toByteArray()))
+                    String(encodeToChars(sb.toString().toByteArray()))
                 } else {
                     // Build.VERSION_CODES.O 以下
                     val file = File(getFilePathByUri(uri) ?: return "")
@@ -69,7 +69,7 @@ object Base64Utils {
                     val buffer = ByteArray(file.length().toInt())
                     inputFile.read(buffer)
                     inputFile.close()
-                    String(encode(buffer))
+                    String(encodeToChars(buffer))
                 }
             } catch (e: Exception) {
                 e("encodeFileToBase64 Exception : $e")
@@ -133,7 +133,7 @@ object Base64Utils {
      * @param data 源字符串
      * @return String
      */
-    fun encode(data: String): String = String(encode(data.toByteArray()))
+    fun encode(data: String): String = String(encodeToChars(data.toByteArray()))
 
     /**
      * 功能：解码字符串
@@ -145,13 +145,44 @@ object Base64Utils {
      */
     fun decode(data: String): String = String(decode(data.toCharArray()))
 
+    fun encodeToBytes(data: ByteArray): ByteArray {
+        val out = ByteArray((data.size + 2) / 3 * 4)
+        var i = 0
+        var index = 0
+        while (i < data.size) {
+            var quad = false
+            var trip = false
+            var value = 0xFF and data[i].toInt()
+            value = value shl 8
+            if (i + 1 < data.size) {
+                value = value or (0xFF and data[i + 1].toInt())
+                trip = true
+            }
+            value = value shl 8
+            if (i + 2 < data.size) {
+                value = value or (0xFF and data[i + 2].toInt())
+                quad = true
+            }
+            out[index + 3] = alphabet[if (quad) value and 0x3F else 64].toByte()
+            value = value shr 6
+            out[index + 2] = alphabet[if (trip) value and 0x3F else 64].toByte()
+            value = value shr 6
+            out[index + 1] = alphabet[value and 0x3F].toByte()
+            value = value shr 6
+            out[index + 0] = alphabet[value and 0x3F].toByte()
+            i += 3
+            index += 4
+        }
+        return out
+    }
+
     /**
      * 功能：编码byte[]
      *
      * @param data 源
      * @return char[]
      */
-    fun encode(data: ByteArray): CharArray {
+    fun encodeToChars(data: ByteArray): CharArray {
         val out = CharArray((data.size + 2) / 3 * 4)
         var i = 0
         var index = 0
@@ -244,7 +275,7 @@ object Base64Utils {
     fun encode(file: File?) {
         if (file?.exists() == true) {
             val decoded = readBytes(file)
-            val encoded = encode(decoded)
+            val encoded = encodeToChars(decoded)
             writeChars(file, encoded)
         }
     }
