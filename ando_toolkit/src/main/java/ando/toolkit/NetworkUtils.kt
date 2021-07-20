@@ -51,11 +51,10 @@ object NetworkUtils {
      *
      * @return `true`: connected<br></br>`false`: disconnected
      */
-    val isConnected: Boolean
-        get() {
-            val info = activeNetworkInfo
-            return info != null && info.isConnected
-        }
+    fun isConnected(): Boolean {
+        val info = getActiveNetworkInfo()
+        return info != null && info.isConnected
+    }
 
     /**
      * Return whether network is available.
@@ -64,8 +63,7 @@ object NetworkUtils {
      *
      * @return `true`: yes<br></br>`false`: no
      */
-    val isAvailable: Boolean
-        get() = isAvailableByDns || isAvailableByPing("")
+    fun isAvailable(): Boolean = (isAvailableByDns() || isAvailableByPing(""))
 
     /**
      * Return whether network is available using ping.
@@ -76,8 +74,7 @@ object NetworkUtils {
      *
      * @return `true`: yes<br></br>`false`: no
      */
-    val isAvailableByPing: Boolean
-        get() = isAvailableByPing("")
+    fun isAvailableByPing(): Boolean = isAvailableByPing("")
 
     /**
      * Return whether network is available using ping.
@@ -100,8 +97,7 @@ object NetworkUtils {
      *
      * @return `true`: yes<br></br>`false`: no
      */
-    val isAvailableByDns: Boolean
-        get() = isAvailableByDns("")
+    fun isAvailableByDns(): Boolean = isAvailableByDns("")
 
     /**
      * Return whether network is available using domain.
@@ -128,23 +124,20 @@ object NetworkUtils {
      *
      * @return `true`: enabled<br></br>`false`: disabled
      */
-    @get:SuppressLint("MissingPermission")
-    val isMobileEnabled: Boolean
-        get() {
-            try {
-                val tm =
-                    getContext().getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    return tm.isDataEnabled
-                }
-                @SuppressLint("PrivateApi") val getMobileDataEnabledMethod =
-                    tm.javaClass.getDeclaredMethod("getDataEnabled")
-                return getMobileDataEnabledMethod.invoke(tm) as Boolean
-            } catch (e: Exception) {
-                Log.e("NetworkUtils", "getMobileDataEnabled: ", e)
+    fun isMobileEnabled(): Boolean {
+        try {
+            val tm = getContext().getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                return tm.isDataEnabled
             }
-            return false
+            @SuppressLint("PrivateApi")
+            val getMobileDataEnabledMethod = tm.javaClass.getDeclaredMethod("getDataEnabled")
+            return getMobileDataEnabledMethod.invoke(tm) as Boolean
+        } catch (e: Exception) {
+            Log.e("NetworkUtils", "getMobileDataEnabled: ", e)
         }
+        return false
+    }
 
     /**
      * Return whether using mobile data.
@@ -153,12 +146,10 @@ object NetworkUtils {
      *
      * @return `true`: yes<br></br>`false`: no
      */
-    val isMobile: Boolean
-        get() {
-            val info = activeNetworkInfo
-            return (null != info && info.isAvailable
-                    && info.type == ConnectivityManager.TYPE_MOBILE)
-        }
+    fun isMobile(): Boolean {
+        val info = getActiveNetworkInfo()
+        return (null != info && info.isAvailable && info.type == ConnectivityManager.TYPE_MOBILE)
+    }
 
     /**
      * Return whether using 4G.
@@ -168,7 +159,7 @@ object NetworkUtils {
      * @return `true`: yes<br></br>`false`: no
      */
     fun is4G(): Boolean {
-        val info = activeNetworkInfo
+        val info = getActiveNetworkInfo()
         return (info != null && info.isAvailable
                 && info.subtype == TelephonyManager.NETWORK_TYPE_LTE)
     }
@@ -182,7 +173,7 @@ object NetworkUtils {
      */
     @RequiresApi(api = Build.VERSION_CODES.Q)
     fun is5G(): Boolean {
-        val info = activeNetworkInfo
+        val info = getActiveNetworkInfo()
         return (info != null && info.isAvailable
                 && info.subtype == TelephonyManager.NETWORK_TYPE_NR)
     }
@@ -200,21 +191,20 @@ object NetworkUtils {
      *
      * @param enabled True to enabled, false otherwise.
      */
-    @get:RequiresPermission(allOf = [Manifest.permission.ACCESS_WIFI_STATE, Manifest.permission.CHANGE_WIFI_STATE])
-    var wifiEnabled: Boolean
-        get() {
-            @SuppressLint("WifiManagerLeak") val manager =
-                getContext().getSystemService(Context.WIFI_SERVICE) as WifiManager
-            return manager.isWifiEnabled
+    @RequiresPermission(allOf = [Manifest.permission.ACCESS_WIFI_STATE, Manifest.permission.CHANGE_WIFI_STATE])
+    fun isWifiEnabled(): Boolean {
+        val manager = AppUtils.getApplication().applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
+        return manager.isWifiEnabled
+    }
+
+    @RequiresPermission(allOf = [Manifest.permission.ACCESS_WIFI_STATE, Manifest.permission.CHANGE_WIFI_STATE])
+    fun setWifiEnabled(enabled: Boolean) {
+        val manager = AppUtils.getApplication().applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
+        if (enabled == manager.isWifiEnabled) {
+            return
         }
-        set(enabled) {
-            @SuppressLint("WifiManagerLeak") val manager =
-                getContext().getSystemService(Context.WIFI_SERVICE) as WifiManager
-            if (enabled == manager.isWifiEnabled) {
-                return
-            }
-            manager.isWifiEnabled = enabled
-        }
+        manager.isWifiEnabled = enabled
+    }
 
     /**
      * Return whether wifi is connected.
@@ -223,14 +213,10 @@ object NetworkUtils {
      *
      * @return `true`: connected<br></br>`false`: disconnected
      */
-    val isWifiConnected: Boolean
-        @SuppressLint("MissingPermission")
-        get() {
-            val cm =
-                getContext().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-            val ni = cm.activeNetworkInfo
-            return ni != null && ni.type == ConnectivityManager.TYPE_WIFI
-        }
+    fun isWifiConnected(): Boolean {
+        val ni = (getContext().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager).activeNetworkInfo
+        return ni != null && ni.type == ConnectivityManager.TYPE_WIFI
+    }
 
     /**
      * Return whether wifi is available.
@@ -240,7 +226,8 @@ object NetworkUtils {
      *
      * @return `true`: available<br></br>`false`: unavailable
      */
-    fun isWifiAvailable(): Boolean = wifiEnabled && isAvailable
+    @SuppressLint("MissingPermission")
+    fun isWifiAvailable(): Boolean = isWifiEnabled() && isAvailable()
 
     /**
      * Return the name of network operate.
@@ -257,29 +244,28 @@ object NetworkUtils {
      *
      * @return type of network
      *
-     *  * [NetworkUtils.NetworkType.NETWORK_ETHERNET]
-     *  * [NetworkUtils.NetworkType.NETWORK_WIFI]
-     *  * [NetworkUtils.NetworkType.NETWORK_4G]
-     *  * [NetworkUtils.NetworkType.NETWORK_3G]
-     *  * [NetworkUtils.NetworkType.NETWORK_2G]
-     *  * [NetworkUtils.NetworkType.NETWORK_UNKNOWN]
-     *  * [NetworkUtils.NetworkType.NETWORK_NO]
+     *  [NetworkUtils.NetworkType.NETWORK_ETHERNET]
+     *  [NetworkUtils.NetworkType.NETWORK_WIFI]
+     *  [NetworkUtils.NetworkType.NETWORK_4G]
+     *  [NetworkUtils.NetworkType.NETWORK_3G]
+     *  [NetworkUtils.NetworkType.NETWORK_2G]
+     *  [NetworkUtils.NetworkType.NETWORK_UNKNOWN]
+     *  [NetworkUtils.NetworkType.NETWORK_NO]
      *
      */
     fun getNetworkType(): NetworkType {
-        if (isEthernet) {
+        if (isEthernet()) {
             return NetworkType.NETWORK_ETHERNET // 以太网网络
         }
         val cm = getContext().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
-        @SuppressLint("MissingPermission")
         val info = cm.activeNetworkInfo ?: return NetworkType.NETWORK_NO // 没有任何网络
         if (!info.isConnected) {
             return NetworkType.NETWORK_NO // 网络断开或关闭
         }
         return if (info.isAvailable) {
             when (info.type) {
-                ConnectivityManager.TYPE_WIFI -> {
+                ConnectivityManager.TYPE_WIFI   -> {
                     NetworkType.NETWORK_WIFI
                 }
                 ConnectivityManager.TYPE_MOBILE -> {
@@ -289,7 +275,7 @@ object NetworkUtils {
                         TelephonyManager.NETWORK_TYPE_CDMA,
                         TelephonyManager.NETWORK_TYPE_EDGE,
                         TelephonyManager.NETWORK_TYPE_1xRTT,
-                        TelephonyManager.NETWORK_TYPE_IDEN -> {
+                        TelephonyManager.NETWORK_TYPE_IDEN  -> {
                             NetworkType.NETWORK_2G
                         }
                         TelephonyManager.NETWORK_TYPE_TD_SCDMA,
@@ -305,11 +291,11 @@ object NetworkUtils {
                             NetworkType.NETWORK_3G
                         }
                         TelephonyManager.NETWORK_TYPE_IWLAN,
-                        TelephonyManager.NETWORK_TYPE_LTE -> {
+                        TelephonyManager.NETWORK_TYPE_LTE   -> {
                             NetworkType.NETWORK_4G
                         }
-                        TelephonyManager.NETWORK_TYPE_NR -> NetworkType.NETWORK_5G
-                        else -> {
+                        TelephonyManager.NETWORK_TYPE_NR    -> NetworkType.NETWORK_5G
+                        else                                -> {
                             val subtypeName = info.subtypeName
                             if ("TD-SCDMA".equals(subtypeName, ignoreCase = true)
                                 || "WCDMA".equals(subtypeName, ignoreCase = true)
@@ -322,7 +308,7 @@ object NetworkUtils {
                         }
                     }
                 }
-                else -> {
+                else                            -> {
                     NetworkType.NETWORK_UNKNOWN
                 }
             }
@@ -337,23 +323,15 @@ object NetworkUtils {
      *
      * @return `true`: yes<br></br>`false`: no
      */
-    private val isEthernet: Boolean
-        @SuppressLint("MissingPermission")
-        get() {
-            val cm =
-                getContext().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-            val info = cm.getNetworkInfo(ConnectivityManager.TYPE_ETHERNET) ?: return false
-            val state = info.state ?: return false
-            return state == NetworkInfo.State.CONNECTED || state == NetworkInfo.State.CONNECTING
-        }
+    private fun isEthernet(): Boolean {
+        val cm = getContext().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val info = cm.getNetworkInfo(ConnectivityManager.TYPE_ETHERNET) ?: return false
+        val state = info.state ?: return false
+        return state == NetworkInfo.State.CONNECTED || state == NetworkInfo.State.CONNECTING
+    }
 
-    private val activeNetworkInfo: NetworkInfo?
-        @SuppressLint("MissingPermission")
-        get() {
-            val cm =
-                getContext().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-            return cm.activeNetworkInfo
-        }
+    private fun getActiveNetworkInfo(): NetworkInfo? =
+        (getContext().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager).activeNetworkInfo
 
     private fun intToIp(ipAddress: Int): String {
         return (ipAddress and 0xFF).toString() + "." +
@@ -443,33 +421,32 @@ object NetworkUtils {
      *
      * @return the ip address of broadcast
      */
-    val broadcastIpAddress: String
-        get() {
-            try {
-                val nis = NetworkInterface.getNetworkInterfaces()
-                //val adds = LinkedList<InetAddress>()
-                while (nis.hasMoreElements()) {
-                    val ni = nis.nextElement()
-                    if (!ni.isUp || ni.isLoopback) {
-                        continue
-                    }
-                    val ias = ni.interfaceAddresses
-                    var i = 0
-                    val size = ias.size
-                    while (i < size) {
-                        val ia = ias[i]
-                        val broadcast = ia.broadcast
-                        if (broadcast != null) {
-                            return broadcast.hostAddress
-                        }
-                        i++
-                    }
+    fun broadcastIpAddress(): String {
+        try {
+            val nis = NetworkInterface.getNetworkInterfaces()
+            //val adds = LinkedList<InetAddress>()
+            while (nis.hasMoreElements()) {
+                val ni = nis.nextElement()
+                if (!ni.isUp || ni.isLoopback) {
+                    continue
                 }
-            } catch (e: SocketException) {
-                e.printStackTrace()
+                val ias = ni.interfaceAddresses
+                var i = 0
+                val size = ias.size
+                while (i < size) {
+                    val ia = ias[i]
+                    val broadcast = ia.broadcast
+                    if (broadcast != null) {
+                        return broadcast.hostAddress
+                    }
+                    i++
+                }
             }
-            return ""
+        } catch (e: SocketException) {
+            e.printStackTrace()
         }
+        return ""
+    }
 
     /**
      * Return the domain address.
@@ -495,57 +472,47 @@ object NetworkUtils {
      *
      * @return the ip address by wifi
      */
-    val ipAddressByWifi: String
-        get() {
-            @SuppressLint("WifiManagerLeak") val wm =
-                getContext().getSystemService(Context.WIFI_SERVICE) as WifiManager
-            return Formatter.formatIpAddress(wm.dhcpInfo.ipAddress) ?: ""
-        }
+    fun ipAddressByWifi(): String {
+        val wm = AppUtils.getApplication().applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
+        return Formatter.formatIpAddress(wm.dhcpInfo.ipAddress) ?: ""
+    }
 
     /**
      * Return the gate way by wifi.
      *
      * @return the gate way by wifi
      */
-    val gatewayByWifi: String
-        get() {
-            @SuppressLint("WifiManagerLeak") val wm =
-                getContext().getSystemService(Context.WIFI_SERVICE) as WifiManager
-            return Formatter.formatIpAddress(wm.dhcpInfo.gateway) ?: ""
-        }
+    fun gatewayByWifi(): String {
+        val wm = AppUtils.getApplication().applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
+        return Formatter.formatIpAddress(wm.dhcpInfo.gateway) ?: ""
+    }
 
     /**
      * Return the net mask by wifi.
      *
      * @return the net mask by wifi
      */
-    val netMaskByWifi: String
-        get() {
-            @SuppressLint("WifiManagerLeak") val wm =
-                getContext().getSystemService(Context.WIFI_SERVICE) as WifiManager
-            return Formatter.formatIpAddress(wm.dhcpInfo.netmask) ?: ""
-        }
+    fun netMaskByWifi(): String {
+        val wm = AppUtils.getApplication().applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
+        return Formatter.formatIpAddress(wm.dhcpInfo.netmask) ?: ""
+    }
 
     /**
      * Return the server address by wifi.
      *
      * @return the server address by wifi
      */
-    val serverAddressByWifi: String
-        get() {
-            @SuppressLint("WifiManagerLeak") val wm =
-                getContext().getSystemService(Context.WIFI_SERVICE) as WifiManager
-            return Formatter.formatIpAddress(wm.dhcpInfo.serverAddress) ?: ""
-        }
+    fun serverAddressByWifi(): String {
+        val wm = AppUtils.getApplication().applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
+        return Formatter.formatIpAddress(wm.dhcpInfo.serverAddress) ?: ""
+    }
 
 
     /**
      * 获取 WIFI 信号强度 RSSI
      */
-    @SuppressLint("MissingPermission")
-    fun getWifiRSSI(context: Context): Int {
-        val wifiManager =
-            context.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
+    fun getWifiRSSI(): Int {
+        val wifiManager = AppUtils.getApplication().applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
         return wifiManager.connectionInfo.rssi
     }
 
@@ -555,9 +522,8 @@ object NetworkUtils {
     fun getWifiSSID(context: Context): String {
         val ssid = "unknown id"
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.O || Build.VERSION.SDK_INT == Build.VERSION_CODES.P) {
-            val wifiManager =
-                (context.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager)
-            @SuppressLint("MissingPermission") val info = wifiManager.connectionInfo
+            val wifiManager = (context.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager)
+            val info = wifiManager.connectionInfo
             return if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
                 info.ssid
             } else {
@@ -566,7 +532,7 @@ object NetworkUtils {
         } else if (Build.VERSION.SDK_INT == Build.VERSION_CODES.O_MR1) {
             val connManager =
                 (context.applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager)
-            @SuppressLint("MissingPermission") val networkInfo = connManager.activeNetworkInfo
+            val networkInfo = connManager.activeNetworkInfo
             if (networkInfo != null && networkInfo.isConnected) {
                 if (networkInfo.extraInfo != null) {
                     return networkInfo.extraInfo.replace("\"", "")
@@ -587,7 +553,7 @@ object NetworkUtils {
     /**
      * 获取mac地址（适配所有Android版本）
      */
-    fun getMac(context: Context?): String? {
+    fun getMac(context: Context): String? {
         var mac: String? = ""
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             mac = getMacDefault(context)
@@ -605,12 +571,9 @@ object NetworkUtils {
      *
      * @param context * @return
      */
-    @SuppressLint("MissingPermission", "HardwareIds")
-    fun getMacDefault(context: Context?): String? {
-        var mac = ""
-        if (context == null) {
-            return mac
-        }
+    @SuppressLint("HardwareIds")
+    fun getMacDefault(context: Context): String? {
+        var mac: String
         val wifi = context.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
         var info: WifiInfo? = null
         try {

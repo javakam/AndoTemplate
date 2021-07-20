@@ -21,11 +21,7 @@ import ando.toolkit.log.L
  * @author javakam
  * @date 2019/1/3 下午3:47
  */
-class DrawableUtils private constructor() {
-    /**
-     * 节省每次创建时产生的开销，但要注意多线程操作synchronized
-     */
-    private val sCanvas = Canvas()
+object DrawableUtils {
 
     /**
      * 从一个view创建Bitmap。
@@ -45,7 +41,7 @@ class DrawableUtils private constructor() {
         view.clearFocus()
         var viewHeight = 0
         when (view) {
-            is ScrollView -> {
+            is ScrollView       -> {
                 for (i in 0 until view.childCount) {
                     viewHeight += view.getChildAt(i).height
                 }
@@ -55,7 +51,7 @@ class DrawableUtils private constructor() {
                     viewHeight += view.getChildAt(i).height
                 }
             }
-            else -> {
+            else                -> {
                 viewHeight = view.height
             }
         }
@@ -64,8 +60,8 @@ class DrawableUtils private constructor() {
             (viewHeight * scale).toInt(), Bitmap.Config.ARGB_8888, 1
         )
         if (bitmap != null) {
-            synchronized(sCanvas) {
-                val canvas = sCanvas
+            synchronized(DrawableUtils::class) {
+                val canvas = Canvas()
                 canvas.setBitmap(bitmap)
                 canvas.save()
                 // 防止 View 上面有些区域空白导致最终 Bitmap 上有些区域变黑
@@ -83,16 +79,14 @@ class DrawableUtils private constructor() {
         view.clearFocus()
         @Suppress("DEPRECATION") val viewHeight = (view.contentHeight * view.scale).toInt()
         val bitmap = createBitmapSafely(
-            (view.width * scale).toInt(),
-            (viewHeight * scale).toInt(),
-            Bitmap.Config.ARGB_8888,
-            1
+            (view.width * scale).toInt(), (viewHeight * scale).toInt(),
+            Bitmap.Config.ARGB_8888, 1
         )
         val unitHeight = view.height
         var bottom = viewHeight
         if (bitmap != null) {
-            synchronized(sCanvas) {
-                val canvas = sCanvas
+            synchronized(DrawableUtils::class) {
+                val canvas = Canvas()
                 canvas.setBitmap(bitmap)
                 // 防止 View 上面有些区域空白导致最终 Bitmap 上有些区域变黑
                 canvas.drawColor(Color.WHITE)
@@ -127,15 +121,12 @@ class DrawableUtils private constructor() {
     ): Bitmap? {
         val originBitmap = createBitmapFromView(view) ?: return null
         val cutBitmap = createBitmapSafely(
-            view.width - rightCrop - leftCrop,
-            view.height - topCrop - bottomCrop,
-            Bitmap.Config.ARGB_8888,
-            1
+            view.width - rightCrop - leftCrop, view.height - topCrop - bottomCrop,
+            Bitmap.Config.ARGB_8888, 1
         ) ?: return null
         val canvas = Canvas(cutBitmap)
         val src = Rect(leftCrop, topCrop, view.width - rightCrop, view.height - bottomCrop)
-        val dest =
-            Rect(0, 0, view.width - rightCrop - leftCrop, view.height - topCrop - bottomCrop)
+        val dest = Rect(0, 0, view.width - rightCrop - leftCrop, view.height - topCrop - bottomCrop)
         canvas.drawColor(Color.WHITE) // 防止 View 上面有些区域空白导致最终 Bitmap 上有些区域变黑
         canvas.drawBitmap(originBitmap, src, dest, null)
         originBitmap.recycle()

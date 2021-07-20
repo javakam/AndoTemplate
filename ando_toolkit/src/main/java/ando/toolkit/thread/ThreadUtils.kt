@@ -1166,7 +1166,7 @@ object ThreadUtils {
                         LinkedBlockingQueue4Util(true),
                         UtilsThreadFactory("cached", priority)
                     )
-                    TYPE_IO -> ThreadPoolExecutor4Util(
+                    TYPE_IO     -> ThreadPoolExecutor4Util(
                         2 * CPU_COUNT + 1,
                         2 * CPU_COUNT + 1,
                         30,
@@ -1174,7 +1174,7 @@ object ThreadUtils {
                         LinkedBlockingQueue4Util(),
                         UtilsThreadFactory("io", priority)
                     )
-                    TYPE_CPU -> ThreadPoolExecutor4Util(
+                    TYPE_CPU    -> ThreadPoolExecutor4Util(
                         CPU_COUNT + 1,
                         2 * CPU_COUNT + 1,
                         30,
@@ -1182,7 +1182,7 @@ object ThreadUtils {
                         LinkedBlockingQueue4Util(true),
                         UtilsThreadFactory("cpu", priority)
                     )
-                    else -> ThreadPoolExecutor4Util(
+                    else        -> ThreadPoolExecutor4Util(
                         type, type,
                         0L, TimeUnit.MILLISECONDS,
                         LinkedBlockingQueue4Util(),
@@ -1225,12 +1225,10 @@ object ThreadUtils {
 
     class UtilsThreadFactory @JvmOverloads constructor(
         prefix: String,
-        priority: Int,
-        isDaemon: Boolean = false
+        private val priority: Int,
+        private val isDaemon: Boolean = false
     ) : AtomicLong(), ThreadFactory {
-        private val namePrefix: String
-        private val priority: Int
-        private val isDaemon: Boolean
+        private val namePrefix: String = prefix + "-pool-${POOL_NUMBER.getAndIncrement()}-thread-"
 
         override fun newThread(r: Runnable): Thread {
             val t: Thread = object : Thread(r, namePrefix + andIncrement) {
@@ -1263,12 +1261,6 @@ object ThreadUtils {
         companion object {
             private val POOL_NUMBER = AtomicInteger(1)
             private const val serialVersionUID = -9209200509960368598L
-        }
-
-        init {
-            namePrefix = prefix + "-pool-${POOL_NUMBER.getAndIncrement()}-thread-"
-            this.priority = priority
-            this.isDaemon = isDaemon
         }
     }
 
@@ -1449,53 +1441,5 @@ object ThreadUtils {
                 }
                 return mValue
             }
-    }
-}
-
-/**
- * Task，对回调做catch，防止崩溃
- *
- * ThreadUtils.executeByCpu(ThreadTask({
- *      //Time-consuming operation
- *  }, {
- *      callback?.invoke(it)
- *  }))
- */
-class ThreadTask<T>(
-    private val doInBackground: (() -> (T?))?,
-    private val callback: ((T?) -> Unit)?
-) :
-    ThreadUtils.Task<T>() {
-    override fun doInBackground(): T? {
-        try {
-            return doInBackground?.invoke()
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-        return null
-    }
-
-    override fun onSuccess(result: T?) {
-        try {
-            callback?.invoke(result)
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-    }
-
-    override fun onFail(t: Throwable?) {
-        try {
-            callback?.invoke(null)
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-    }
-
-    override fun onCancel() {
-        try {
-            callback?.invoke(null)
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
     }
 }

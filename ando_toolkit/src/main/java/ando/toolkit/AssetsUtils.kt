@@ -41,12 +41,4 @@ object AssetsUtils {
         return sb.toString()
     }
 
-    //    public static <T extends Object> T getBeanByClass(@NonNull Context context, @NonNull String fileName, @NonNull Class<T> clz) {
-    //        return new Gson().fromJson(getJson(context, fileName), clz);
-    //    }
-
-    //    public static <T extends Object> List<T> getBeanByType(@NonNull Context context, @NonNull String fileName, @NonNull Type type) {
-    //        return new Gson().fromJson(getJson(context, fileName), type);
-    //    }
-
 }

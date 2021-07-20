@@ -80,13 +80,11 @@ object ValidateUtils {
     /**
      * 校验手机号
      *
-     * 匹配手机号的规则：[2-9] 是手机号第二位可能出现的数字
-     *
      * @param mobile
      * @return 校验通过返回true，否则返回false
      */
     fun isMobilePhone(mobile: String): Boolean =
-        Pattern.matches("^[1][2-9][0-9]{9}$", mobile)
+        Pattern.matches("^[1][0-9][0-9]{9}$", mobile)
 
     //只能输入汉字，匹配中文字符的正则表达式：^[\u4e00-\u9fa5]*$--已验证
     fun isChineseString(inputString: String): Boolean {

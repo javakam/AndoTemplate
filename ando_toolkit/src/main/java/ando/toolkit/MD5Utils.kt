@@ -45,7 +45,7 @@ object MD5Utils {
         } catch (e: NoSuchAlgorithmException) {
             e.printStackTrace()
         }
-        return reMd5
+        return if (isUpperCase) reMd5.uppercase(Locale.getDefault()) else reMd5.lowercase(Locale.getDefault())
     }
 
     /**

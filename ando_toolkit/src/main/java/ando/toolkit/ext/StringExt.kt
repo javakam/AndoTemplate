@@ -22,13 +22,18 @@ fun CharSequence?.noNullZeroInt(): Int {
     return if (this.isNullOrBlank()) 0 else this.toString().toInt()
 }
 
+fun CharSequence?.noNullZeroLong(): Long {
+    return if (this.isNullOrBlank()) 0L else this.toString().toLong(radix = 0)
+}
+
 /**
  * 可以在应用内播放的地址
  */
 fun String?.isVideoUrl(): Boolean {
-    return (this.noNull()).toLowerCase(Locale.getDefault()).run {
+    return (this.noNull()).lowercase(Locale.getDefault()).run {
         endsWith(".m3u8")
                 || endsWith(".mp4")
+                || endsWith(".mov")
                 || endsWith(".mkv")
                 || endsWith(".flv")
                 || endsWith(".avi")

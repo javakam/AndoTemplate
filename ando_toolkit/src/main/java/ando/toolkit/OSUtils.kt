@@ -42,7 +42,7 @@ object OSUtils {
     private var sFlymeVersionName: String? = null
     private var sIsTabletChecked = false
     private var sIsTabletValue = false
-    private val BRAND = Build.BRAND.toLowerCase(Locale.ROOT)
+    private val BRAND = Build.BRAND.lowercase(Locale.ROOT)
     private var sTotalMemory: Long = -1
     private var sInnerStorageSize: Long = -1
     private var sExtraStorageSize: Long = -1
@@ -164,7 +164,7 @@ object OSUtils {
      *
      * https://dev.mi.com/doc/?p=254
      */
-    fun isXiaomi(): Boolean = (Build.MANUFACTURER.toLowerCase(Locale.getDefault()) == "xiaomi")
+    fun isXiaomi(): Boolean = (Build.MANUFACTURER.lowercase(Locale.getDefault()) == "xiaomi")
 
     fun isVivo(): Boolean {
         return BRAND.contains("vivo") || BRAND.contains("bbk")
@@ -188,12 +188,12 @@ object OSUtils {
      */
     fun isZUKZ1(): Boolean {
         val board = Build.MODEL
-        return board != null && board.toLowerCase(Locale.getDefault()).contains(ZUKZ1)
+        return board != null && board.lowercase(Locale.getDefault()).contains(ZUKZ1)
     }
 
     fun isZTKC2016(): Boolean {
         val board = Build.MODEL
-        return board != null && board.toLowerCase(Locale.getDefault()).contains(ZTEC2016)
+        return board != null && board.lowercase(Locale.getDefault()).contains(ZTEC2016)
     }
 
     private fun isPhone(boards: Array<String>): Boolean {
@@ -346,7 +346,7 @@ object OSUtils {
             } catch (ignored: Exception) {
             }
         }
-        if (name != null) name = name.toLowerCase(Locale.getDefault())
+        if (name != null) name = name.lowercase(Locale.getDefault())
         return name
     }
 

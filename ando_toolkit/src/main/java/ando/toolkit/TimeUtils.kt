@@ -17,6 +17,7 @@ import kotlin.math.ceil
  * @date 2019/12/11 10:09
  */
 object TimeUtils {
+
     const val DATE_FORMAT = "yyyy-MM-dd HH:mm:ss"
     const val DATE_FORMAT1 = "yyyy-MM-dd HH:mm"
     const val DATE_FORMAT2 = "yyyy-MM-dd"

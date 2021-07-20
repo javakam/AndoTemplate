@@ -55,7 +55,7 @@ object L {
         for (stackTraceElement in stackTrace) {
             val stackTraceClassName = stackTraceElement.className
             val isLogClass = stackTraceClassName == L::class.java.name
-            val isLogMethod = logMethod.contains(stackTraceElement.methodName.toLowerCase(Locale.getDefault()))
+            val isLogMethod = logMethod.contains(stackTraceElement.methodName.lowercase(Locale.getDefault()))
             val isLog = isLogClass || isLogMethod
             if (shouldTrace && !isLog) {
                 targetStackTraceElement = stackTraceElement

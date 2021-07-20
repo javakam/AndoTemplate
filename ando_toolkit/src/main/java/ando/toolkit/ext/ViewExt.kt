@@ -51,7 +51,6 @@ inline var TextView.isSelectable: Boolean
     get() = isTextSelectable
     set(value) = setTextIsSelectable(value)
 
-
 fun View.visibleOrGone(visible: Boolean) {
     this.run {
         if (visible) {
