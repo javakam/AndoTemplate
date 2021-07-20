@@ -1,7 +1,7 @@
 package ando.repo.ui.recycler.adapter
 
-import ando.library.widget.recycler.BaseQuickAdapter
-import ando.library.widget.recycler.BaseViewHolder
+import com.chad.library.adapter.base.BaseQuickAdapter
+import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import ando.repo.R
 
 /**

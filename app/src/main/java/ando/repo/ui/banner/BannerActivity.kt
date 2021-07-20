@@ -1,7 +1,7 @@
 package ando.repo.ui.banner
 
-import ando.library.widget.recycler.BaseQuickAdapter
-import ando.library.widget.recycler.BaseViewHolder
+import com.chad.library.adapter.base.BaseQuickAdapter
+import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import ando.repo.R
 import ando.toolkit.ext.noNull
 import ando.toolkit.ext.toastShort
@@ -98,7 +98,7 @@ class BannerActivity : AppCompatActivity() {
         initIndicator3(headerView, banner)
 
         mAdapter.addHeaderView(headerView)
-        mAdapter.replaceData(mutableListOf("aaa", "bbb", "ccc", "ddd"))
+        mAdapter.setList(mutableListOf("aaa", "bbb", "ccc", "ddd"))
         mRecycler.adapter = mAdapter
 
     }

@@ -1,6 +1,6 @@
 package ando.repo.ui.recycler.activity
 
-import ando.library.widget.recycler.BaseViewHolder
+import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import ando.repo.R
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

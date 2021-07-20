@@ -1,6 +1,6 @@
 package ando.repo.ui.recycler.activity
 
-import ando.library.widget.recycler.BaseViewHolder
+import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import ando.repo.ui.recycler.adapter.HorizontalDataAdapter
@@ -43,7 +43,7 @@ class HorizontalStaggeredGridActivity : BaseActivity() {
             list.add("vertical staggered grid layout manager")
             list.add("vertical staggered grid layout manager show.")
         }
-        quickAdapter.setNewData(list)
+        quickAdapter.setList(list)
     }
 
 }

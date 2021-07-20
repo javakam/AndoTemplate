@@ -1,7 +1,7 @@
 package ando.repo.ui.recycler.activity
 
-import ando.library.widget.recycler.BaseQuickAdapter
-import ando.library.widget.recycler.BaseViewHolder
+import com.chad.library.adapter.base.BaseQuickAdapter
+import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import android.graphics.Color
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -42,7 +42,7 @@ class VerticalGridActivity : BaseActivity() {
         val quickAdapter = adapter as DataAdapter
 //        quickAdapter.setSpanSizeLookup { gridLayoutManager, position ->
 //            2 }
-        quickAdapter.setNewData(DataServer.createGridData(21))
+        quickAdapter.setList(DataServer.createGridData(21))
     }
 
 }

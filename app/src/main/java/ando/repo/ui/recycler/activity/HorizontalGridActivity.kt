@@ -1,7 +1,7 @@
 package ando.repo.ui.recycler.activity
 
-import ando.library.widget.recycler.BaseQuickAdapter
-import ando.library.widget.recycler.BaseViewHolder
+import com.chad.library.adapter.base.BaseQuickAdapter
+import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import android.graphics.Color
 import androidx.recyclerview.widget.RecyclerView
 import android.widget.LinearLayout
@@ -41,7 +41,7 @@ class HorizontalGridActivity : BaseActivity() {
 
     override fun initData(adapter: RecyclerView.Adapter<BaseViewHolder>) {
         val quickAdapter = adapter as HorizontalDataAdapter
-        quickAdapter.setNewData(DataServer.createGridData(20))
+        quickAdapter.setList(DataServer.createGridData(20))
     }
 
 }

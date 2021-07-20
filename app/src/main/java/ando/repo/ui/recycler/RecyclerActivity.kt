@@ -1,8 +1,7 @@
 package ando.repo.ui.recycler
 
-import ando.library.widget.recycler.BaseQuickAdapter
-import ando.library.widget.recycler.BaseViewHolder
-import ando.library.widget.recycler.OnItemClickListener
+import com.chad.library.adapter.base.BaseQuickAdapter
+import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import ando.repo.R
 import android.content.Intent
 import android.os.Bundle
@@ -12,6 +11,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import ando.repo.ui.recycler.activity.*
 import ando.library.widget.recycler.decoration.RecyclerDecorationProvider
 import android.view.View
+import com.chad.library.adapter.base.listener.OnItemClickListener
 
 /**
  * # RecyclerActivity
@@ -48,23 +48,21 @@ class RecyclerActivity : AppCompatActivity() {
                 .build()
                 .addTo(mainRv)
 
-            setNewData(createData())
+            setList(createData())
 
-            setOnItemClickListener(object : OnItemClickListener {
-                override fun onItemClick(adapter: BaseQuickAdapter<*, *>, view: View, position: Int) {
-                    when (position) {
-                        0 -> start(VerticalLinearActivity::class.java)
-                        1 -> start(HorizontalLinearActivity::class.java)
-                        2 -> start(VerticalGridActivity::class.java)
-                        3 -> start(HorizontalGridActivity::class.java)
-                        4 -> start(VerticalStaggeredGridActivity::class.java)
-                        5 -> start(HorizontalStaggeredGridActivity::class.java)
-                        else -> {
-                            start(VerticalLinearActivity::class.java)
-                        }
+            setOnItemClickListener { _, _, position ->
+                when (position) {
+                    0    -> start(VerticalLinearActivity::class.java)
+                    1    -> start(HorizontalLinearActivity::class.java)
+                    2    -> start(VerticalGridActivity::class.java)
+                    3    -> start(HorizontalGridActivity::class.java)
+                    4    -> start(VerticalStaggeredGridActivity::class.java)
+                    5    -> start(HorizontalStaggeredGridActivity::class.java)
+                    else -> {
+                        start(VerticalLinearActivity::class.java)
                     }
                 }
-            })
+            }
         }
     }
 
@@ -86,7 +84,7 @@ class RecyclerActivity : AppCompatActivity() {
     class MainAdapter : BaseQuickAdapter<String, BaseViewHolder>(R.layout.item_widget_main, null) {
 
         override fun convert(holder: BaseViewHolder, item: String) {
-            holder.setText(R.id.tv_item_data, "${holder.adapterPosition}. $item")
+            holder.setText(R.id.tv_item_data, "${holder.absoluteAdapterPosition}. $item")
         }
     }
 }

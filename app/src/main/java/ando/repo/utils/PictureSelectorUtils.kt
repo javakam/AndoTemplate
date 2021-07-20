@@ -1,14 +1,5 @@
 package ando.repo.utils
 
-import ando.gallery.PictureSelector
-import ando.gallery.config.PictureConfig
-import ando.gallery.config.PictureMimeType
-import ando.gallery.entity.LocalMedia
-import ando.gallery.listener.OnResultCallbackListener
-import ando.gallery.style.PictureCropParameterStyle
-import ando.gallery.style.PictureSelectorUIStyle
-import ando.gallery.tools.PictureFileUtils
-import ando.gallery.tools.ScreenUtils
 import ando.repo.R
 import ando.toolkit.AppUtils
 import ando.toolkit.ext.noNull
@@ -26,6 +17,15 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import ando.repo.utils.PermissionUtils.REQUEST_CODE_CAMERA
 import ando.repo.utils.PermissionUtils.REQUEST_CODE_STORAGE
+import com.luck.picture.lib.PictureSelector
+import com.luck.picture.lib.config.PictureConfig
+import com.luck.picture.lib.config.PictureMimeType
+import com.luck.picture.lib.entity.LocalMedia
+import com.luck.picture.lib.listener.OnResultCallbackListener
+import com.luck.picture.lib.style.PictureCropParameterStyle
+import com.luck.picture.lib.style.PictureSelectorUIStyle
+import com.luck.picture.lib.tools.PictureFileUtils
+import com.luck.picture.lib.tools.ScreenUtils
 import java.io.File
 
 /**
@@ -48,7 +48,7 @@ class PictureSelectorUtils(private val context: Context) {
         when (context) {
             is Activity -> PictureSelector.create(context)
             is Fragment -> PictureSelector.create(context)
-            else -> throw RuntimeException("Context is neither Activity nor Fragment!")
+            else        -> throw RuntimeException("Context is neither Activity nor Fragment!")
         }
 
     private fun takePicture() {
@@ -117,7 +117,7 @@ class PictureSelectorUtils(private val context: Context) {
             .forResult(onResultCallbackListener)
     }
 
-    private val onResultCallbackListener = object : OnResultCallbackListener {
+    private val onResultCallbackListener = object : OnResultCallbackListener<LocalMedia> {
         override fun onStart(activity: Activity) {
             callback?.onStart(activity)
         }
@@ -214,8 +214,10 @@ class PictureSelectorUtils(private val context: Context) {
         if (REQUEST_CODE_STORAGE == requestCode) {
             if (permissions.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 //清空图片缓存，包括裁剪、压缩后的图片 注意:必须要在上传完成后调用 必须要获取权限
-                if (PermissionUtils.havePermissions(context,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                if (PermissionUtils.havePermissions(
+                        context,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE
+                    )
                 ) {
                     clearCache()
                 } else {

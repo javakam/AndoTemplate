@@ -1,7 +1,7 @@
 package ando.repo.ui.recycler.activity
 
-import ando.library.widget.recycler.BaseQuickAdapter
-import ando.library.widget.recycler.BaseViewHolder
+import com.chad.library.adapter.base.BaseQuickAdapter
+import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import ando.repo.R
 import android.graphics.Color
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -40,7 +40,7 @@ class VerticalLinearActivity : BaseActivity() {
 
     override fun initData(adapter: RecyclerView.Adapter<BaseViewHolder>) {
         val quickAdapter = adapter as DataAdapter
-        quickAdapter.setNewData(DataServer.createLinearData(20).toMutableList())
+        quickAdapter.setList(DataServer.createLinearData(20).toMutableList())
     }
 
 }
