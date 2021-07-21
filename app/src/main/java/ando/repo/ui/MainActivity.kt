@@ -38,9 +38,14 @@ class MainActivity : AppCompatActivity() {
             AppRouter.toWidgetButton(this)
         }
 
-        //RecyclerView
-        click(R.id.bt_widget_recycler) {
+        //RecyclerDecorationProviderActivity
+        click(R.id.bt_widget_recycler_decoration) {
             AppRouter.toWidgetRecycler(this)
+        }
+
+        //Diff
+        click(R.id.bt_widget_recycler_diff) {
+            AppRouter.toWidgetRecyclerDiff(this)
         }
 
         //SmartDragLayout

@@ -9,7 +9,8 @@ import ando.repo.ui.coordinator.TabLayoutActivity
 import ando.repo.ui.indicator.IndicatorActivity
 import ando.repo.ui.indicator.IndicatorViewPagerActivity
 import ando.repo.ui.indicator.IndicatorViewPagerNoActivity
-import ando.repo.ui.recycler.RecyclerActivity
+import ando.repo.ui.recycler.decoration.RecyclerDecorationProviderActivity
+import ando.repo.ui.recycler.diff.RecyclerDiffActivity
 import ando.repo.ui.string.StringExpandActivity
 import android.app.Activity
 import android.content.Intent
@@ -56,12 +57,16 @@ object AppRouter {
         activity.startActivity(Intent(activity, BannerGuideActivity::class.java))
     }
 
-    //SuperButton 使用
+    //RecyclerDecorationProvider
     fun toWidgetRecycler(activity: Activity) {
-        activity.startActivity(Intent(activity, RecyclerActivity::class.java))
+        activity.startActivity(Intent(activity, RecyclerDecorationProviderActivity::class.java))
     }
 
-    //SuperButton 使用
+    fun toWidgetRecyclerDiff(activity: Activity) {
+        activity.startActivity(Intent(activity, RecyclerDiffActivity::class.java))
+    }
+
+    //SuperButton
     fun toWidgetButton(activity: Activity) {
         activity.startActivity(Intent(activity, ButtonActivity::class.java))
     }

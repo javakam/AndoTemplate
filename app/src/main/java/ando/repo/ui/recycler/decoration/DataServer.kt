@@ -1,4 +1,4 @@
-package ando.repo.ui.recycler
+package ando.repo.ui.recycler.decoration
 
 /**
  * @author   zyyoona7

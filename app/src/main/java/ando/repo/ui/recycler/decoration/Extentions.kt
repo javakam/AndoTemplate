@@ -1,4 +1,4 @@
-package ando.repo.ui.recycler
+package ando.repo.ui.recycler.decoration
 
 import android.content.res.Resources
 import android.util.TypedValue

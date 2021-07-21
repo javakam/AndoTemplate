@@ -1,4 +1,4 @@
-package ando.repo.ui.recycler
+package ando.repo.ui.recycler.decoration
 
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
@@ -8,7 +8,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import ando.repo.ui.recycler.activity.*
+import ando.repo.ui.recycler.decoration.activity.*
 import ando.library.widget.recycler.decoration.RecyclerDecorationProvider
 
 /**
@@ -17,7 +17,7 @@ import ando.library.widget.recycler.decoration.RecyclerDecorationProvider
  * @author javakam
  * @date 2021/4/12  10:48
  */
-class RecyclerActivity : AppCompatActivity() {
+class RecyclerDecorationProviderActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

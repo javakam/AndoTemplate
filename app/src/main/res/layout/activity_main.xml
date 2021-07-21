@@ -52,11 +52,19 @@
             android:textAllCaps="false" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/bt_widget_recycler"
+            android:id="@+id/bt_widget_recycler_decoration"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical|start"
-            android:text="RecyclerView Adapter/ItemDecoration"
+            android:text="RecyclerView ItemDecoration"
+            android:textAllCaps="false" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/bt_widget_recycler_diff"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical|start"
+            android:text="RecyclerView Diff"
             android:textAllCaps="false" />
 
         <androidx.appcompat.widget.AppCompatButton

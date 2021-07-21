@@ -1,10 +1,10 @@
-package ando.repo.ui.recycler.activity
+package ando.repo.ui.recycler.decoration.activity
 
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import ando.repo.ui.recycler.adapter.HorizontalDataAdapter
-import ando.repo.ui.recycler.dpToPx
+import ando.repo.ui.recycler.decoration.adapter.HorizontalDataAdapter
+import ando.repo.ui.recycler.decoration.dpToPx
 import ando.library.widget.recycler.decoration.RecyclerDecorationProvider
 import ando.repo.R
 

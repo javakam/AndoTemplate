@@ -1,4 +1,4 @@
-package ando.repo.ui.recycler.adapter
+package ando.repo.ui.recycler.decoration.adapter
 
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
