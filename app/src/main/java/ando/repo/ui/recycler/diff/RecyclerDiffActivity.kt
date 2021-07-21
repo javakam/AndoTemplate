@@ -1,11 +1,13 @@
 package ando.repo.ui.recycler.diff
 
 import ando.repo.R
+import ando.repo.ui.recycler.CustomAnimation1
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
+import com.chad.library.adapter.base.BaseQuickAdapter
 import java.util.*
 
 /**
@@ -37,6 +39,11 @@ class RecyclerDiffActivity : AppCompatActivity() {
 
         // 必须设置 Diff Callback
         mAdapter?.setDiffCallback(DiffDemoCallback())
+
+        // 设置动画
+        //mAdapter?.setAnimationWithDefault(BaseQuickAdapter.AnimationType.ScaleIn) //内置动画
+        mAdapter?.adapterAnimation = CustomAnimation1() //自定义动画
+
     }
 
     private fun initClick() {
