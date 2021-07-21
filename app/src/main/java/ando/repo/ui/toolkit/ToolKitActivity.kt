@@ -28,8 +28,8 @@ class ToolKitActivity : AppCompatActivity(), NetStateEvent {
 
     @SuppressLint("SetTextI18n")
     private fun testNetworkUtils() {
+        tvNetInfo.text = "请稍候..."
         val nextLine = "\n"
-
         ThreadUtils.executeByCpu(ThreadTask({
             //异步处理
             //Caused by: android.os.NetworkOnMainThreadException
