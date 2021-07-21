@@ -7,7 +7,6 @@ import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
-import com.chad.library.adapter.base.BaseQuickAdapter
 import java.util.*
 
 /**
@@ -58,8 +57,8 @@ class RecyclerDiffActivity : AppCompatActivity() {
             mAdapter?.data?.set(
                 0, DiffUtilDemoEntity(
                     1,
-                    "😊😊Item " + 0,
-                    "改变位置0的暑假 (notifyItemChanged)",
+                    "😊😊标题 " + 0,
+                    "改变位置0的数据(notifyItemChanged)",
                     "06-12"
                 )
             )
@@ -77,8 +76,8 @@ class RecyclerDiffActivity : AppCompatActivity() {
             list.add(
                 DiffUtilDemoEntity(
                     i,
-                    "Origin Title $i",
-                    "Origin Content $i",
+                    "原始标题 $i",
+                    "原始内容 $i",
                     "06-12"
                 )
             )
@@ -109,8 +108,8 @@ class RecyclerDiffActivity : AppCompatActivity() {
                 list.add(
                     DiffUtilDemoEntity(
                         i,
-                        "😊Item $i",
-                        "This item $i content",
+                        "😊新标题 $i",
+                        "新内容 $i",
                         "06-12"
                     )
                 )
@@ -124,9 +123,9 @@ class RecyclerDiffActivity : AppCompatActivity() {
                 list.add(
                     DiffUtilDemoEntity(
                         i,
-                        "Item $i",
-                        "Oh~~~~~~, Item $i content have change",
-                        "06-12"
+                        "新标题 $i",
+                        "新内容 $i",
+                        "07-21"
                     )
                 )
                 continue
@@ -134,8 +133,8 @@ class RecyclerDiffActivity : AppCompatActivity() {
             list.add(
                 DiffUtilDemoEntity(
                     i,
-                    "Origin Title $i",
-                    "Origin Content $i",
+                    "原始标题 $i",
+                    "原始内容 $i",
                     "06-12"
                 )
             )

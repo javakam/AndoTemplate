@@ -41,7 +41,7 @@
             android:paddingRight="@dimen/dp_10"
             android:paddingBottom="@dimen/dp_10"
             android:text="Hello world!"
-            android:textColor="@android:color/darker_gray" />
+            android:textColor="@color/white" />
 
         <TextView
             android:id="@+id/tweetDate"
