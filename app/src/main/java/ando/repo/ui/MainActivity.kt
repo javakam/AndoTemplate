@@ -14,6 +14,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun siuuuuuuuuuu() {
+        click(R.id.bt_tool_kit) {
+            AppRouter.toToolKit(this)
+        }
+
         click(R.id.bt_widget_tab_layout) {
             AppRouter.toWidgetTabLayout(this)
         }

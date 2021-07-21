@@ -1,6 +1,6 @@
-package ando.toolkit
+package ando.toolkit.http
 
-import android.Manifest
+import ando.toolkit.AppUtils
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
@@ -14,11 +14,10 @@ import android.telephony.TelephonyManager
 import android.text.TextUtils
 import android.text.format.Formatter
 import android.util.Log
-import androidx.annotation.RequiresApi
-import androidx.annotation.RequiresPermission
 import ando.toolkit.AppUtils.getContext
 import ando.toolkit.ShellUtils.execCmd
-import ando.toolkit.log.L
+import android.Manifest
+import androidx.annotation.RequiresPermission
 import java.io.IOException
 import java.io.InputStreamReader
 import java.io.LineNumberReader
@@ -34,14 +33,15 @@ object NetworkUtils {
         NETWORK_ETHERNET, NETWORK_WIFI, NETWORK_5G, NETWORK_4G, NETWORK_3G, NETWORK_2G, NETWORK_UNKNOWN, NETWORK_NO
     }
 
+    val sConnectivityManager: ConnectivityManager by lazy { getContext().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager }
+
+    fun getActiveNetworkInfo(): NetworkInfo? = sConnectivityManager.activeNetworkInfo
+
     /**
      * Open the settings of wireless.
      */
     fun openWirelessSettings(context: Context) {
-        context.startActivity(
-            Intent(Settings.ACTION_WIRELESS_SETTINGS)
-                .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        )
+        context.startActivity(Intent(Settings.ACTION_WIRELESS_SETTINGS).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
     }
 
     /**
@@ -90,16 +90,12 @@ object NetworkUtils {
         return result.result == 0
     }
 
-    /**
-     * Return whether network is available using domain.
-     *
-     * Must hold `<uses-permission android:name="android.permission.INTERNET" />`
-     *
-     * @return `true`: yes<br></br>`false`: no
-     */
     fun isAvailableByDns(): Boolean = isAvailableByDns("")
 
     /**
+     *
+     * android.os.NetworkOnMainThreadException
+     *
      * Return whether network is available using domain.
      *
      * Must hold `<uses-permission android:name="android.permission.INTERNET" />`
@@ -114,6 +110,27 @@ object NetworkUtils {
             inetAddress = InetAddress.getByName(realDomain)
             return inetAddress != null
         } catch (e: UnknownHostException) {
+            e.printStackTrace()
+        }
+        return false
+    }
+
+    /**
+     * 判断当前网络是否能连同外网
+     */
+    fun isNetworkOnline(): Boolean {
+        val runtime = Runtime.getRuntime()
+        try {
+            val ipProcess = runtime.exec("ping -c 3 www.baidu.com")
+            val exitValue = ipProcess.waitFor()
+            if (AppUtils.isDebug()) Log.i("通知", "Avalible Process:$exitValue")
+            //WiFi不可用或未连接，返回2
+            //WiFi需要认证，返回1
+            //WiFi可用，返回0
+            return exitValue == 0
+        } catch (e: IOException) {
+            e.printStackTrace()
+        } catch (e: InterruptedException) {
             e.printStackTrace()
         }
         return false
@@ -171,12 +188,13 @@ object NetworkUtils {
      *
      * @return `true`: yes<br></br>`false`: no
      */
-    @RequiresApi(api = Build.VERSION_CODES.Q)
     fun is5G(): Boolean {
         val info = getActiveNetworkInfo()
-        return (info != null && info.isAvailable
-                && info.subtype == TelephonyManager.NETWORK_TYPE_NR)
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            (info != null && info.isAvailable && info.subtype == TelephonyManager.NETWORK_TYPE_NR)
+        } else false
     }
+
     /**
      * Return whether wifi is enabled.
      *
@@ -184,6 +202,12 @@ object NetworkUtils {
      *
      * @return `true`: enabled<br></br>`false`: disabled
      */
+    @RequiresPermission(allOf = [Manifest.permission.ACCESS_WIFI_STATE])
+    fun isWifiEnabled(): Boolean {
+        val manager = AppUtils.getApplication().applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
+        return manager.isWifiEnabled
+    }
+
     /**
      * Enable or disable wifi.
      *
@@ -191,12 +215,6 @@ object NetworkUtils {
      *
      * @param enabled True to enabled, false otherwise.
      */
-    @RequiresPermission(allOf = [Manifest.permission.ACCESS_WIFI_STATE, Manifest.permission.CHANGE_WIFI_STATE])
-    fun isWifiEnabled(): Boolean {
-        val manager = AppUtils.getApplication().applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
-        return manager.isWifiEnabled
-    }
-
     @RequiresPermission(allOf = [Manifest.permission.ACCESS_WIFI_STATE, Manifest.permission.CHANGE_WIFI_STATE])
     fun setWifiEnabled(enabled: Boolean) {
         val manager = AppUtils.getApplication().applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
@@ -214,7 +232,7 @@ object NetworkUtils {
      * @return `true`: connected<br></br>`false`: disconnected
      */
     fun isWifiConnected(): Boolean {
-        val ni = (getContext().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager).activeNetworkInfo
+        val ni = getActiveNetworkInfo()
         return ni != null && ni.type == ConnectivityManager.TYPE_WIFI
     }
 
@@ -226,7 +244,6 @@ object NetworkUtils {
      *
      * @return `true`: available<br></br>`false`: unavailable
      */
-    @SuppressLint("MissingPermission")
     fun isWifiAvailable(): Boolean = isWifiEnabled() && isAvailable()
 
     /**
@@ -234,8 +251,7 @@ object NetworkUtils {
      *
      * @return the name of network operate
      */
-    fun networkOperatorName(): String =
-        (getContext().getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager).networkOperatorName
+    fun networkOperatorName(): String = (getContext().getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager).networkOperatorName
 
     /**
      * Return type of network.
@@ -257,9 +273,8 @@ object NetworkUtils {
         if (isEthernet()) {
             return NetworkType.NETWORK_ETHERNET // 以太网网络
         }
-        val cm = getContext().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
-        val info = cm.activeNetworkInfo ?: return NetworkType.NETWORK_NO // 没有任何网络
+        val info = getActiveNetworkInfo() ?: return NetworkType.NETWORK_NO // 没有任何网络
         if (!info.isConnected) {
             return NetworkType.NETWORK_NO // 网络断开或关闭
         }
@@ -324,14 +339,10 @@ object NetworkUtils {
      * @return `true`: yes<br></br>`false`: no
      */
     private fun isEthernet(): Boolean {
-        val cm = getContext().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val info = cm.getNetworkInfo(ConnectivityManager.TYPE_ETHERNET) ?: return false
+        val info = sConnectivityManager.getNetworkInfo(ConnectivityManager.TYPE_ETHERNET) ?: return false
         val state = info.state ?: return false
         return state == NetworkInfo.State.CONNECTED || state == NetworkInfo.State.CONNECTING
     }
-
-    private fun getActiveNetworkInfo(): NetworkInfo? =
-        (getContext().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager).activeNetworkInfo
 
     private fun intToIp(ipAddress: Int): String {
         return (ipAddress and 0xFF).toString() + "." +
@@ -341,44 +352,14 @@ object NetworkUtils {
     }
 
     /**
-     * @param useIPv4 true ipV4 ; false ipV6
-     * @return ip address ; null no network
-     */
-    fun getIPAddress(useIPv4: Boolean): String? = try {
-        val en = NetworkInterface.getNetworkInterfaces()
-        while (en.hasMoreElements()) {
-            val enumIpAddress = en.nextElement().inetAddresses
-            while (enumIpAddress.hasMoreElements()) {
-                val inetAddress = enumIpAddress.nextElement()
-                if (!inetAddress.isLoopbackAddress) {
-                    if (useIPv4) {
-                        if (!inetAddress.isLinkLocalAddress) {
-                            inetAddress.hostAddress
-                        }
-                    } else {
-                        if (inetAddress is Inet6Address) {
-                            inetAddress.getHostAddress()
-                        }
-                    }
-                }
-            }
-        }
-        null
-    } catch (ex: Exception) {
-        L.i("IP Address Ex ", ex.toString())
-        null
-    }
-
-    //todo 2020年9月30日 14:23:59 测试该方法
-    /**
      * Return the ip address.
      *
      * Must hold `<uses-permission android:name="android.permission.INTERNET" />`
      *
-     * @param useIPv4 true to use ipv4, false otherwise.
+     * @param useIPv4 true to use ipv4, false ipv6
      * @return the ip address , null 无网络连接
      */
-    fun getIPAddress2(useIPv4: Boolean): String? {
+    fun getIPAddress(useIPv4: Boolean): String? {
         try {
             val nis = NetworkInterface.getNetworkInterfaces()
             val adds = LinkedList<InetAddress>()
@@ -530,9 +511,7 @@ object NetworkUtils {
                 info.ssid.replace("\"", "")
             }
         } else if (Build.VERSION.SDK_INT == Build.VERSION_CODES.O_MR1) {
-            val connManager =
-                (context.applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager)
-            val networkInfo = connManager.activeNetworkInfo
+            val networkInfo = getActiveNetworkInfo()
             if (networkInfo != null && networkInfo.isConnected) {
                 if (networkInfo.extraInfo != null) {
                     return networkInfo.extraInfo.replace("\"", "")
@@ -542,10 +521,8 @@ object NetworkUtils {
         return ssid
     }
 
-    fun isWifi(context: Context): Boolean {
-        val connectivityManager =
-            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        @SuppressLint("MissingPermission") val info = connectivityManager.activeNetworkInfo
+    fun isWifi(): Boolean {
+        val info = getActiveNetworkInfo()
         return info != null && info.type == ConnectivityManager.TYPE_WIFI
     }
 
@@ -593,24 +570,28 @@ object NetworkUtils {
 
     /**
      * Android 6.0-Android 7.0 获取mac地址
+     *
+     * java.io.IOException: Cannot run program "cat/sys/class/net/wlan0/address": error=2, No such file or directory
      */
     fun getMacAddress(): String? {
         var macSerial: String? = null
-        var str = ""
-        try {
-            val pp = Runtime.getRuntime().exec("cat/sys/class/net/wlan0/address")
-            val ir = InputStreamReader(pp.inputStream)
-            val input = LineNumberReader(ir)
-            while (str.isBlank()) {
-                str = input.readLine()
-                if (str != null) {
-                    macSerial = str.trim { it <= ' ' } //去空格
-                    break
+        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.M || Build.VERSION.SDK_INT == Build.VERSION_CODES.N) {
+            var str = ""
+            try {
+                val pp = Runtime.getRuntime().exec("cat/sys/class/net/wlan0/address")
+                val ir = InputStreamReader(pp.inputStream)
+                val input = LineNumberReader(ir)
+                while (str.isBlank()) {
+                    str = input.readLine()
+                    if (str != null) {
+                        macSerial = str.trim { it <= ' ' } //去空格
+                        break
+                    }
                 }
+            } catch (ex: IOException) {
+                // 赋予默认值
+                ex.printStackTrace()
             }
-        } catch (ex: IOException) {
-            // 赋予默认值
-            ex.printStackTrace()
         }
         return macSerial
     }

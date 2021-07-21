@@ -99,6 +99,9 @@
         <activity
             android:name=".ui.string.StringExpandActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.toolkit.ToolKitActivity"
+            android:screenOrientation="portrait" />
 
     </application>
 

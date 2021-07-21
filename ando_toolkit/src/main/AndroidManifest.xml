@@ -24,5 +24,13 @@
 
     <!-- NetworkUtils -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- NetworkUtils.isWifiEnabled() -->
+    <!--
+     java.lang.SecurityException: WifiService: Neither user 10799 nor current process has android.permission.ACCESS_WIFI_STATE.
+     -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <!-- NetworkUtils.setWifiEnabled(enable) -->
+    <!-- <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" /> -->
 
 </manifest>

@@ -12,6 +12,7 @@ import ando.repo.ui.indicator.IndicatorViewPagerNoActivity
 import ando.repo.ui.recycler.decoration.RecyclerDecorationProviderActivity
 import ando.repo.ui.recycler.diff.RecyclerDiffActivity
 import ando.repo.ui.string.StringExpandActivity
+import ando.repo.ui.toolkit.ToolKitActivity
 import android.app.Activity
 import android.content.Intent
 
@@ -25,6 +26,10 @@ object AppRouter {
 
     fun toMain(activity: Activity) {
         activity.startActivity(Intent(activity, MainActivity::class.java))
+    }
+
+    fun toToolKit(activity: Activity) {
+        activity.startActivity(Intent(activity, ToolKitActivity::class.java))
     }
 
     fun toWidgetTabLayout(activity: Activity) {

@@ -18,49 +18,49 @@ import androidx.fragment.app.Fragment
  * 获取屏幕分辨率
  */
 val Context.screenDensityDpi: Int
-    get() = resources.displayMetrics.densityDpi
+    get() = DeviceUtils.getScreenDensityDpi()
 
 /**
  * 屏幕的宽度 screen width in pixels
  */
 val Context.screenWidth: Int
-    get() = resources.displayMetrics.widthPixels
+    get() = DeviceUtils.getScreenWidth()
 
 /**
  * 屏幕的高度 screen height in pixels
  */
 val Context.screenHeight: Int
-    get() = resources.displayMetrics.heightPixels
+    get() = DeviceUtils.getScreenHeight()
 
 /**
  * returns dp(dp) dimension value in pixels
  * @param value dp
  */
-fun Context.dp2px(value: Int): Int = (value * resources.displayMetrics.density).toInt()
+fun Context.dp2px(value: Int): Int = DimensionsUtils.dp2px(this, value)
 
-fun Context.dp2px(value: Float): Int = (value * resources.displayMetrics.density).toInt()
+fun Context.dp2px(value: Float): Int = DimensionsUtils.dp2px(this, value)
 
 /**
  * return sp dimension value in pixels
  * @param value sp
  */
-fun Context.sp2px(value: Int): Int = (value * resources.displayMetrics.scaledDensity).toInt()
+fun Context.sp2px(value: Int): Int = DimensionsUtils.sp2px(this, value)
 
-fun Context.sp2px(value: Float): Int = (value * resources.displayMetrics.scaledDensity).toInt()
+fun Context.sp2px(value: Float): Int = DimensionsUtils.sp2px(this, value)
 
 /**
  * converts [px] value into dp or sp
  * @param px
  */
-fun Context.px2dp(px: Int): Float = px.toFloat() / resources.displayMetrics.density
+fun Context.px2dp(px: Int): Float = DimensionsUtils.px2dp(this, px)
 
-fun Context.px2sp(px: Int): Float = px.toFloat() / resources.displayMetrics.scaledDensity
+fun Context.px2sp(px: Int): Float = DimensionsUtils.px2sp(this, px)
 
 /**
  * return dimen resource value in pixels
  * @param resource dimen resource
  */
-fun Context.dimen2px(@DimenRes resource: Int): Int = resources.getDimensionPixelSize(resource)
+fun Context.dimen2px(@DimenRes resource: Int): Int = DimensionsUtils.dimen2px(this, resource)
 
 /**
  * 获取真实屏幕密度 【注意，Application和Activity的屏幕密度是不一样的】
@@ -131,4 +131,17 @@ fun View.realDpi(): Int {
     val xdpi = metric.xdpi
     val ydpi = metric.ydpi
     return ((xdpi + ydpi) / 2.0f + 0.5f).toInt()
+}
+
+object DimensionsUtils {
+    fun dp2px(context: Context, value: Int): Int = (value * context.resources.displayMetrics.density).toInt()
+    fun dp2px(context: Context, value: Float): Int = (value * context.resources.displayMetrics.density).toInt()
+
+    fun sp2px(context: Context, value: Int): Int = (value * context.resources.displayMetrics.scaledDensity).toInt()
+    fun sp2px(context: Context, value: Float): Int = (value * context.resources.displayMetrics.scaledDensity).toInt()
+
+    fun px2dp(context: Context, px: Int): Float = px.toFloat() / context.resources.displayMetrics.density
+    fun px2sp(context: Context, px: Int): Float = px.toFloat() / context.resources.displayMetrics.scaledDensity
+
+    fun dimen2px(context: Context, @DimenRes resource: Int): Int = context.resources.getDimensionPixelSize(resource)
 }

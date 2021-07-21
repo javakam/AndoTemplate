@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingStart="@dimen/dp_15"
+    android:paddingTop="@dimen/dp_5"
+    android:paddingEnd="@dimen/dp_15"
+    android:paddingBottom="@dimen/dp_5">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvNetState"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/color_main_red"
+        android:textSize="@dimen/font_13"
+        android:textStyle="bold" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvNetInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:textColor="@color/black"
+        android:textSize="@dimen/font_11" />
+
+</FrameLayout>

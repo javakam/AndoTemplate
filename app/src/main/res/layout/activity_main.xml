@@ -12,6 +12,14 @@
         android:padding="@dimen/dp_15">
 
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/bt_tool_kit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical|start"
+            android:text="ToolKit 使用"
+            android:textAllCaps="false" />
+
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/bt_widget_tab_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

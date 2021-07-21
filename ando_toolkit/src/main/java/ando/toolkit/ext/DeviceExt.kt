@@ -188,6 +188,21 @@ object DeviceUtils {
     fun getCpuABIS(): Array<String>? = Build.SUPPORTED_ABIS
 
     /**
+     * 获取屏幕分辨率
+     */
+    fun getScreenDensityDpi(): Int = AppUtils.getContext().resources.displayMetrics.densityDpi
+
+    /**
+     * 屏幕的宽度 screen width in pixels
+     */
+    fun getScreenWidth(): Int = AppUtils.getContext().resources.displayMetrics.widthPixels
+
+    /**
+     * 屏幕的高度 screen height in pixels
+     */
+    fun getScreenHeight(): Int = AppUtils.getContext().resources.displayMetrics.heightPixels
+
+    /**
      * Return the navigation bar's height.
      *
      * @return the navigation bar's height
