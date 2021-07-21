@@ -3,8 +3,11 @@ package ando.repo.ui.banner
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import ando.repo.R
+import ando.toolkit.ThreadUtils
 import ando.toolkit.ext.noNull
+import ando.toolkit.ext.toastLong
 import ando.toolkit.ext.toastShort
+import ando.toolkit.thread.ThreadTask
 import ando.widget.banner.BannerItem
 import ando.widget.banner.ImageBanner
 import ando.widget.indicator.MagicIndicator
@@ -58,22 +61,66 @@ class BannerActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_widget_banner)
+        toastLong("模拟延时加载(3秒)")
+
         mRecycler.itemAnimator = null
         mRecycler.layoutManager = LinearLayoutManager(this)
 
         val headerView = layoutInflater.inflate(R.layout.layout_widget_banner_header, null, false)
         //Banner
         val banner = headerView.findViewById<ImageBanner>(R.id.bannerImage)
-        banner.setSource(mBannerData)
+        //banner.setSource(mBannerData)
         banner.imageLoader = BannerImageLoader()
         banner.colorDrawable = ColorDrawable(ContextCompat.getColor(this, R.color.white))
         banner.setOnItemClickListener {
             toastShort("Index :$it")
         }
-        banner.startScroll()
 
         //Indicator
-        val indicator = headerView.findViewById<MagicIndicator>(R.id.indicator)
+        if (banner.size() > 0) {
+            initIndicator1(headerView, banner)
+            //另外样式
+            initIndicator2(headerView, banner)
+            initIndicator3(headerView, banner)
+        }
+
+        mAdapter.addHeaderView(headerView)
+        mRecycler.adapter = mAdapter
+
+        //异步更新数据
+        ThreadUtils.executeByCached(ThreadTask({
+            //子线程
+            Thread.sleep(3000)
+            mutableListOf(
+                BannerItem(
+                    "电影",
+                    "http://pic.ntimg.cn/file/20210320/32310093_092207251771_2.jpg"
+                ),
+                BannerItem(
+                    "电视剧",
+                    "http://pic.ntimg.cn/file/20210318/31747648_210726576081_2.jpg"
+                ),
+            )
+        }, {
+            //主线程
+            if (!isDestroyed && !isFinishing) {
+                mAdapter.setList(mutableListOf("aaa", "bbb", "ccc", "ddd"))
+
+                banner.setSource(it)
+                banner.startScroll()
+
+                if (banner.size() > 0) {
+                    initIndicator1(headerView, banner)
+                    initIndicator2(headerView, banner)
+                    initIndicator3(headerView, banner)
+                }
+            }
+        }))
+
+    }
+
+    private fun initIndicator1(v: View, banner: ImageBanner) {
+        val indicator = v.findViewById<MagicIndicator>(R.id.indicator)
         val roundNavigator = RoundRectNavigator(this)
         roundNavigator.isFollowTouch = true //是否跟随手指滑动
         roundNavigator.totalCount = banner.size()
@@ -92,15 +139,6 @@ class BannerActivity : AppCompatActivity() {
 
         //Banner 和 Indicator 绑定到一起, 同步滑动
         banner.viewPager?.apply { ViewPagerHelper.bind(indicator, this) }
-
-        //另外样式
-        initIndicator2(headerView, banner)
-        initIndicator3(headerView, banner)
-
-        mAdapter.addHeaderView(headerView)
-        mAdapter.setList(mutableListOf("aaa", "bbb", "ccc", "ddd"))
-        mRecycler.adapter = mAdapter
-
     }
 
     private fun initIndicator2(v: View, banner: ImageBanner) {

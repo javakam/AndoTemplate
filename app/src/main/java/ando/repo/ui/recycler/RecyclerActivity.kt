@@ -10,8 +10,6 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import ando.repo.ui.recycler.activity.*
 import ando.library.widget.recycler.decoration.RecyclerDecorationProvider
-import android.view.View
-import com.chad.library.adapter.base.listener.OnItemClickListener
 
 /**
  * # RecyclerActivity
