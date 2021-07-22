@@ -39,11 +39,13 @@ object ToastUtils {
     }
 
     fun shortToast(text: String?) {
-        if (text.isNullOrBlank())  return
+        if (text.isNullOrBlank()) return
         if (toast == null) {
             @SuppressLint("ShowToast")
             toast = Toast.makeText(getContext(), text, Toast.LENGTH_SHORT)
         } else {
+            toast?.cancel()
+            toast = Toast.makeText(getContext(), text, Toast.LENGTH_SHORT)
             toast?.setText(text)
         }
         toast?.show()
@@ -54,11 +56,13 @@ object ToastUtils {
     }
 
     fun longToast(text: String?) {
-        if (text.isNullOrBlank())  return
+        if (text.isNullOrBlank()) return
         if (toast == null) {
             @SuppressLint("ShowToast")
             toast = Toast.makeText(getContext(), text, Toast.LENGTH_LONG)
         } else {
+            toast?.cancel()
+            toast = Toast.makeText(getContext(), text, Toast.LENGTH_LONG)
             toast?.setText(text)
         }
         toast?.show()

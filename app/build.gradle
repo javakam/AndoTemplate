@@ -136,6 +136,9 @@ dependencies {
     //api 'com.jakewharton.rxbinding2:rxbinding:2.2.0'
     //api "com.google.code.gson:gson:2.8.6"
 
+    //https://github.com/CymChad/BaseRecyclerViewAdapterHelper/blob/master/readme/0-BaseRecyclerViewAdapterHelper.md
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.4'
+
     //My Architecture 1305KB
     implementation 'com.github.javakam:webview:3.0.0@aar'
     implementation 'com.github.javakam:gallery:5.2.0@aar'
