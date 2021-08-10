@@ -100,6 +100,69 @@
             android:text="String 扩展"
             android:textAllCaps="false" />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_30"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_countdown_timer"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|start"
+                android:layout_weight="0.8"
+                android:clickable="false"
+                android:text="CountDownTimer"
+                android:textAllCaps="false"
+                android:textColor="@android:color/holo_red_dark"
+                android:textSize="@dimen/font_12" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_countdown_timer_fixed"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|start"
+                android:layout_weight="1"
+                android:clickable="false"
+                android:text="FixedCountDownTimer"
+                android:textAllCaps="false"
+                android:textColor="@android:color/holo_orange_dark"
+                android:textSize="@dimen/font_12" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/bt_countdown_timer_start"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="启动/继续"
+                android:textAllCaps="false"
+                android:textSize="@dimen/font_14" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/bt_countdown_timer_pause"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="暂停"
+                android:textAllCaps="false"
+                android:textSize="@dimen/font_14" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/bt_countdown_timer_stop"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="停止"
+                android:textAllCaps="false"
+                android:textSize="@dimen/font_14" />
+        </LinearLayout>
     </LinearLayout>
 
 </androidx.core.widget.NestedScrollView>
