@@ -100,36 +100,31 @@
             android:text="String 扩展"
             android:textAllCaps="false" />
 
-        <LinearLayout
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_countdown_timer"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_30"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|start"
+            android:clickable="false"
+            android:paddingTop="@dimen/dp_3"
+            android:paddingBottom="@dimen/dp_3"
+            android:text="CountDownTimer"
+            android:textAllCaps="false"
+            android:textColor="@android:color/holo_red_dark"
+            android:textSize="@dimen/font_13" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_countdown_timer"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical|start"
-                android:layout_weight="0.8"
-                android:clickable="false"
-                android:text="CountDownTimer"
-                android:textAllCaps="false"
-                android:textColor="@android:color/holo_red_dark"
-                android:textSize="@dimen/font_12" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_countdown_timer_fixed"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical|start"
-                android:layout_weight="1"
-                android:clickable="false"
-                android:text="FixedCountDownTimer"
-                android:textAllCaps="false"
-                android:textColor="@android:color/holo_orange_dark"
-                android:textSize="@dimen/font_12" />
-
-        </LinearLayout>
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_countdown_timer_fixed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|start"
+            android:clickable="false"
+            android:paddingTop="@dimen/dp_3"
+            android:paddingBottom="@dimen/dp_3"
+            android:text="FixedCountDownTimer"
+            android:textAllCaps="false"
+            android:textColor="@android:color/holo_blue_dark"
+            android:textSize="@dimen/font_13" />
 
         <LinearLayout
             android:layout_width="match_parent"

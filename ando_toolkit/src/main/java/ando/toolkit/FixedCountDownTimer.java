@@ -1,19 +1,29 @@
-package ando.library.utils;
+package ando.toolkit;
 
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.os.SystemClock;
+import android.util.Log;
 
 /**
- * 基于 API 30 的 CountDownTimer 加入了
+ * 基于 API 30 的 CountDownTimer 做了以下调整:
+ * <p>
+ * 1. 修复计时不准的问题;
+ * 2. 增加 暂停/继续
+ * </p>
+ *
+ * @author javakam
  */
 public class FixedCountDownTimer {
+
     public interface Listener {
         void onTick(long fixedMillisUntilFinished);
 
         void onFinish();
     }
+
+    private static final long SECOND_MILLIS = 1000L;
 
     /**
      * Millis since epoch when alarm should stop.
@@ -28,16 +38,15 @@ public class FixedCountDownTimer {
     private long mStopTimeInFuture;
 
     /**
+     * 剩余时间(单位毫秒)
+     */
+    private long mMillisUntilFinished;
+
+    /**
      * boolean representing if the timer was cancelled
      */
     private boolean mCancelled = false;
 
-    //
-    private Listener mListener;
-    /**
-     * 剩余时间(单位毫秒)
-     */
-    private long mMillisUntilFinished;
     /**
      * 暂停的状态
      */
@@ -48,7 +57,10 @@ public class FixedCountDownTimer {
      */
     private boolean mIsRunning = false;
 
+    private Listener mListener;
+
     public FixedCountDownTimer(long millisInFuture, long countDownInterval) {
+        //注: 由于 sendMessageDelayed 的机制造成的 1000 毫秒的延时
         mMillisInFuture = millisInFuture;
         mCountdownInterval = countDownInterval;
     }
@@ -73,13 +85,13 @@ public class FixedCountDownTimer {
         return this;
     }
 
-    public final void pause() {
+    public synchronized final void pause() {
         mMillisUntilFinished = mStopTimeInFuture - SystemClock.elapsedRealtime();
         mIsRunning = false;
         mPaused = true;
     }
 
-    public long resume() {
+    public synchronized long resume() {
         // 结束的时间设置为当前时间加剩余时间
         mStopTimeInFuture = SystemClock.elapsedRealtime() + mMillisUntilFinished;
         mHandler.sendMessage(mHandler.obtainMessage(MSG));
@@ -91,7 +103,7 @@ public class FixedCountDownTimer {
     /**
      * Cancel the countdown.
      */
-    public synchronized final void stop() {
+    public synchronized final void cancel() {
         mHandler.removeMessages(MSG);
         mCancelled = true;
         mIsRunning = false;
@@ -105,8 +117,14 @@ public class FixedCountDownTimer {
      */
     private void onTick(long millisUntilFinished) {
         if (mListener != null) {
-            //修复时间不准的问题
-            final long fixedMillisUntilFinished = millisUntilFinished + (1000 - millisUntilFinished % 1000);
+            //修复时间不准的问题, 参考 TextClock
+            final long fixedMillisUntilFinished = millisUntilFinished + (SECOND_MILLIS - millisUntilFinished % SECOND_MILLIS);
+            /*
+            millisUntilFinished=1998; fixedMillisUntilFinished=2000
+            millisUntilFinished=997; fixedMillisUntilFinished=1000
+            ...
+             */
+            Log.w("123", "millisUntilFinished=" + millisUntilFinished + "; fixedMillisUntilFinished=" + fixedMillisUntilFinished);
             mListener.onTick(fixedMillisUntilFinished);
         }
     }

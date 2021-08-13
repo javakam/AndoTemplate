@@ -51,10 +51,10 @@ open class BaseApplication : MultiDexApplication() {
          * 模拟用户退出到桌面, 并没有真正退出应用
          */
         fun exitHome(activity: Activity) {
-            val backHome = Intent(Intent.ACTION_MAIN)
-            backHome.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-            backHome.addCategory(Intent.CATEGORY_HOME)
-            activity.startActivity(backHome)
+            val intent = Intent(Intent.ACTION_MAIN)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            intent.addCategory(Intent.CATEGORY_HOME)
+            activity.startActivity(intent)
         }
     }
 

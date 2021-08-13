@@ -1,9 +1,10 @@
 package ando.repo.ui
 
-import ando.library.utils.FixedCountDownTimer
+import ando.toolkit.FixedCountDownTimer
 import ando.repo.R
 import ando.repo.config.AppRouter
 import ando.repo.config.click
+import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -11,6 +12,7 @@ import android.util.Log
 import android.widget.TextView
 import kotlin.math.min
 
+@SuppressLint("SetTextI18n")
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,7 +75,7 @@ class MainActivity : AppCompatActivity() {
 
         //CountDownTimer
         mTvDownTimer.text = "CountDownTimer 👉 $mCount"
-        mTvFixedDownTimer.text = "FixedCountDownTimer 👉 $mFixedCount 毫秒"
+        mTvFixedDownTimer.text = "FixedCountDownTimer 👉 ${mFixedCount / 1000}秒"
         click(R.id.bt_countdown_timer_start) {
             //mCountDownTimer.start()
 
@@ -89,8 +91,7 @@ class MainActivity : AppCompatActivity() {
             mFixedCountDownTimer.pause()
         }
         click(R.id.bt_countdown_timer_stop) {
-            //mCountDownTimer.cancel()
-            mFixedCountDownTimer.stop()
+            mFixedCountDownTimer.cancel()
         }
     }
 
@@ -114,14 +115,13 @@ class MainActivity : AppCompatActivity() {
 
     //10 分钟 -> 10 * 60 * 1000
     //60 分钟 -> 60 * 60 * 1000
-    private val mFixedCount: Long = 60 * 60 * 1000
+    private val mFixedCount: Long = 5 * 1000
     private val mFixedCountDownTimer: FixedCountDownTimer = FixedCountDownTimer(mFixedCount, 1000)
         .apply {
             setListener(object : FixedCountDownTimer.Listener {
                 override fun onTick(fixedMillisUntilFinished: Long) {
                     val showTime: Long = min(mFixedCount, fixedMillisUntilFinished / 1000)
                     mTvFixedDownTimer.text = "FixedCountDownTimer 👉 $showTime"
-
                     Log.e("123", "onTick fixedMillisUntilFinished=$fixedMillisUntilFinished  showTime=$showTime")
                 }
 

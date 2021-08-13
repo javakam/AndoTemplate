@@ -21,6 +21,7 @@
 #-renamesourcefileattribute SourceFile
 
 
+
 #################### 基本混淆指令的设置 ####################
 
 # 代码混淆压缩比，在0~7之间，默认为5，一般不做修改
@@ -143,18 +144,6 @@
     public boolean isLayoutSuppressed();
 }
 
-# webView的混淆处理
--keepclassmembers class fqcn.of.javascript.interface.for.webview {
-    public *;
-}
--keepclassmembers class * extends android.webkit.webViewClient {
-    public void *(android.webkit.WebView, java.lang.String, android.graphics.Bitmap);
-    public boolean *(android.webkit.WebView, java.lang.String);
-}
--keepclassmembers class * extends android.webkit.webViewClient {
-    public void *(android.webkit.webView, jav.lang.String);
-}
-
 #################### 第三方库的混淆配置 ####################
 
 ##---------------Begin: proguard configuration for Gson  ----------
@@ -168,12 +157,6 @@
 # Gson specific classes
 -dontwarn sun.misc.**
 #-keep class com.google.gson.stream.** { *; }
-
-# todo 2021年3月4日 15:04:33
-# Application classes that will be serialized/deserialized over Gson
-# -keep class com.google.gson.examples.android.model.** { <fields>; }
-#-keep class com.zy.client.bean.Cctv{ <fields>; }
-#-keep class com.zy.client.bean.CctvItem{ <fields>; }
 
 # Prevent proguard from stripping interface information from TypeAdapter, TypeAdapterFactory,
 # JsonSerializer, JsonDeserializer instances (so they can be used in @JsonAdapter)
@@ -230,24 +213,3 @@
 #-keep class * extends org.litepal.crud.LitePalSupport {
 #    *;
 #}
-
-#EventBus
--keepclassmembers class * {
-    @org.greenrobot.eventbus.Subscribe <methods>;
-}
--keep enum org.greenrobot.eventbus.ThreadMode { *; }
-
-# And if you use AsyncExecutor:
--keepclassmembers class * extends org.greenrobot.eventbus.util.ThrowableFailureEvent {
-    <init>(java.lang.Throwable);
-}
-
-# dueeeke DKVideoPlayer
-#-keep class com.dueeeke.videoplayer.** { *; }
-#-dontwarn com.dueeeke.videoplayer.**
-## IjkPlayer
-#-keep class tv.danmaku.ijk.** { *; }
-#-dontwarn tv.danmaku.ijk.**
-## ExoPlayer
-#-keep class com.google.android.exoplayer2.** { *; }
-#-dontwarn com.google.android.exoplayer2.**

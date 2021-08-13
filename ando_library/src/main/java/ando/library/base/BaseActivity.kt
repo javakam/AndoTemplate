@@ -20,8 +20,6 @@ import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
 
 /**
  * # BaseActivity
@@ -31,13 +29,17 @@ import androidx.databinding.ViewDataBinding
  */
 abstract class BaseActivity : AppCompatActivity() {
 
-    protected lateinit var mView: View  //系统DecorView的根View
+    /**
+     * 系统DecorView的根View
+     */
+    protected lateinit var mView: View
 
     override fun onCreate(savedInstanceState: Bundle?) {
         initActivityStyle()
         super.onCreate(savedInstanceState)
     }
 
+    @SuppressLint("SourceLockedOrientationActivity")
     protected open fun initActivityStyle() {
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE)
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
@@ -111,10 +113,24 @@ abstract class BaseActivity : AppCompatActivity() {
         }
         super.onBackPressed()
     }
+
+    /**
+     * 连续点击两次退出 APP
+     */
+    private var exitTime: Long = 0
+
+    protected fun exitBy2Click(delay: Long = 2000L, @StringRes text: Int, block: () -> Unit) {
+        if (System.currentTimeMillis() - exitTime > delay) {
+            Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
+            exitTime = System.currentTimeMillis()
+        } else {
+            block.invoke()
+            exit()
+        }
+    }
 }
 
 abstract class BaseMvcActivity : BaseActivity(), IBaseInterface {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val layoutId = getLayoutId()
@@ -128,36 +144,4 @@ abstract class BaseMvcActivity : BaseActivity(), IBaseInterface {
         initListener()
         initData()
     }
-
-    /**
-     * 连续点击两次退出 APP
-     */
-    private var exitTime: Long = 0
-
-    @SuppressLint("CheckResult")
-    protected fun exitBy2Click(delay: Long = 2000L, @StringRes text: Int, block: () -> Unit) {
-        if (System.currentTimeMillis() - exitTime > delay) {
-            Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
-            exitTime = System.currentTimeMillis()
-        } else {
-            block.invoke()
-            exit()
-        }
-    }
-}
-
-abstract class BaseMvvmActivity<T : ViewDataBinding> : BaseActivity() {
-
-    abstract val layoutId: Int
-    lateinit var binding: T
-    abstract fun initView(savedInstanceState: Bundle?)
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, layoutId)
-        binding.lifecycleOwner = this
-
-        initView(savedInstanceState)
-    }
-
 }
