@@ -73,7 +73,7 @@ class MainActivity : AppCompatActivity() {
 
         //CountDownTimer
         mTvDownTimer.text = "CountDownTimer 👉 $mCount"
-        mTvFixedDownTimer.text = "FixedCountDownTimer 👉 $mCount"
+        mTvFixedDownTimer.text = "FixedCountDownTimer 👉 $mFixedCount 毫秒"
         click(R.id.bt_countdown_timer_start) {
             //mCountDownTimer.start()
 
@@ -111,11 +111,15 @@ class MainActivity : AppCompatActivity() {
             Log.e("123", "CountDownTimer onFinish")
         }
     }
-    private val mFixedCountDownTimer: FixedCountDownTimer = FixedCountDownTimer(mCount * 1000, 1000)
+
+    //10 分钟 -> 10 * 60 * 1000
+    //60 分钟 -> 60 * 60 * 1000
+    private val mFixedCount: Long = 60 * 60 * 1000
+    private val mFixedCountDownTimer: FixedCountDownTimer = FixedCountDownTimer(mFixedCount, 1000)
         .apply {
             setListener(object : FixedCountDownTimer.Listener {
                 override fun onTick(fixedMillisUntilFinished: Long) {
-                    val showTime: Long = min(mCount, fixedMillisUntilFinished / 1000)
+                    val showTime: Long = min(mFixedCount, fixedMillisUntilFinished / 1000)
                     mTvFixedDownTimer.text = "FixedCountDownTimer 👉 $showTime"
 
                     Log.e("123", "onTick fixedMillisUntilFinished=$fixedMillisUntilFinished  showTime=$showTime")

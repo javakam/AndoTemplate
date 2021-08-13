@@ -67,9 +67,9 @@ public class FixedCountDownTimer {
             return this;
         }
         mStopTimeInFuture = SystemClock.elapsedRealtime() + mMillisInFuture;
+        mHandler.sendMessage(mHandler.obtainMessage(MSG));
         mIsRunning = true;
         mPaused = false;
-        mHandler.sendMessage(mHandler.obtainMessage(MSG));
         return this;
     }
 
@@ -82,9 +82,9 @@ public class FixedCountDownTimer {
     public long resume() {
         // 结束的时间设置为当前时间加剩余时间
         mStopTimeInFuture = SystemClock.elapsedRealtime() + mMillisUntilFinished;
+        mHandler.sendMessage(mHandler.obtainMessage(MSG));
         mIsRunning = true;
         mPaused = false;
-        mHandler.sendMessage(mHandler.obtainMessage(MSG));
         return mMillisUntilFinished;
     }
 
@@ -92,10 +92,10 @@ public class FixedCountDownTimer {
      * Cancel the countdown.
      */
     public synchronized final void stop() {
+        mHandler.removeMessages(MSG);
         mCancelled = true;
         mIsRunning = false;
         mPaused = false;
-        mHandler.removeMessages(MSG);
     }
 
     /**
@@ -137,6 +137,7 @@ public class FixedCountDownTimer {
                     return;
                 }
                 if (mPaused) {
+                    removeMessages(MSG);
                     return;
                 }
 
