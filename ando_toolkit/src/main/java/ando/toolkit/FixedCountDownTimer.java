@@ -6,6 +6,9 @@ import android.os.Message;
 import android.os.SystemClock;
 import android.util.Log;
 
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
+
 /**
  * 基于 API 30 的 CountDownTimer 做了以下调整:
  * <p>
@@ -18,23 +21,36 @@ import android.util.Log;
 public class FixedCountDownTimer {
 
     public interface Listener {
+        /**
+         * 每隔 mCountdownInterval 毫秒触发一次
+         */
         void onTick(long fixedMillisUntilFinished);
 
+        /**
+         * 完成时触发
+         */
         void onFinish();
     }
 
     private static final long SECOND_MILLIS = 1000L;
 
     /**
+     * 要执行的时间(单位毫秒), 此时间并不包含暂停的时间
+     * <p>
      * Millis since epoch when alarm should stop.
      */
     private final long mMillisInFuture;
 
     /**
+     * 间隔时间(单位毫秒)
+     * <p>
      * The interval in millis that the user receives callbacks
      */
     private final long mCountdownInterval;
 
+    /**
+     * 结束的时间(单位毫秒), 如果暂停会变化
+     */
     private long mStopTimeInFuture;
 
     /**
@@ -50,12 +66,17 @@ public class FixedCountDownTimer {
     /**
      * 暂停的状态
      */
-    private boolean mPaused = false;
+    private boolean mIsPaused = false;
 
     /**
      * 是否正在倒计时
      */
     private boolean mIsRunning = false;
+
+    /**
+     * 倒计时开始的时间
+     */
+    private Date mStartTime;
 
     private Listener mListener;
 
@@ -78,17 +99,18 @@ public class FixedCountDownTimer {
             onFinish();
             return this;
         }
+        mStartTime = new Date();
         mStopTimeInFuture = SystemClock.elapsedRealtime() + mMillisInFuture;
         mHandler.sendMessage(mHandler.obtainMessage(MSG));
         mIsRunning = true;
-        mPaused = false;
+        mIsPaused = false;
         return this;
     }
 
     public synchronized final void pause() {
         mMillisUntilFinished = mStopTimeInFuture - SystemClock.elapsedRealtime();
         mIsRunning = false;
-        mPaused = true;
+        mIsPaused = true;
     }
 
     public synchronized long resume() {
@@ -96,7 +118,7 @@ public class FixedCountDownTimer {
         mStopTimeInFuture = SystemClock.elapsedRealtime() + mMillisUntilFinished;
         mHandler.sendMessage(mHandler.obtainMessage(MSG));
         mIsRunning = true;
-        mPaused = false;
+        mIsPaused = false;
         return mMillisUntilFinished;
     }
 
@@ -107,7 +129,7 @@ public class FixedCountDownTimer {
         mHandler.removeMessages(MSG);
         mCancelled = true;
         mIsRunning = false;
-        mPaused = false;
+        mIsPaused = false;
     }
 
     /**
@@ -136,8 +158,16 @@ public class FixedCountDownTimer {
         }
     }
 
+    public Date getStartTime() {
+        return mStartTime;
+    }
+
+    public long getMinutesInFuture() {
+        return TimeUnit.MILLISECONDS.toMinutes(mMillisInFuture);
+    }
+
     public boolean isPaused() {
-        return mPaused;
+        return mIsPaused;
     }
 
     public boolean isRunning() {
@@ -154,7 +184,7 @@ public class FixedCountDownTimer {
                 if (mCancelled) {
                     return;
                 }
-                if (mPaused) {
+                if (mIsPaused) {
                     removeMessages(MSG);
                     return;
                 }
