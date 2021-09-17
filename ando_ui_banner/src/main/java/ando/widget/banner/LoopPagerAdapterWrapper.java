@@ -16,6 +16,7 @@ import androidx.viewpager.widget.PagerAdapter;
  * <p>
  * This class shouldn't be used directly
  */
+@SuppressWarnings("deprecation")
 class LoopPagerAdapterWrapper extends PagerAdapter {
 
     /**
