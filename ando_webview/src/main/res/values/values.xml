@@ -6,4 +6,5 @@
         </item>
     </style>
 
+    <color name="color_web_indicator_default">#1aad19</color>
 </resources>

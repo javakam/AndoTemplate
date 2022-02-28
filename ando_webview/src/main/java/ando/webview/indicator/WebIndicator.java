@@ -7,14 +7,15 @@ import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.LinearInterpolator;
 
+import ando.webview.R;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 
 public class WebIndicator extends BaseWebIndicator {
     /**
@@ -79,13 +80,17 @@ public class WebIndicator extends BaseWebIndicator {
     }
 
     public WebIndicator(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+        this(context, attrs, defStyleAttr, 0);
+    }
+
+    public WebIndicator(Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr);
         init(context);
     }
 
     private void init(Context context) {
         mPaint = new Paint();
-        mColor = Color.parseColor("#03DAC5");
+        mColor = ContextCompat.getColor(context, R.color.color_web_indicator_default);
         mPaint.setAntiAlias(true);
         mPaint.setColor(mColor);
         mPaint.setDither(true);

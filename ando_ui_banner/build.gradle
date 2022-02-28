@@ -2,7 +2,7 @@ plugins {
     id 'com.android.library'
 }
 
-def config = rootProject.ext.android
+def config = rootProject.ext.config
 
 android {
     compileSdkVersion config.compileSdkVersion
@@ -42,6 +42,6 @@ dependencies {
 
 ext {
     PUBLISH_ARTIFACT_ID = 'widget.banner'
-    PUBLISH_VERSION = rootProject.ext.android.vBanner
+    PUBLISH_VERSION = rootProject.ext.config.vBanner
 }
 apply from: "${rootProject.projectDir}/publish.gradle"

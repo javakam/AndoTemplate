@@ -3,7 +3,7 @@ plugins {
     id 'kotlin-android'
 }
 
-def config = rootProject.ext.android
+def config = rootProject.ext.config
 
 android {
     compileSdkVersion config.compileSdkVersion
@@ -39,11 +39,11 @@ android {
 dependencies {
     compileOnly 'androidx.core:core-ktx:1.6.0'
     compileOnly 'androidx.appcompat:appcompat:1.3.1'
-    compileOnly "androidx.annotation:annotation:1.2.0"
+    compileOnly "androidx.annotation:annotation:1.3.0"
 }
 
 ext {
     PUBLISH_ARTIFACT_ID = 'toolkit'
-    PUBLISH_VERSION = rootProject.ext.android.vAndoTool
+    PUBLISH_VERSION = rootProject.ext.config.vAndoTool
 }
 apply from: "${rootProject.projectDir}/publish.gradle"

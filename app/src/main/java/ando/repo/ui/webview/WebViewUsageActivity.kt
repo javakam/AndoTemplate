@@ -10,6 +10,7 @@ import android.os.Bundle
 import android.view.KeyEvent
 import android.webkit.WebView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 
 /**
  * # WebViewUsageActivity
@@ -28,8 +29,7 @@ class WebViewUsageActivity : AppCompatActivity() {
         setContentView(R.layout.activity_webview_usage)
         mWebView = findViewById(R.id.webView)
         mWebViewIndicator = findViewById(R.id.webViewIndicator)
-        @Suppress("DEPRECATION")
-        mWebViewIndicator.setColor(resources.getColor(R.color.color_web_indicator))
+        mWebViewIndicator.setColor(ContextCompat.getColor(this, R.color.color_web_indicator))
 
         //1.简单使用
         //letsGoSimplify()

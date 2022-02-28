@@ -4,7 +4,7 @@ plugins {
     id 'kotlin-kapt'
 }
 
-def config = rootProject.ext.android
+def config = rootProject.ext.config
 //def versions = rootProject.ext.versions
 
 android {
@@ -44,7 +44,7 @@ dependencies {
     api "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     api "androidx.core:core-ktx:1.6.0"
     api "androidx.appcompat:appcompat:1.3.1"
-    api "androidx.annotation:annotation:1.2.0"
+    api "androidx.annotation:annotation:1.3.0"
     api "androidx.fragment:fragment-ktx:1.3.6"
     api "androidx.multidex:multidex:2.0.1"
     api "androidx.recyclerview:recyclerview:1.2.1"
@@ -68,6 +68,6 @@ dependencies {
 
 ext {
     PUBLISH_ARTIFACT_ID = 'library'
-    PUBLISH_VERSION = rootProject.ext.android.vAndoLib
+    PUBLISH_VERSION = rootProject.ext.config.vAndoLib
 }
 apply from: "${rootProject.projectDir}/publish.gradle"

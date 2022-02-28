@@ -53,6 +53,7 @@ fun letsGoSimplify() {
 private fun letsGoCustom() {
     WebViewUtils.initWebView(this, mWebView)
     mWebView.webViewClient = CustomWebClient(this)
+    mWebViewIndicator.setColor(ContextCompat.getColor(this, R.color.color_web_indicator))
     val controller: WebIndicatorController = WebIndicatorController().inject(mWebViewIndicator)
     mWebView.webChromeClient = CustomWebChromeClient(this, controller)
     mWebView.loadUrl(url)

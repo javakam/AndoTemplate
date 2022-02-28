@@ -1,9 +1,8 @@
 plugins {
     id 'com.android.library'
-    //id 'kotlin-android'
 }
 
-def config = rootProject.ext.android
+def config = rootProject.ext.config
 
 android {
     compileSdkVersion config.compileSdkVersion
@@ -46,6 +45,6 @@ dependencies {
 
 ext {
     PUBLISH_ARTIFACT_ID = 'widget.indicator.core'
-    PUBLISH_VERSION = rootProject.ext.android.vIndicator
+    PUBLISH_VERSION = rootProject.ext.config.vIndicator
 }
 apply from: "${rootProject.projectDir}/publish.gradle"

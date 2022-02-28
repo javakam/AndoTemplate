@@ -1,11 +1,11 @@
 ext {
 
-    android = [
+    config = [
             applicationId    : "ando.repo",
-            compileSdkVersion: 30,
+            compileSdkVersion: 31,
             buildToolsVersion: '30.0.3',
             minSdkVersion    : 21,
-            targetSdkVersion : 30,
+            targetSdkVersion : 31,
             versionCode      : 1,
             versionName      : "1.0.0",
             vAndoLib         : "10.0.0", //ando_library   'com.github.javakam:library:x.x.x@aar'

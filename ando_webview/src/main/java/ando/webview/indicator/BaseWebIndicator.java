@@ -15,15 +15,19 @@ import androidx.annotation.Nullable;
 public abstract class BaseWebIndicator extends FrameLayout implements IWebIndicator {
 
     public BaseWebIndicator(Context context) {
-        super(context);
+        this(context, null, 0, 0);
     }
 
     public BaseWebIndicator(Context context, @Nullable AttributeSet attrs) {
-        super(context, attrs);
+        this(context, attrs, 0, 0);
     }
 
     public BaseWebIndicator(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
+        this(context, attrs, defStyleAttr, 0);
+    }
+
+    public BaseWebIndicator(Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+        super(context, attrs, defStyleAttr, defStyleRes);
     }
 
     @Override
@@ -41,5 +45,4 @@ public abstract class BaseWebIndicator extends FrameLayout implements IWebIndica
     @Override
     public void hide() {
     }
-
 }

@@ -13,6 +13,7 @@ import android.view.ViewGroup
 import android.view.Window
 import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.widget.NestedScrollView
 
 /**
@@ -39,8 +40,7 @@ class WebViewScrollViewActivity : AppCompatActivity() {
 
         //Indicator
         mWebViewIndicator = findViewById(R.id.webViewIndicator)
-        @Suppress("DEPRECATION")
-        mWebViewIndicator.setColor(resources.getColor(R.color.color_web_indicator))
+        mWebViewIndicator.setColor(ContextCompat.getColor(this, R.color.color_web_indicator))
 
         //WebView
         mWebView = NestedScrollWebView(this)

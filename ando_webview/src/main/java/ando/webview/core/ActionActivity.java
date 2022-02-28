@@ -86,7 +86,7 @@ public final class ActionActivity extends Activity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (mPermissionListener != null) {
             Bundle mBundle = new Bundle();
-            mBundle.putInt(KEY_FROM_INTENTION, getIntent().getIntExtra(KEY_FROM_INTENTION,1));
+            mBundle.putInt(KEY_FROM_INTENTION, getIntent().getIntExtra(KEY_FROM_INTENTION, 1));
             mPermissionListener.onRequestPermissionsResult(permissions, grantResults, mBundle);
         }
         mPermissionListener = null;

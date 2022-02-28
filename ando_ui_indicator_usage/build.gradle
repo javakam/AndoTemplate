@@ -3,7 +3,7 @@ plugins {
     //id 'kotlin-android'
 }
 
-def config = rootProject.ext.android
+def config = rootProject.ext.config
 
 android {
     compileSdkVersion config.compileSdkVersion
@@ -47,6 +47,6 @@ dependencies {
 
 ext {
     PUBLISH_ARTIFACT_ID = 'widget.indicator.usage'
-    PUBLISH_VERSION = rootProject.ext.android.vIndicatorUsage
+    PUBLISH_VERSION = rootProject.ext.config.vIndicatorUsage
 }
 apply from: "${rootProject.projectDir}/publish.gradle"

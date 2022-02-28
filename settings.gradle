@@ -1,3 +1,4 @@
+include ':ando_webview'
 include ':ando_ui_banner'
 include ':module_indicator'
 include ':ando_ui_indicator_usage'
@@ -31,4 +32,3 @@ rootProject.name = "AndoTemplate"
 //     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //
 //               佛祖保佑         永无BUG
-include ':ando_webview'
