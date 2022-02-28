@@ -18,8 +18,6 @@ import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 
-import androidx.fragment.app.Fragment;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -29,6 +27,7 @@ import java.util.List;
 
 import ando.webview.indicator.WebIndicator;
 import ando.webview.indicator.WebIndicatorController;
+import androidx.fragment.app.Fragment;
 
 import static androidx.core.text.HtmlCompat.FROM_HTML_MODE_LEGACY;
 

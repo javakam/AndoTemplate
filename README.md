@@ -3,6 +3,7 @@
 > **Ando 项目汇总**👉<https://juejin.cn/post/6934981195583356965/>
 
 ## 全部导入
+
 ```groovy
 implementation 'com.github.javakam:webview:x.0.0@aar'
 implementation 'com.github.javakam:gallery:x.0.0@aar'
@@ -24,23 +25,38 @@ implementation 'com.github.javakam:widget.indicator.core:x.0.0@aar'
 implementation 'com.github.javakam:widget.indicator.usage:x.0.0@aar'
 ```
 
+### 关闭 Gradle 警告
+
+> 禁止Gradle弃用警告 compileDebugJavaWithJavac
+`org.gradle.warning.mode=(all,none,summary)`
+
+```
+org.gradle.warning.mode=all
+```
+
 ## ando_library/ando_toolkit
+
 ```
 implementation 'ando.library:library:1.0.0'
 implementation 'ando.toolkit:toolkit:1.0.0'
 ```
 
 ### `Library`(ando_library)
+
 #### 1.导入
+
 ```groovy
 implementation 'com.github.javakam:library:x.0.0@aar'
 ```
+
 #### 2.内容
+
 ##### 基类(`base`) BaseActivity/BaseFragment/BaseApplication 等
 
 ##### 图片(`glide`) GlideUtils
 
 ##### 工具类(`utils`)
+
 ```kotlin
 网络工具
 顺序执行异步任务
@@ -51,13 +67,14 @@ GsonUtils
 ```
 
 ##### 组件(`widget`)
+
 ```kotlin
 透明处理(alpha)
 datetime
 悬浮窗(float)
 圆角ImageView(RoundImageView)
 状态视图(loader)
-RecycleView(BaseQuickAdapter/BaseViewHolder/RecyclerDecorationProvider)
+RecycleView(BaseQuickAdapter / BaseViewHolder / RecyclerDecorationProvider)
 阴影视图(ShadowDrawable)
 开关视图(SwitchButton)
 灰色应用(GrayFrameLayout)
@@ -66,9 +83,11 @@ RecycleView(BaseQuickAdapter/BaseViewHolder/RecyclerDecorationProvider)
 ```
 
 ##### 音视频框架
+
 https://github.com/yangjie10930/EpMedia
 
 ##### 顺序执行异步任务
+
 参考项目: https://github.com/ddnosh/android-tiny-task
 
 ```kotlin
@@ -103,14 +122,19 @@ private fun test() {
 ```
 
 ##### SwitchButton
+
 https://github.com/kyleduo/SwitchButton
 
 ### `ToolKit`(ando_toolkit)
+
 工具类集合, 还包括常用`Kotlin`扩展函数文件
+
 ```kotlin
 implementation 'com.github.javakam:toolkit:x.0.0@aar'
 ```
+
 eg:
+
 ```kotlin
 fun View.invisible() {
     this.run {
@@ -136,12 +160,15 @@ fun View.noShake(interval: Long = 500L, block: (v: View) -> Unit) {
 ```
 
 ### `Banner`(ando_ui_banner)
+
 #### 1.导入
+
 ```groovy
 implementation 'com.github.javakam:widget.banner:x.0.0@aar'
 ```
 
 #### 2.不结合`RecyclerView`使用
+
 ```kotlin
 val banner = rootView.findViewById<ImageBanner>(R.id.bannerImage)
 banner.setSource(mBannerData)
@@ -172,7 +199,9 @@ val mBannerData: List<BannerItem> = mutableListOf(
     ),
 )
 ```
+
 🌴配合`Indicator`一起使用
+
 ```kotlin
 val indicator = headerView.findViewById<MagicIndicator>(R.id.indicator)
 val roundNavigator = RoundRectNavigator(this)
@@ -191,28 +220,30 @@ indicator.navigator = roundNavigator
 banner.viewPager?.apply { ViewPagerHelper.bind(indicator, this) }
 ```
 
-#### 3.结合`RecyclerView`使用 
+#### 3.结合`RecyclerView`使用
+
 ```java
 @Override
-public void onViewDetachedFromWindow(BaseViewHolder holder) {
-    final SimpleImageBanner banner = holder.getView(R.id.bannerImage);
-    if (banner!=null) {
+public void onViewDetachedFromWindow(BaseViewHolder holder){
+final SimpleImageBanner banner=holder.getView(R.id.bannerImage);
+        if(banner!=null){
         banner.pauseScroll();
-    }
-    super.onViewDetachedFromWindow(holder);
-}
+        }
+        super.onViewDetachedFromWindow(holder);
+        }
 
 @Override
-public void onViewAttachedToWindow(@NotNull BaseViewHolder holder) {
-    super.onViewAttachedToWindow(holder);
-    final SimpleImageBanner banner = holder.getView(R.id.bannerImage);
-    if (banner!=null) {
+public void onViewAttachedToWindow(@NotNull BaseViewHolder holder){
+        super.onViewAttachedToWindow(holder);
+final SimpleImageBanner banner=holder.getView(R.id.bannerImage);
+        if(banner!=null){
         banner.startScroll();
-    }
-}
+        }
+        }
 ```
 
 #### 4.制作引导页面
+
 ```kotlin
 val guideBanner = GuideBanner(this).apply {
     layoutParams = FrameLayout.LayoutParams(
@@ -245,11 +276,14 @@ val guideBanner = GuideBanner(this).apply {
 #### 5.参考项目: <https://github.com/H07000223/FlycoBanner_Master>
 
 ### `Indicator`(ando_ui_indicator)
+
 导入
+
 ```groovy
 implementation 'com.github.javakam:widget.indicator.core:x.0.0@aar'
 implementation 'com.github.javakam:widget.indicator.usage:x.0.0@aar'
 ```
+
 `ando_ui_indicator_usage`为一些做好的控件类型
 
 🌴比`Google TabLayout`好用的方案, 参考自 <https://github.com/hackware1993/MagicIndicator>
@@ -265,6 +299,7 @@ implementation 'com.github.javakam:widget.indicator.usage:x.0.0@aar'
 - 动图展示app:layout_scrollFlags的5种滑动属性 👉 https://blog.csdn.net/LosingCarryJie/article/details/78917423
 
 ### 沉浸式状态栏
+
 https://juejin.cn/post/6844903518982111245
 
 ### RecyclerView
@@ -280,6 +315,7 @@ android:requestLegacyExternalStorage="true"
 ```
 
 ## 文件File & WebView
+
 ```gradle
 api 'androidx.documentfile:documentfile:1.0.1'
 //api 'com.ando.file:FileOperator:0.9.3-beta1'
@@ -293,6 +329,7 @@ api 'com.ando.string:StringExpandUtils:1.0.0'
 ```
 
 ## 网络框架(Retrofit & LiveData)
+
 LiveData Adapter for Retrofit
 
 https://gist.github.com/AkshayChordiya/15cfe7ca1842d6b959e77c04a073a98f
@@ -300,26 +337,30 @@ https://gist.github.com/AkshayChordiya/15cfe7ca1842d6b959e77c04a073a98f
 https://github.com/googlesamples/android-architecture-components/tree/master/GithubBrowserSample
 
 ## MVVM + Hilt
+
 https://itnext.io/android-architecture-hilt-mvvm-kotlin-coroutines-live-data-room-and-retrofit-ft-8b746cab4a06
 
 https://github.com/sdwfqin/AndroidQuick/tree/4.x/app-kt
 
 ## androidx Fragment 懒加载
+
 https://juejin.im/post/6844904050698223624
 
 ## Glide-KTX
+
 https://github.com/champChayangkoon/Glide-KTX
 
 ## GreenDao Gradle
+
 ```
 gradlew.bat greendao --warning-mode all --stacktrace
 ```
 
 ## BottomNavigationView show/hide 而不是 replace
+
 https://stackoverflow.com/questions/54087740/how-to-hide-bottomnavigationview-on-android-navigation-lib
 
-> You could do something like this in your activity's onCreate.
-When ever an item in the nav bar is selected it will show or hide the nav based on the fragment id's.
+> You could do something like this in your activity's onCreate. When ever an item in the nav bar is selected it will show or hide the nav based on the fragment id's.
 
 ```kotlin
 private fun setupNav() {
@@ -348,32 +389,26 @@ private fun hideBottomNav() {
 ## 混淆
 
 ## DataBinding 在XML中的具体使用方式
+
 ```xml
-<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-    android:id="@+id/swipeRefresh"
-    bind:colorSchemeResources="@{resId}"
-    bind:onRefreshListener="@{() -> viewModel.onRefresh()}"
-    bind:refreshing="@{viewModel.refreshing}"
-    android:layout_width="match_parent"
+
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout android:id="@+id/swipeRefresh"
+    bind:colorSchemeResources="@{resId}" bind:onRefreshListener="@{() -> viewModel.onRefresh()}"
+    bind:refreshing="@{viewModel.refreshing}" android:layout_width="match_parent"
     android:layout_height="match_parent"></androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-<TextView
-    android:id="@+id/tv_article_tabs"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:text='@{"复杂的表达式显示结果  "+@string/app_name+" -> "  + viewModel.wxArticleTabs.size()}' />
+<TextView android:id="@+id/tv_article_tabs" android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:text='@{"复杂的表达式显示结果  "+@string/app_name+" -> "  + viewModel.wxArticleTabs.size()}' />
 
-<ImageView
-    android:id="@+id/iv_article_tabs_bind"
-    loadPic="@{viewModel.tempImageUrl}"
-    android:layout_width="35dp"
-    android:layout_height="35dp"
-    android:layout_marginTop="3dp"
-    android:scaleType="centerCrop" />
+<ImageView android:id="@+id/iv_article_tabs_bind" loadPic="@{viewModel.tempImageUrl}"
+android:layout_width="35dp" android:layout_height="35dp" android:layout_marginTop="3dp"
+android:scaleType="centerCrop" />
 
 ```
 
 ## 添加矢量图SVG
+
 https://developer.android.com/studio/write/vector-asset-studio?hl=zh-cn
 
 ## 参考项目
@@ -406,12 +441,14 @@ navController = navHostFragment.navController
 ```
 
 3. Retrofit 姿势错误
+
 ```
  URL query string "{page}" must not have replace block. For dynamic query parameters use @Query.
      for method ApiService.getRecommendProjects
 ```
 
 4. Glide AppGlideModule
+
 ```
 Failed to find GeneratedAppGlideModule. You should include an annotationProcessor compile dependency on com.github.bumptech.glide:compiler in your application and a @GlideModule annotated AppGlideModule implementation or LibraryGlideModules will be silently ignored
 ```
