@@ -4,7 +4,12 @@ import ando.toolkit.FixedCountDownTimer
 import ando.repo.R
 import ando.repo.config.AppRouter
 import ando.repo.config.click
+import ando.repo.ui.webview.WebViewCoordinatorActivity
+import ando.repo.ui.webview.WebViewScrollViewActivity
+import ando.repo.ui.webview.WebViewUsageActivity
+import ando.repo.ui.webview.WebViewVideoActivity
 import android.annotation.SuppressLint
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -93,6 +98,19 @@ class MainActivity : AppCompatActivity() {
         click(R.id.bt_countdown_timer_stop) {
             mFixedCountDownTimer.cancel()
         }
+        //WebView
+        click(R.id.bt_webview01) {
+            startActivity(Intent(this, WebViewUsageActivity::class.java))
+        }
+        click(R.id.bt_webview02) {
+            startActivity(Intent(this, WebViewScrollViewActivity::class.java))
+        }
+        click(R.id.bt_webview03) {
+            startActivity(Intent(this, WebViewVideoActivity::class.java))
+        }
+        click(R.id.bt_webview04) {
+            startActivity(Intent(this, WebViewCoordinatorActivity::class.java))
+        }
     }
 
     private val mTvDownTimer: TextView by lazy { findViewById(R.id.tv_countdown_timer) }
@@ -104,7 +122,10 @@ class MainActivity : AppCompatActivity() {
             val showTime: Long = min(mCount, next / 1000)
             mTvDownTimer.text = "CountDownTimer 👉 $showTime"
 
-            Log.w("123", "onTick millisUntilFinished=$millisUntilFinished  next=$next  showTime=$showTime")
+            Log.w(
+                "123",
+                "onTick millisUntilFinished=$millisUntilFinished  next=$next  showTime=$showTime"
+            )
         }
 
         override fun onFinish() {
@@ -122,7 +143,10 @@ class MainActivity : AppCompatActivity() {
                 override fun onTick(fixedMillisUntilFinished: Long) {
                     val showTime: Long = min(mFixedCount, fixedMillisUntilFinished / 1000)
                     mTvFixedDownTimer.text = "FixedCountDownTimer 👉 $showTime"
-                    Log.e("123", "onTick fixedMillisUntilFinished=$fixedMillisUntilFinished  showTime=$showTime")
+                    Log.e(
+                        "123",
+                        "onTick fixedMillisUntilFinished=$fixedMillisUntilFinished  showTime=$showTime"
+                    )
                 }
 
                 override fun onFinish() {

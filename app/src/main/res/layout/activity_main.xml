@@ -83,7 +83,6 @@
             android:text="SmartDragLayout 拖拽布局(TODO)"
             android:textAllCaps="false" />
 
-
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/bt_widget_bottom_sheet"
             android:layout_width="match_parent"
@@ -91,6 +90,42 @@
             android:gravity="center_vertical|start"
             android:text="BottomSheet 分享弹窗"
             android:textAllCaps="false" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/bt_webview01"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical|start"
+            android:text="WebView Basic"
+            android:textAllCaps="false"
+            android:textSize="@dimen/font_14" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/bt_webview02"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical|start"
+            android:text="WebView NestedScrollView"
+            android:textAllCaps="false"
+            android:textSize="@dimen/font_14" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/bt_webview03"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical|start"
+            android:text="WebView Video"
+            android:textAllCaps="false"
+            android:textSize="@dimen/font_14" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/bt_webview04"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical|start"
+            android:text="WebView CoordinatorLayout"
+            android:textAllCaps="false"
+            android:textSize="@dimen/font_14" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/bt_widget_string_expand"

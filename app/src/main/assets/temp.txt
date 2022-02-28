@@ -1,0 +1,44 @@
+
+val htmlPathSSS =
+                "<p><script type='text/javascript' " +
+                        "  src='http://vd.zqrb.cn/admin/getvod/getvideo?key=b99dd7e5cfc1dadbb486326c68c8eb42&videoId=098ae9c0336f44f7b0990ea8433f45ff&isRePlay=1&isautoplay=1&id=358'> " +
+                        "</script></p><p>（策划 XXX音视频中心）</p>"
+
+http://vd.zqrb.cn/admin/getvod/getvideo?key=b99dd7e5cfc1dadbb486326c68c8eb42&videoId=098ae9c0336f44f7b0990ea8433f45ff&isRePlay=1&isautoplay=1&id=358
+
+var player358 = new Aliplayer({'id': 'player-con_0_358','
+source': '{"SD":"http:\/\/vod.zqrb.cn\/098ae9c0336f44f7b0990ea8433f45ff\/f11eb90ecd994acaaaeed49a6747ac1b-3e1175885dfc0610dd16d08c9d44ae53-sd.mp4","FD":"http:\/\/vod.zqrb.cn\/098ae9c0336f44f7b0990ea8433f45ff\/f11eb90ecd994acaaaeed49a6747ac1b-d8a9c9ff13ae4b633530b51aade98f4f-fd.mp4","LD":"http:\/\/vod.zqrb.cn\/098ae9c0336f44f7b0990ea8433f45ff\/f11eb90ecd994acaaaeed49a6747ac1b-b100b1e9eeba37a87417856197c29b6d-ld.mp4","HD":"http:\/\/vod.zqrb.cn\/098ae9c0336f44f7b0990ea8433f45ff\/f11eb90ecd994acaaaeed49a6747ac1b-7708089c2467915bf4e9884ddbea2a58-hd.mp4","OD":"http:\/\/vod.zqrb.cn\/098ae9c0336f44f7b0990ea8433f45ff\/f11eb90ecd994acaaaeed49a6747ac1b-9bd9aa70207709f96f67d3401da58f8a-od-S00000001-200000.mp4","2K":"http:\/\/vod.zqrb.cn\/098ae9c0336f44f7b0990ea8433f45ff\/f11eb90ecd994acaaaeed49a6747ac1b-f2635f1ad92dc06a8c4e3c1893f11421-2k.mp4"}',
+'width': '100%',
+'height': '500px',
+'autoplay': false,
+'isLive': false,
+'cover': 'http://vod.zqrb.cn/image/default/1885B93B3AD04B20ADF4F5FC5E9ED32B-6-2.jpg','rePlay': true,'playsinline': true,
+'preload': false,
+'controlBarVisibility': 'hover',
+'useH5Prism': true},
+function (player358) {console.log('播放器创建了。');});
+
+
+document.write("");
+document.write ("<" + "script type='text/javascript' charset='utf-8' src='");
+document.write ("https://g.alicdn.com/de/prismplayer/2.8.2/aliplayer-min.js");
+document.write ("'><" + "/script>");
+document.write("
+");
+document.write ("<" + "script>");
+document.write ("var player358 = new Aliplayer({");
+document.write ("'id': 'player-con_0_358',");
+document.write ("'source': '{\"SD\":\"http:\\/\\/vod.zqrb.cn\\/098ae9c0336f44f7b0990ea8433f45ff\\/f11eb90ecd994acaaaeed49a6747ac1b-3e1175885dfc0610dd16d08c9d44ae53-sd.mp4\",\"FD\":\"http:\\/\\/vod.zqrb.cn\\/098ae9c0336f44f7b0990ea8433f45ff\\/f11eb90ecd994acaaaeed49a6747ac1b-d8a9c9ff13ae4b633530b51aade98f4f-fd.mp4\",\"LD\":\"http:\\/\\/vod.zqrb.cn\\/098ae9c0336f44f7b0990ea8433f45ff\\/f11eb90ecd994acaaaeed49a6747ac1b-b100b1e9eeba37a87417856197c29b6d-ld.mp4\",\"HD\":\"http:\\/\\/vod.zqrb.cn\\/098ae9c0336f44f7b0990ea8433f45ff\\/f11eb90ecd994acaaaeed49a6747ac1b-7708089c2467915bf4e9884ddbea2a58-hd.mp4\",\"OD\":\"http:\\/\\/vod.zqrb.cn\\/098ae9c0336f44f7b0990ea8433f45ff\\/f11eb90ecd994acaaaeed49a6747ac1b-9bd9aa70207709f96f67d3401da58f8a-od-S00000001-200000.mp4\",\"2K\":\"http:\\/\\/vod.zqrb.cn\\/098ae9c0336f44f7b0990ea8433f45ff\\/f11eb90ecd994acaaaeed49a6747ac1b-f2635f1ad92dc06a8c4e3c1893f11421-2k.mp4\"}',");
+document.write ("'width': '100%',");document.write ("'height': '500px',");
+document.write ("'autoplay': false,");
+document.write ("'isLive': false,");
+document.write ("'cover': 'http://vod.zqrb.cn/image/default/1885B93B3AD04B20ADF4F5FC5E9ED32B-6-2.jpg',");
+document.write ("'rePlay': true,");
+document.write ("'playsinline': true,");
+document.write ("'preload': false,");
+document.write ("'controlBarVisibility': 'hover',");
+document.write ("'useH5Prism': true");
+document.write ("}, function (player358) {");
+document.write ("console.log('播放器创建了。');");
+document.write ("});");
+document.write ("");

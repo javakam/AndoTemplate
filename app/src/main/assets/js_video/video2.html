@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Carson_Ho</title>
+
+    <script
+            src="http://vd.zqrb.cn/admin/getvod/getvideo?key=b99dd7e5cfc1dadbb486326c68c8eb42&videoId=098ae9c0336f44f7b0990ea8433f45ff&isRePlay=1&isautoplay=1&id=358"
+            type="text/javascript"></script>
+    <script>
+         function callAndroid(content){
+            /*约定的url协议为：js://webview?arg1=111&arg2=222*/
+            //document.location = "js://webview?arg1=111&arg2=222";
+            console.log("Function callAndroid()..."+content);
+         }
+
+         function insertContent(content){
+            //这是直接插入html
+            document.getElementById("body").innerHTML = content;
+
+            //如果想追加，可以这样
+            //先保存div中原来的html
+            //var html = document.getElementById("body").innerHTML;
+            //再跟你想追加的代码加到一起插入div中
+            //document.getElementById("body").innerHTML = html + content;
+
+         }
+
+
+    </script>
+</head>
+
+<!-- 点击按钮则调用callAndroid（）方法  -->
+<body>
+<button type="button" id="button1" onclick="callAndroid()">点击调用Android代码</button>
+</body>
+</html>
+

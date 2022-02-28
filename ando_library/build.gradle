@@ -59,7 +59,10 @@ dependencies {
     //悬浮窗框架：https://github.com/getActivity/XToast
     //api 'com.github.getActivity:XToast:8.1'
 
-    compileOnly 'com.github.javakam:file.core:2.2.0@aar'
+    //compileOnly 'com.github.javakam:file.core:2.2.0@aar'
+    compileOnly 'com.github.javakam:file.core:3.0.0@aar'
+//    compileOnly 'com.github.javakam:file.selector:3.0.0@aar'
+//    compileOnly 'com.github.javakam:file.compressor:3.0.0@aar'
     compileOnly project(':ando_toolkit')
 }
 

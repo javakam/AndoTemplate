@@ -31,3 +31,4 @@ rootProject.name = "AndoTemplate"
 //     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 //
 //               佛祖保佑         永无BUG
+include ':ando_webview'

@@ -11,6 +11,16 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_MEDIA_LOCATION" />
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+
+    <!--  电话  -->
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+
+    <!--  定位  -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:name=".App"
@@ -101,6 +111,20 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.toolkit.ToolKitActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.webview.WebViewUsageActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.webview.WebViewScrollViewActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.webview.WebViewVideoActivity"
+            android:hardwareAccelerated="true"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.webview.WebViewCoordinatorActivity"
+            android:hardwareAccelerated="true"
             android:screenOrientation="portrait" />
 
     </application>

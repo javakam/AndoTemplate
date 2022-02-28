@@ -2,11 +2,12 @@
 apply from: "config.gradle"
 
 buildscript {
-    ext.kotlin_version = "1.5.30"
+    ext.kotlin_version = "1.6.10"
     repositories {
         google()
         maven { url "https://jitpack.io" }
         maven { url "https://maven.aliyun.com/nexus/content/groups/public/" }
+        maven { url "https://s01.oss.sonatype.org/content/groups/public" }
         mavenLocal()
         mavenCentral()
         jcenter() // Warning: this repository is going to shut down soon
@@ -25,6 +26,7 @@ allprojects {
         google()
         maven { url "https://jitpack.io" }
         maven { url "https://maven.aliyun.com/nexus/content/groups/public/" }
+        maven { url "https://s01.oss.sonatype.org/content/groups/public" }
         mavenLocal()
         mavenCentral()
         jcenter() // Warning: this repository is going to shut down soon
