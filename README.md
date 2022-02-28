@@ -1,5 +1,7 @@
 # Ando Template
 
+> **Ando 项目汇总**👉<https://juejin.cn/post/6934981195583356965/>
+
 ## 全部导入
 ```groovy
 implementation 'com.github.javakam:webview:x.0.0@aar'
