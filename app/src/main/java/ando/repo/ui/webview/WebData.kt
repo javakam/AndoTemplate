@@ -7,6 +7,7 @@ package ando.repo.ui.webview
 
 const val adHtml="https://fhy.bgy.com.cn/fhyH5/"
 const val adHtml2="https://ad-h5.fcb.com.cn/makePost/index.html#/page?jsUrl=20210201bdw&channel=4740&groupId=30a6b37e0f2cea20462da646f0af545e"
+const val adHtml3 ="http://m.zqrb.cn/tushuocaijing/2022-03-07/A1646622803833.html"
 
 const val localHtmlPath="file:///android_asset/js_video/video.html"
 const val localHtmlPath2="file:///android_asset/js_video/video2.html"

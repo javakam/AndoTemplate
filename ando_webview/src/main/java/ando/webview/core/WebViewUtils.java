@@ -85,7 +85,12 @@ public class WebViewUtils {
         settings.setDatabaseEnabled(true);
         settings.setAppCacheEnabled(true);
         settings.setLoadsImagesAutomatically(true);
-        settings.setSupportMultipleWindows(true);
+        /*
+        2022年3月8日 10:11:44 解决带有 target="_blank" 的a标签链接无法打开的问题
+        <a href="http://www.zqrb.cn/subject/2022nqglhztbd/index.html">详细&gt;&gt;</a>
+        <a href="http://www.zqrb.cn/finance/lianghui/2022-03-06/A1646537092603.html" target="_blank">习近平参加内蒙古代表团审议</a>
+         */
+        settings.setSupportMultipleWindows(false);
         // 是否阻塞加载网络图片  协议http or https
         settings.setBlockNetworkImage(false);
         // 允许加载本地文件html  file协议
