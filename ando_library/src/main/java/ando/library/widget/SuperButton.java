@@ -7,14 +7,12 @@ import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.os.Build;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.Gravity;
-
-import androidx.appcompat.widget.AppCompatButton;
 
 import ando.library.R;
 import ando.library.widget.alpha.AlphaViewHelper;
 import ando.library.widget.alpha.IAlphaViewHelper;
+import androidx.appcompat.widget.AppCompatButton;
 
 /**
  * # SuperButton
@@ -250,10 +248,12 @@ public class SuperButton extends AppCompatButton {
      */
     private void setSelectorColor(int state) {
         if (gradientOrientation == -1) {
-            Log.w("123", "setSelectorColor = " + state
-                    + "  " + android.R.attr.state_selected
-                    + "  " + android.R.attr.state_pressed
-                    + "  " + android.R.attr.state_enabled);
+//            if (AppUtils.INSTANCE.isDebug()) {
+//                Log.v("SuperButton", "setSelectorColor = " + state
+//                        + "  " + android.R.attr.state_selected
+//                        + "  " + android.R.attr.state_pressed
+//                        + "  " + android.R.attr.state_enabled);
+//            }
 
             switch (state) {
                 case -android.R.attr.state_selected:

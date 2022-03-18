@@ -24,8 +24,7 @@ abstract class BaseStatePagersAdapter(fm: FragmentManager) :
 
     override fun getItem(i: Int): Fragment = mFragments?.get(i) as Fragment
 
-    override fun getPageTitle(position: Int): CharSequence? =
-        mTitles?.get(position) as CharSequence
+    override fun getPageTitle(position: Int): CharSequence? = mTitles?.get(position) as CharSequence
 
     override fun getCount(): Int = mTitles?.size ?: 0
 

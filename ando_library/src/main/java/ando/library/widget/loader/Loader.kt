@@ -70,36 +70,24 @@ abstract class Loader @JvmOverloads constructor(
         mSucceedView = createSuccessView()
         if (null != mSucceedView) {
             if (childCount == 0) {
-                this.addView(
-                    mSucceedView,
-                    LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
-                )
+                this.addView(mSucceedView, LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT))
             }
         }
         loadingView = createLoadingView()
         if (null != loadingView) {
-            this.addView(
-                loadingView,
-                LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
-            )
+            this.addView(loadingView, LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT))
         } else {
             mMaxCount--
         }
         errorView = createErrorView()
         if (null != errorView) {
-            this.addView(
-                errorView,
-                LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
-            )
+            this.addView(errorView, LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT))
         } else {
             mMaxCount--
         }
         emptyView = createEmptyView()
         if (null != emptyView) {
-            this.addView(
-                emptyView,
-                LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT)
-            )
+            this.addView(emptyView, LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT))
         } else {
             mMaxCount--
         }
@@ -206,6 +194,17 @@ abstract class Loader @JvmOverloads constructor(
      * 网络异常界面
      */
     protected abstract fun createErrorView(): View?
+    fun getLoadingView(): View? {
+        return loadingView
+    }
+
+    fun getEmptyView(): View? {
+        return emptyView
+    }
+
+    fun getErrorView(): View? {
+        return errorView
+    }
 
     /**
      * 重载页面
