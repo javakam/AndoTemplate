@@ -34,7 +34,7 @@ public class CommonPagerIndicator extends View implements IPagerIndicator {
     private float mYOffset;
     private float mXOffset;
 
-    private List<PagerIndicatorPosition> mPagerIndicatorPositionList;
+    private List<PositionData> mPagerIndicatorPositionList;
     private Rect mDrawableRect = new Rect();
 
     public CommonPagerIndicator(Context context) {
@@ -52,8 +52,8 @@ public class CommonPagerIndicator extends View implements IPagerIndicator {
         }
 
         // 计算锚点位置
-        PagerIndicatorPosition current = FragmentContainerHelper.getImitativeIndicatorPosition(mPagerIndicatorPositionList, position);
-        PagerIndicatorPosition next = FragmentContainerHelper.getImitativeIndicatorPosition(mPagerIndicatorPositionList, position + 1);
+        PositionData current = FragmentContainerHelper.getImitativeIndicatorPosition(mPagerIndicatorPositionList, position);
+        PositionData next = FragmentContainerHelper.getImitativeIndicatorPosition(mPagerIndicatorPositionList, position + 1);
 
         float leftX;
         float nextLeftX;
@@ -105,7 +105,7 @@ public class CommonPagerIndicator extends View implements IPagerIndicator {
     }
 
     @Override
-    public void onIndicatorPositionProvide(List<PagerIndicatorPosition> dataList) {
+    public void onIndicatorPositionProvide(List<PositionData> dataList) {
         mPagerIndicatorPositionList = dataList;
     }
 

@@ -36,7 +36,7 @@ public class LinePagerIndicator extends View implements IPagerIndicator {
     private float mRoundRadius;
 
     private Paint mPaint;
-    private List<PagerIndicatorPosition> mIndicatorPositionList;
+    private List<PositionData> mIndicatorPositionList;
     private List<Integer> mColors;
 
     private RectF mLineRect = new RectF();
@@ -73,8 +73,8 @@ public class LinePagerIndicator extends View implements IPagerIndicator {
         }
 
         // 计算锚点位置
-        PagerIndicatorPosition current = FragmentContainerHelper.getImitativeIndicatorPosition(mIndicatorPositionList, position);
-        PagerIndicatorPosition next = FragmentContainerHelper.getImitativeIndicatorPosition(mIndicatorPositionList, position + 1);
+        PositionData current = FragmentContainerHelper.getImitativeIndicatorPosition(mIndicatorPositionList, position);
+        PositionData next = FragmentContainerHelper.getImitativeIndicatorPosition(mIndicatorPositionList, position + 1);
 
         float leftX;
         float nextLeftX;
@@ -114,7 +114,7 @@ public class LinePagerIndicator extends View implements IPagerIndicator {
     }
 
     @Override
-    public void onIndicatorPositionProvide(List<PagerIndicatorPosition> dataList) {
+    public void onIndicatorPositionProvide(List<PositionData> dataList) {
         mIndicatorPositionList = dataList;
     }
 

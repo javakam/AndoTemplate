@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ando.widget.indicator.abs.ScrollState;
-import ando.widget.indicator.indicators.PagerIndicatorPosition;
+import ando.widget.indicator.indicators.PositionData;
 
 /**
  * 使得MagicIndicator在FragmentContainer中使用
@@ -58,12 +58,12 @@ public class FragmentContainerHelper {
     /**
      * IPagerIndicator支持弹性效果的辅助方法
      */
-    public static PagerIndicatorPosition getImitativeIndicatorPosition(List<PagerIndicatorPosition> positionDataList, int index) {
+    public static PositionData getImitativeIndicatorPosition(List<PositionData> positionDataList, int index) {
         if (index >= 0 && index <= positionDataList.size() - 1) { // 越界后，返回假的PagerIndicatorPosition
             return positionDataList.get(index);
         } else {
-            PagerIndicatorPosition result = new PagerIndicatorPosition();
-            PagerIndicatorPosition referenceData;
+            PositionData result = new PositionData();
+            PositionData referenceData;
             int offset;
             if (index < 0) {
                 offset = index;

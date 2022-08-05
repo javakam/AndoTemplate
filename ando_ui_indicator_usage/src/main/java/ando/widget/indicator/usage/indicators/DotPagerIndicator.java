@@ -10,13 +10,13 @@ import java.util.List;
 
 import ando.widget.indicator.IndicatorUtils;
 import ando.widget.indicator.abs.IPagerIndicator;
-import ando.widget.indicator.indicators.PagerIndicatorPosition;
+import ando.widget.indicator.indicators.PositionData;
 
 /**
  * 非手指跟随的小圆点指示器
  */
 public class DotPagerIndicator extends View implements IPagerIndicator {
-    private List<PagerIndicatorPosition> mDataList;
+    private List<PositionData> mDataList;
     private float mRadius;
     private float mYOffset;
     private int mDotColor;
@@ -36,13 +36,13 @@ public class DotPagerIndicator extends View implements IPagerIndicator {
         if (mDataList == null || mDataList.isEmpty()) {
             return;
         }
-        PagerIndicatorPosition data = mDataList.get(position);
+        PositionData data = mDataList.get(position);
         mCircleCenterX = data.mLeft + data.width() / 2F;
         invalidate();
     }
 
     @Override
-    public void onIndicatorPositionProvide(List<PagerIndicatorPosition> dataList) {
+    public void onIndicatorPositionProvide(List<PositionData> dataList) {
         mDataList = dataList;
     }
 

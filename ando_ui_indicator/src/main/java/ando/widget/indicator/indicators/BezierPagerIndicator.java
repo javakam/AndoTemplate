@@ -20,7 +20,7 @@ import ando.widget.indicator.abs.IPagerIndicator;
  * 贝塞尔曲线ViewPager指示器，带颜色渐变
  */
 public class BezierPagerIndicator extends View implements IPagerIndicator {
-    private List<PagerIndicatorPosition> mIndicatorPositionList;
+    private List<PositionData> mIndicatorPositionList;
 
     private float mLeftCircleRadius;
     private float mLeftCircleX;
@@ -88,8 +88,8 @@ public class BezierPagerIndicator extends View implements IPagerIndicator {
         }
 
         // 计算锚点位置
-        PagerIndicatorPosition current = FragmentContainerHelper.getImitativeIndicatorPosition(mIndicatorPositionList, position);
-        PagerIndicatorPosition next = FragmentContainerHelper.getImitativeIndicatorPosition(mIndicatorPositionList, position + 1);
+        PositionData current = FragmentContainerHelper.getImitativeIndicatorPosition(mIndicatorPositionList, position);
+        PositionData next = FragmentContainerHelper.getImitativeIndicatorPosition(mIndicatorPositionList, position + 1);
 
         float leftX = current.mLeft + (current.mRight - current.mLeft) / 2F;
         float rightX = next.mLeft + (next.mRight - next.mLeft) / 2F;
@@ -111,7 +111,7 @@ public class BezierPagerIndicator extends View implements IPagerIndicator {
     }
 
     @Override
-    public void onIndicatorPositionProvide(List<PagerIndicatorPosition> dataList) {
+    public void onIndicatorPositionProvide(List<PositionData> dataList) {
         mIndicatorPositionList = dataList;
     }
 

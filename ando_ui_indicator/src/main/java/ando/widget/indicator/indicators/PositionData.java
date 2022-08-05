@@ -3,7 +3,7 @@ package ando.widget.indicator.indicators;
 /**
  * 保存指示器标题的坐标
  */
-public class PagerIndicatorPosition {
+public class PositionData {
     public int mLeft;
     public int mTop;
     public int mRight;

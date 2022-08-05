@@ -18,7 +18,7 @@ import ando.widget.indicator.abs.IPagerIndicator;
  * 带有小尖角的直线指示器
  */
 public class TriangularPagerIndicator extends View implements IPagerIndicator {
-    private List<PagerIndicatorPosition> mIndicatorPositionList;
+    private List<PositionData> mIndicatorPositionList;
     private Paint mPaint;
     private int mLineHeight;
     private int mLineColor;
@@ -73,8 +73,8 @@ public class TriangularPagerIndicator extends View implements IPagerIndicator {
         }
 
         // 计算锚点位置
-        PagerIndicatorPosition current = FragmentContainerHelper.getImitativeIndicatorPosition(mIndicatorPositionList, position);
-        PagerIndicatorPosition next = FragmentContainerHelper.getImitativeIndicatorPosition(mIndicatorPositionList, position + 1);
+        PositionData current = FragmentContainerHelper.getImitativeIndicatorPosition(mIndicatorPositionList, position);
+        PositionData next = FragmentContainerHelper.getImitativeIndicatorPosition(mIndicatorPositionList, position + 1);
 
         float leftX = current.mLeft + (current.mRight - current.mLeft) / 2F;
         float rightX = next.mLeft + (next.mRight - next.mLeft) / 2F;
@@ -93,7 +93,7 @@ public class TriangularPagerIndicator extends View implements IPagerIndicator {
     }
 
     @Override
-    public void onIndicatorPositionProvide(List<PagerIndicatorPosition> dataList) {
+    public void onIndicatorPositionProvide(List<PositionData> dataList) {
         mIndicatorPositionList = dataList;
     }
 

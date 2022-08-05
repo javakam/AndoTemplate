@@ -14,6 +14,11 @@ fun String?.noNull(default: String? = ""): String {
     return if (isNullOrBlank()) default ?: "" else this
 }
 
+//相较于 noNull , 处理了返回值为字符串"null"的问题
+fun String?.noNullStrict(default: String? = ""): String {
+    return if (isNullOrBlank()) default ?: "" else (if (trim().equals("null", ignoreCase = true)) "" else this)
+}
+
 fun CharSequence?.noNullZero(): CharSequence {
     return if (this.isNullOrBlank()) "0" else this
 }
@@ -24,6 +29,19 @@ fun CharSequence?.noNullZeroInt(): Int {
 
 fun CharSequence?.noNullZeroLong(): Long {
     return if (this.isNullOrBlank()) 0L else this.toString().toLong(radix = 0)
+}
+
+/**
+ * @param delimiter 分隔符, 默认是英文逗号
+ * @param place 集合为空时, 返回的默认字符串
+ */
+fun Collection<Any>?.split(delimiter: String = ",", place: String = ""): String {
+    if (isNullOrEmpty()) return place
+    val sb = StringBuilder()
+    forEach {
+        sb.append(it).append(delimiter)
+    }
+    return if (sb.isNotBlank()) sb.substring(0, sb.length - 1) else ""
 }
 
 /**

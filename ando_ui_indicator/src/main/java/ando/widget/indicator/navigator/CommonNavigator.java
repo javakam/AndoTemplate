@@ -19,7 +19,7 @@ import ando.widget.indicator.abs.CommonNavigatorAdapter;
 import ando.widget.indicator.abs.IMeasurablePagerTitleView;
 import ando.widget.indicator.abs.IPagerIndicator;
 import ando.widget.indicator.abs.IPagerTitleView;
-import ando.widget.indicator.indicators.PagerIndicatorPosition;
+import ando.widget.indicator.indicators.PositionData;
 
 /**
  * 通用的ViewPager指示器，包含PagerTitle和PagerIndicator
@@ -35,6 +35,7 @@ public class CommonNavigator extends FrameLayout implements IPagerNavigator, Nav
 
     //提供给外部的参数配置
     /****************************************************/
+    private boolean mFillOneScreen = true;  // mAdjustMode=true 并且只有一两个title时, 是否铺满一横屏(true)还是向左靠齐
     private boolean mAdjustMode;            // 自适应模式，适用于数目固定的、少量的title
     private boolean mEnablePivotScroll;     // 启动中心点滚动
     private float mScrollPivotX = 0.5f;     // 滚动中心点 0.0f - 1.0f
@@ -48,10 +49,9 @@ public class CommonNavigator extends FrameLayout implements IPagerNavigator, Nav
     /****************************************************/
 
     // 保存每个title的位置信息，为扩展indicator提供保障
-    private final List<PagerIndicatorPosition> mIndicatorPositionList = new ArrayList<PagerIndicatorPosition>();
+    private final List<PositionData> mIndicatorPositionList = new ArrayList<PositionData>();
 
     private final DataSetObserver mObserver = new DataSetObserver() {
-
         @Override
         public void onChanged() {
             mNavigatorHelper.setTotalCount(mAdapter.getCount());    // 如果使用helper，应始终保证helper中的totalCount为最新
@@ -75,6 +75,14 @@ public class CommonNavigator extends FrameLayout implements IPagerNavigator, Nav
         if (mAdapter != null) {
             mAdapter.notifyDataSetChanged();
         }
+    }
+
+    public boolean isFillOneScreen() {
+        return mFillOneScreen;
+    }
+
+    public void setFillOneScreen(boolean fill) {
+        this.mFillOneScreen = fill;
     }
 
     public boolean isAdjustMode() {
@@ -139,7 +147,7 @@ public class CommonNavigator extends FrameLayout implements IPagerNavigator, Nav
         //mAdjustMode false 时少量条目横向铺满,解决留白的问题
         final int sw = getResources().getDisplayMetrics().widthPixels;
         int minW = 0;
-        if (mNavigatorHelper.getTotalCount() > 0) {
+        if (mFillOneScreen && mNavigatorHelper.getTotalCount() > 0) {
             minW = sw / mNavigatorHelper.getTotalCount();
         }
 
@@ -171,7 +179,7 @@ public class CommonNavigator extends FrameLayout implements IPagerNavigator, Nav
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         super.onLayout(changed, left, top, right, bottom);
         if (mAdapter != null) {
-            prepareIndicatorPosition();
+            preparePositionData();
             if (mIndicator != null) {
                 mIndicator.onIndicatorPositionProvide(mIndicatorPositionList);
             }
@@ -185,10 +193,10 @@ public class CommonNavigator extends FrameLayout implements IPagerNavigator, Nav
     /**
      * 获取title的位置信息，为打造不同的指示器、各种效果提供可能
      */
-    private void prepareIndicatorPosition() {
+    private void preparePositionData() {
         mIndicatorPositionList.clear();
         for (int i = 0, j = mNavigatorHelper.getTotalCount(); i < j; i++) {
-            PagerIndicatorPosition data = new PagerIndicatorPosition();
+            PositionData data = new PositionData();
             View v = mTitleContainer.getChildAt(i);
             if (v != null) {
                 data.mLeft = v.getLeft();
@@ -226,8 +234,8 @@ public class CommonNavigator extends FrameLayout implements IPagerNavigator, Nav
                 if (mFollowTouch) {
                     int currentPosition = Math.min(mIndicatorPositionList.size() - 1, position);
                     int nextPosition = Math.min(mIndicatorPositionList.size() - 1, position + 1);
-                    PagerIndicatorPosition current = mIndicatorPositionList.get(currentPosition);
-                    PagerIndicatorPosition next = mIndicatorPositionList.get(nextPosition);
+                    PositionData current = mIndicatorPositionList.get(currentPosition);
+                    PositionData next = mIndicatorPositionList.get(nextPosition);
                     float scrollTo = current.horizontalCenter() - mScrollView.getWidth() * mScrollPivotX;
                     float nextScrollTo = next.horizontalCenter() - mScrollView.getWidth() * mScrollPivotX;
                     mScrollView.scrollTo((int) (scrollTo + (nextScrollTo - scrollTo) * positionOffset), 0);
@@ -345,7 +353,7 @@ public class CommonNavigator extends FrameLayout implements IPagerNavigator, Nav
         }
         if (!mAdjustMode && !mFollowTouch && mScrollView != null && mIndicatorPositionList.size() > 0) {
             int currentIndex = Math.min(mIndicatorPositionList.size() - 1, index);
-            PagerIndicatorPosition current = mIndicatorPositionList.get(currentIndex);
+            PositionData current = mIndicatorPositionList.get(currentIndex);
             if (mEnablePivotScroll) {
                 float scrollTo = current.horizontalCenter() - mScrollView.getWidth() * mScrollPivotX;
                 if (mSmoothScroll) {

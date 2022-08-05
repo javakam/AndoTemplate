@@ -25,7 +25,7 @@ public class WrapPagerIndicator extends View implements IPagerIndicator {
     private Interpolator mStartInterpolator = new LinearInterpolator();
     private Interpolator mEndInterpolator = new LinearInterpolator();
 
-    private List<PagerIndicatorPosition> mIndicatorPositionList;
+    private List<PositionData> mIndicatorPositionList;
     private Paint mPaint;
 
     private RectF mRect = new RectF();
@@ -56,8 +56,8 @@ public class WrapPagerIndicator extends View implements IPagerIndicator {
         }
 
         // 计算锚点位置
-        PagerIndicatorPosition current = FragmentContainerHelper.getImitativeIndicatorPosition(mIndicatorPositionList, position);
-        PagerIndicatorPosition next = FragmentContainerHelper.getImitativeIndicatorPosition(mIndicatorPositionList, position + 1);
+        PositionData current = FragmentContainerHelper.getImitativeIndicatorPosition(mIndicatorPositionList, position);
+        PositionData next = FragmentContainerHelper.getImitativeIndicatorPosition(mIndicatorPositionList, position + 1);
 
         mRect.left = current.mContentLeft - mHorizontalPadding + (next.mContentLeft - current.mContentLeft) * mEndInterpolator.getInterpolation(positionOffset);
         mRect.top = current.mContentTop - mVerticalPadding;
@@ -80,7 +80,7 @@ public class WrapPagerIndicator extends View implements IPagerIndicator {
     }
 
     @Override
-    public void onIndicatorPositionProvide(List<PagerIndicatorPosition> dataList) {
+    public void onIndicatorPositionProvide(List<PositionData> dataList) {
         mIndicatorPositionList = dataList;
     }
 
