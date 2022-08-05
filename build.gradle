@@ -7,7 +7,6 @@ buildscript {
         google()
         maven { url "https://jitpack.io" }
         maven { url "https://maven.aliyun.com/nexus/content/groups/public/" }
-        maven { url "https://s01.oss.sonatype.org/content/groups/public" }
         mavenLocal()
         mavenCentral()
         jcenter() // Warning: this repository is going to shut down soon
@@ -25,22 +24,24 @@ allprojects {
     repositories {
         google()
         maven { url "https://jitpack.io" }
-        maven { url "https://maven.aliyun.com/nexus/content/groups/public/" }
         maven { url "https://s01.oss.sonatype.org/content/groups/public" }
+        maven { url "https://maven.aliyun.com/nexus/content/groups/public/" }
         mavenLocal()
         mavenCentral()
         jcenter() // Warning: this repository is going to shut down soon
+    }
+    tasks.withType(Javadoc) {
+        options {
+            encoding "UTF-8"
+            charSet 'UTF-8'
+            links "http://docs.oracle.com/javase/7/docs/api"
+        }
     }
     gradle.projectsEvaluated {
         tasks.withType(JavaCompile) {
             //options.encoding = "UTF-8"
             //options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
         }
-    }
-    tasks.withType(Javadoc) {
-        options.addStringOption('Xdoclint:none', '-quiet')
-        options.addStringOption('encoding', 'UTF-8')
-        options.addStringOption('charSet', 'UTF-8')
     }
 }
 
