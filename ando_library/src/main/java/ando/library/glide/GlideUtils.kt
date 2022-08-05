@@ -13,6 +13,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.resource.bitmap.BitmapTransitionOptions
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.load.resource.gif.GifDrawable
+import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 
 /**
@@ -106,7 +107,7 @@ object GlideUtils {
 
     fun loadImage(
         iv: ImageView, path: Any?, placeholder: Drawable?, error: Drawable?,
-        strategy: DiskCacheStrategy?, options: RequestOptions?
+        strategy: DiskCacheStrategy?, isEnableTransition: Boolean = true, options: RequestOptions?
     ): RequestBuilder<Bitmap> {
         var builder: RequestBuilder<Bitmap> = Glide.with(iv.context)
             .asBitmap()
@@ -114,7 +115,8 @@ object GlideUtils {
             .placeholder(placeholder)
             .error(error)
             .load(path)
-            .transition(BitmapTransitionOptions.withCrossFade())
+
+        if (isEnableTransition) builder = builder.transition(BitmapTransitionOptions.withCrossFade())
 
         var realOptions = options ?: RequestOptions()
             .centerCrop()
@@ -176,4 +178,19 @@ object GlideUtils {
     private fun getDrawable(@NonNull iv: ImageView, @DrawableRes placeholder: Int = -1): Drawable? =
         if (placeholder != -1) ContextCompat.getDrawable(iv.context, placeholder) else null
 
+    //RoundImageView + transition(BitmapTransitionOptions.withCrossFade()) 会导致图片不显示...
+    fun loadRoundImage(
+        iv: ImageView, path: Any?, @DrawableRes placeholder: Int = 0, @DrawableRes error: Int = 0,
+        listener: RequestListener<Bitmap>? = null,
+    ) {
+        Glide.with(iv.context)
+            .asBitmap()
+            .placeholder(placeholder)
+            .error(error)
+            .diskCacheStrategy(DiskCacheStrategy.NONE)
+            .skipMemoryCache(true)
+            .load(path)
+            .listener(listener)
+            .into(iv)
+    }
 }

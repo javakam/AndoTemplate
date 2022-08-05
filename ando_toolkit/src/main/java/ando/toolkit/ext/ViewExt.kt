@@ -89,6 +89,18 @@ fun View.gone() {
     }
 }
 
+fun visibleViews(vararg v: View?) {
+    v.forEach { it?.visibility = View.VISIBLE }
+}
+
+fun goneViews(vararg v: View?) {
+    v.forEach { it?.visibility = View.GONE }
+}
+
+fun invisibleViews(vararg v: View?) {
+    v.forEach { it?.visibility = View.INVISIBLE }
+}
+
 fun View.noShake(interval: Long = 500L, block: (v: View) -> Unit) {
     this.apply {
         setOnClickListener(object : NoShakeClickListener(interval) {
