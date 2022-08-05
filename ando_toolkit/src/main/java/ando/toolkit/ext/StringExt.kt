@@ -45,6 +45,27 @@ fun Collection<Any>?.split(delimiter: String = ",", place: String = ""): String 
 }
 
 /**
+ * 中文空格(\u3000 和 &#12288; 效果相同)
+ *
+ * 1. 代码中动态添加中文空格, 使用 \u3000
+ * 2. 布局中使用, 在 string.xml 中使用 &#12288;
+ *
+ * https://juejin.cn/post/7128302603431051278/
+ */
+fun appendSpace(text: String?, spaceCount: Int = 0): String {
+    var s: String? = text
+    if (s == null) s = ""
+    var i = 0
+    while (i < spaceCount) {
+        s += String.format(Locale.getDefault(), format = "%s", "\u3000")
+        i += 1
+    }
+    return s
+}
+
+fun String?.space(i: Int = 0) = appendSpace(this, spaceCount = i)
+
+/**
  * 可以在应用内播放的地址
  */
 fun String?.isVideoUrl(): Boolean {
