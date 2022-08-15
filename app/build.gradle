@@ -155,6 +155,10 @@ dependencies {
 
     implementation 'com.github.javakam:widget.optionview:3.7.0@aar'
 
+    //2022年8月15日 16:06:20 https://github.com/Bigkoo/Android-PickerView
+    implementation 'com.github.javakam:widget.wheelview:1.0.0@aar'
+    implementation 'com.github.javakam:widget.pickerview:1.0.0@aar'
+
     //implementation 'com.github.javakam:library:8.9.2@aar'
     //implementation 'com.github.javakam:toolkit:8.8.8@aar'
     implementation project(':ando_library')
