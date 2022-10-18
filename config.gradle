@@ -3,7 +3,7 @@ ext {
     config = [
             applicationId    : "ando.repo",
             compileSdkVersion: 31,
-            buildToolsVersion: '30.0.3',
+            buildToolsVersion: '33.0.0',
             minSdkVersion    : 21,
             targetSdkVersion : 31,
             versionCode      : 1,

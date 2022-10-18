@@ -1,5 +1,6 @@
 plugins {
     id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
 }
 
 def config = rootProject.ext.config
@@ -38,9 +39,9 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
 
+//    compileOnly "androidx.core:core-ktx:1.9.0"
     compileOnly 'androidx.viewpager:viewpager:1.0.0'
     compileOnly "androidx.viewpager2:viewpager2:1.0.0"
-
 }
 
 ext {
