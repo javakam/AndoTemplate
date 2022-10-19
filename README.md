@@ -4,6 +4,8 @@
 
 ## 全部导入
 
+> 版本号位于 config.gradle
+
 ```groovy
 implementation 'com.github.javakam:webview:x.0.0@aar'
 implementation 'com.github.javakam:gallery:x.0.0@aar'
@@ -25,20 +27,11 @@ implementation 'com.github.javakam:widget.indicator.core:x.0.0@aar'
 implementation 'com.github.javakam:widget.indicator.usage:x.0.0@aar'
 ```
 
-### 关闭 Gradle 警告
-
-> 禁止Gradle弃用警告 compileDebugJavaWithJavac
-`org.gradle.warning.mode=(all,none,summary)`
-
-```
-org.gradle.warning.mode=all
-```
-
 ## ando_library/ando_toolkit
 
 ```
-implementation 'ando.library:library:1.0.0'
-implementation 'ando.toolkit:toolkit:1.0.0'
+implementation 'ando.library:library:x.0.0'
+implementation 'ando.toolkit:toolkit:x.0.0'
 ```
 
 ### `Library`(ando_library)

@@ -26,16 +26,11 @@ object CoordinatorUtils {
      */
     fun setCoordinatorLayout(coordinatorLayout: CoordinatorLayout) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            ViewCompat.setOnApplyWindowInsetsListener(coordinatorLayout,
-                object : OnApplyWindowInsetsListener {
-                    override fun onApplyWindowInsets(
-                        v: View?,
-                        insets: WindowInsetsCompat,
-                    ): WindowInsetsCompat {
-                        @Suppress("DEPRECATION")
-                        return insets.consumeSystemWindowInsets()
-                    }
-                })
+            ViewCompat.setOnApplyWindowInsetsListener(coordinatorLayout, object : OnApplyWindowInsetsListener {
+                override fun onApplyWindowInsets(v: View, insets: WindowInsetsCompat): WindowInsetsCompat {
+                    @Suppress("DEPRECATION") return insets.consumeSystemWindowInsets()
+                }
+            })
         }
     }
 
@@ -58,13 +53,10 @@ object CoordinatorUtils {
      */
     fun setStatusBarPaddingAndHeight(titleView: View?) {
         if (titleView == null) return
-
         val statusBarHeight: Int = DeviceUtils.getStatusBarHeight()
         titleView.setPadding(
-            titleView.paddingLeft, statusBarHeight, titleView.paddingRight,
-            titleView.paddingBottom
+            titleView.paddingLeft, statusBarHeight, titleView.paddingRight, titleView.paddingBottom
         )
-
         val toolBarHeight = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50F, titleView.resources?.displayMetrics).toInt()
         titleView.layoutParams.height = statusBarHeight + toolBarHeight
     }
@@ -75,5 +67,4 @@ object CoordinatorUtils {
     private fun changeAlpha(color: Int, fraction: Float): Int {
         return Color.argb((Color.alpha(color) * fraction).toInt(), Color.red(color), Color.green(color), Color.blue(color))
     }
-
 }

@@ -5,7 +5,6 @@ import ando.toolkit.ext.DeviceUtils.getStatusBarHeight
 import android.app.Activity
 import android.content.Context
 import android.graphics.Rect
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver.OnGlobalLayoutListener
@@ -62,9 +61,7 @@ object KeyboardUtils {
         view.requestFocus()
         imm.showSoftInput(view, flags, object : ResultReceiver(Handler(Looper.getMainLooper())) {
             override fun onReceiveResult(resultCode: Int, resultData: Bundle?) {
-                if (resultCode == InputMethodManager.RESULT_UNCHANGED_HIDDEN
-                    || resultCode == InputMethodManager.RESULT_HIDDEN
-                ) toggleSoftInput()
+                if (resultCode == InputMethodManager.RESULT_UNCHANGED_HIDDEN || resultCode == InputMethodManager.RESULT_HIDDEN) toggleSoftInput()
             }
         })
         imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY)
@@ -127,9 +124,9 @@ object KeyboardUtils {
         val decorView = window.decorView
         val outRect = Rect()
         decorView.getWindowVisibleDisplayFrame(outRect)
-        Log.d(
-            "KeyboardUtils", "getDecorViewInvisibleHeight: " + (decorView.bottom - outRect.bottom)
-        )
+//        Log.d(
+//            "KeyboardUtils", "getDecorViewInvisibleHeight: " + (decorView.bottom - outRect.bottom)
+//        )
         val delta = abs(decorView.bottom - outRect.bottom)
         if (delta <= getNavBarHeight() + getStatusBarHeight()) {
             sDecorViewDelta = delta
@@ -145,8 +142,7 @@ object KeyboardUtils {
      * @param listener The soft input changed listener.
      */
     fun registerSoftInputChangedListener(
-        activity: Activity,
-        listener: OnSoftInputChangedListener
+        activity: Activity, listener: OnSoftInputChangedListener
     ) {
         registerSoftInputChangedListener(activity.window, listener)
     }
@@ -158,14 +154,13 @@ object KeyboardUtils {
      * @param listener The soft input changed listener.
      */
     fun registerSoftInputChangedListener(
-        window: Window,
-        listener: OnSoftInputChangedListener
+        window: Window, listener: OnSoftInputChangedListener
     ) {
         val flags = window.attributes.flags
         if (flags and WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS != 0) {
             window.clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
         }
-        val contentView = window.findViewById<FrameLayout>(R.id.content)
+        val contentView = window.findViewById<FrameLayout>(android.R.id.content)
         val decorViewInvisibleHeightPre = intArrayOf(getDecorViewInvisibleHeight(window))
         val onGlobalLayoutListener = OnGlobalLayoutListener {
             val height = getDecorViewInvisibleHeight(window)
@@ -184,11 +179,10 @@ object KeyboardUtils {
      * @param window The window.
      */
     fun unregisterSoftInputChangedListener(window: Window) {
-        val contentView = window.findViewById<FrameLayout>(R.id.content)
+        val contentView = window.findViewById<FrameLayout>(android.R.id.content)
         val tag = contentView.getTag(TAG_ON_GLOBAL_LAYOUT_LISTENER)
         if (tag is OnGlobalLayoutListener) {
-            @SuppressLint("ObsoleteSdkInt")
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            @SuppressLint("ObsoleteSdkInt") if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                 contentView.viewTreeObserver.removeOnGlobalLayoutListener(tag)
             }
         }
@@ -214,29 +208,27 @@ object KeyboardUtils {
      */
     fun fixAndroidBug5497(window: Window) {
         val softInputMode = window.attributes.softInputMode
-        @Suppress("DEPRECATION")
-        window.setSoftInputMode(softInputMode and WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE.inv())
-        val contentView = window.findViewById<FrameLayout>(R.id.content)
+        @Suppress("DEPRECATION") window.setSoftInputMode(softInputMode and WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE.inv())
+        val contentView = window.findViewById<FrameLayout>(android.R.id.content)
         val contentViewChild = contentView.getChildAt(0)
         val paddingBottom = contentViewChild.paddingBottom
         val contentViewInvisibleHeightPre5497 = intArrayOf(getContentViewInvisibleHeight(window))
-        contentView.viewTreeObserver
-            .addOnGlobalLayoutListener {
-                val height = getContentViewInvisibleHeight(window)
-                if (contentViewInvisibleHeightPre5497[0] != height) {
-                    contentViewChild.setPadding(
-                        contentViewChild.paddingLeft,
-                        contentViewChild.paddingTop,
-                        contentViewChild.paddingRight,
-                        paddingBottom + getDecorViewInvisibleHeight(window)
-                    )
-                    contentViewInvisibleHeightPre5497[0] = height
-                }
+        contentView.viewTreeObserver.addOnGlobalLayoutListener {
+            val height = getContentViewInvisibleHeight(window)
+            if (contentViewInvisibleHeightPre5497[0] != height) {
+                contentViewChild.setPadding(
+                    contentViewChild.paddingLeft,
+                    contentViewChild.paddingTop,
+                    contentViewChild.paddingRight,
+                    paddingBottom + getDecorViewInvisibleHeight(window)
+                )
+                contentViewInvisibleHeightPre5497[0] = height
             }
+        }
     }
 
     private fun getContentViewInvisibleHeight(window: Window): Int {
-        val contentView = window.findViewById<View>(R.id.content) ?: return 0
+        val contentView = window.findViewById<View>(android.R.id.content) ?: return 0
         val outRect = Rect()
         contentView.getWindowVisibleDisplayFrame(outRect)
         L.d("getContentViewInvisibleHeight: " + (contentView.bottom - outRect.bottom))
@@ -257,8 +249,7 @@ object KeyboardUtils {
      * @param window The window.
      */
     fun fixSoftInputLeaks(window: Window) {
-        val imm = AppUtils.getContext()
-            .getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        val imm = AppUtils.getContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         val leakViews = arrayOf("mLastSrvView", "mCurRootView", "mServedView", "mNextServedView")
         for (leakView in leakViews) {
             try {

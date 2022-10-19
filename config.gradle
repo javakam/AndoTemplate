@@ -1,23 +1,20 @@
 ext {
 
-    config = [
-            applicationId    : "ando.repo",
-            compileSdkVersion: 31,
-            buildToolsVersion: '33.0.0',
-            minSdkVersion    : 21,
-            targetSdkVersion : 31,
-            versionCode      : 1,
-            versionName      : "1.0.0",
-            vAndoLib         : "11.0.0", //ando_library   'com.github.javakam:library:x.x.x@aar'
-            vAndoTool        : "11.0.0", //ando_toolkit   'com.github.javakam:toolkit:x.x.x@aar'
-            vBanner          : "3.5.0",  //ando_ui_banner 'com.github.javakam:widget.banner:x.x.x@aar'
-            vIndicator       : "3.0.0",  //ando_ui_indicator  'com.github.javakam:widget.indicator.core:x.x.x@aar'
-            vIndicatorUsage  : "3.0.0",  //ando_ui_indicator_usage  'com.github.javakam:widget.indicator.usage:x.x.x@aar'
-            vWebView         : "5.0.0"   //ando_webview   'com.github.javakam:webview:x.x.x@aar'
+    config = [applicationId    : "ando.repo",
+              compileSdkVersion: 31,
+              buildToolsVersion: '33.0.0',
+              minSdkVersion    : 21,
+              targetSdkVersion : 31,
+              versionCode      : 2,
+              versionName      : "2.0.0",
+              vAndoLib         : "12.0.0", //ando_library   'com.github.javakam:library:x.x.x@aar'
+              vAndoTool        : "12.0.0", //ando_toolkit   'com.github.javakam:toolkit:x.x.x@aar'
+              vBanner          : "6.0.0",  //ando_ui_banner 'com.github.javakam:widget.banner:x.x.x@aar'
+              vIndicator       : "6.0.0",  //ando_ui_indicator  'com.github.javakam:widget.indicator.core:x.x.x@aar'
+              vIndicatorUsage  : "6.0.0",  //ando_ui_indicator_usage  'com.github.javakam:widget.indicator.usage:x.x.x@aar'
+              vWebView         : "6.0.0"   //ando_webview   'com.github.javakam:webview:x.x.x@aar'
     ]
 
-    versions = [
-            core_ktx: "1.3.2"
-    ]
+    //versions = [core_ktx: "1.3.2"]
 
 }
