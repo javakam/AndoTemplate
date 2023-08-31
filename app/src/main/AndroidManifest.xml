@@ -3,7 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="ando.repo">
 
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="28"
@@ -15,7 +17,9 @@
 
     <!--  电话  -->
     <uses-permission android:name="android.permission.READ_CONTACTS" />
-    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission
+        android:name="android.permission.CALL_PHONE"
+        tools:ignore="PermissionImpliesUnsupportedChromeOsHardware" />
 
     <!--  定位  -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -49,8 +53,8 @@
         <activity
             android:name=".ui.SplashActivity"
             android:configChanges="uiMode|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize"
-            android:screenOrientation="portrait"
             android:exported="true"
+            android:screenOrientation="portrait"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -101,10 +105,6 @@
         <activity android:name="ando.repo.ui.recycler.decoration.activity.HorizontalStaggeredGridActivity" />
         <activity
             android:name=".ui.recycler.diff.RecyclerDiffActivity"
-            android:configChanges="uiMode|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".ui.DragActivity"
             android:configChanges="uiMode|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize"
             android:screenOrientation="portrait" />
         <activity

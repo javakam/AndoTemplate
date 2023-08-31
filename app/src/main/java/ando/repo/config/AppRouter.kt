@@ -17,7 +17,7 @@ import android.app.Activity
 import android.content.Intent
 
 /**
- * # AppRouter
+ * AppRouter
  *
  * @author javakam
  * @date 2021/3/4  13:39
@@ -74,10 +74,6 @@ object AppRouter {
     //SuperButton
     fun toWidgetButton(activity: Activity) {
         activity.startActivity(Intent(activity, ButtonActivity::class.java))
-    }
-
-    fun toWidgetDrag(activity: Activity) {
-        activity.startActivity(Intent(activity, DragActivity::class.java))
     }
 
     fun toStringExpand(activity: Activity) {

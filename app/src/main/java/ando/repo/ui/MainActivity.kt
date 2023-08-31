@@ -1,5 +1,6 @@
 package ando.repo.ui
 
+import ando.dialog.bottomsheet.ModalBottomSheetDialogFragment
 import ando.toolkit.FixedCountDownTimer
 import ando.repo.R
 import ando.repo.config.AppRouter
@@ -8,6 +9,8 @@ import ando.repo.ui.webview.WebViewCoordinatorActivity
 import ando.repo.ui.webview.WebViewScrollViewActivity
 import ando.repo.ui.webview.WebViewUsageActivity
 import ando.repo.ui.webview.WebViewVideoActivity
+import ando.widget.option.list.OptionItem
+import ando.widget.option.list.OptionView
 import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -15,10 +18,12 @@ import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.Log
 import android.widget.TextView
+import android.widget.Toast
 import kotlin.math.min
 
 @SuppressLint("SetTextI18n")
 class MainActivity : AppCompatActivity() {
+    private var dismissibleDialog: ModalBottomSheetDialogFragment? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -64,13 +69,25 @@ class MainActivity : AppCompatActivity() {
             AppRouter.toWidgetRecyclerDiff(this)
         }
 
-        //SmartDragLayout
-        click(R.id.bt_widget_drag) {
-            AppRouter.toWidgetDrag(this)
-        }
-
         //底部弹窗
+
         click(R.id.bt_widget_bottom_sheet) {
+            dismissibleDialog = ModalBottomSheetDialogFragment.Builder()
+                //.setTitle("分享")
+                //.setTitleLayout(R.layout.layout_bottom_sheet_fragment_header)
+                .addItem(this, R.menu.options)
+                .setItemViewDirection(true)
+                .setTopRounded(true)//顶部圆角控制
+                .setColumns(3)
+                .setDraggable(true)
+                .setOnItemClickListener(object : OptionView.OnItemClickListener {
+                    override fun onItemSelected(item: OptionItem) {
+                        Toast.makeText(applicationContext, "点击: " + item.title, Toast.LENGTH_LONG).show()
+                    }
+                })
+                .build()
+
+            dismissibleDialog?.show(supportFragmentManager, "分享")
         }
 
         //String Expand
