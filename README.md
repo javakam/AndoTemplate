@@ -2,6 +2,10 @@
 
 > **Ando 项目汇总**👉<https://juejin.cn/post/6934981195583356965/>
 
+## 预览
+
+<img src="https://raw.githubusercontent.com/javakam/AndoTemplate/master/screenshot/Screenshot_20230831_165617.png"/>
+
 ## 全部导入
 
 > 版本号位于 config.gradle
