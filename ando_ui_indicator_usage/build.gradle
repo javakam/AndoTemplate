@@ -14,7 +14,6 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
     }
-
     buildTypes {
         debug {}
         release {
@@ -30,9 +29,6 @@ android {
         checkReleaseBuilds false
         abortOnError false
     }
-//    kotlinOptions {
-//        jvmTarget = "1.8"
-//    }
 }
 
 dependencies {

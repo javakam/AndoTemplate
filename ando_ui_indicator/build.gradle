@@ -10,7 +10,6 @@ android {
     defaultConfig {
         minSdk config.minSdk
         targetSdk config.targetSdk
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
     }
@@ -30,9 +29,6 @@ android {
         checkReleaseBuilds false
         abortOnError false
     }
-//    kotlinOptions {
-//        jvmTarget = "1.8"
-//    }
 }
 
 dependencies {

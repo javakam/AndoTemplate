@@ -31,7 +31,6 @@ android {
     }
 }
 
-
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
     compileOnly 'androidx.core:core-ktx:1.10.1'
