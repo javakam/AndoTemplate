@@ -148,6 +148,7 @@ dependencies {
     implementation 'com.github.javakam:file.selector:3.9.0@aar'
     implementation 'com.github.javakam:file.compressor:3.9.0@aar'
 
+    // https://github.com/javakam/DialogManager
     implementation 'com.github.javakam:dialog.core:7.0.0@aar'  //核心库, 2个类
     implementation 'com.github.javakam:dialog.usage:7.0.0@aar' //常用样式(如: 加载中弹窗)
     implementation 'com.github.javakam:dialog.bottomsheet:7.0.0@aar' //底部弹窗(必需下面的 widget.optionview 框架)

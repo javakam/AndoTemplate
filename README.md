@@ -11,24 +11,27 @@
 > 版本号位于 config.gradle
 
 ```groovy
-implementation 'com.github.javakam:webview:x.0.0@aar'
-implementation 'com.github.javakam:gallery:x.0.0@aar'
-
+// https://github.com/javakam/DialogManager
 implementation 'com.github.javakam:dialog.core:x.0.0@aar'
 implementation 'com.github.javakam:dialog.usage:x.0.0@aar'
 implementation 'com.github.javakam:dialog.bottomsheet:x.0.0@aar'
 
+// https://github.com/javakam/FileOperator
 implementation 'com.github.javakam:file.core:x.0.0@aar'
 implementation 'com.github.javakam:file.selector:x.0.0@aar'
 implementation 'com.github.javakam:file.compressor:x.0.0@aar'
 implementation 'com.github.javakam:file.android-q:x.0.0@aar'
 implementation 'androidx.documentfile:documentfile:1.0.1'
 
+// https://github.com/javakam/PickerView
+implementation 'com.github.javakam:widget.pickerview:x.0.0@aar'
+
 implementation 'com.github.javakam:library:x.0.0@aar'
 implementation 'com.github.javakam:toolkit:x.0.0@aar'
 implementation 'com.github.javakam:widget.banner:x.0.0@aar'
 implementation 'com.github.javakam:widget.indicator.core:x.0.0@aar'
 implementation 'com.github.javakam:widget.indicator.usage:x.0.0@aar'
+implementation 'com.github.javakam:webview:x.0.0@aar'
 ```
 
 ## ando_library/ando_toolkit
