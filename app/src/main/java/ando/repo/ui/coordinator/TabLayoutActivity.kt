@@ -52,7 +52,7 @@ open class TabLayoutActivity : AppCompatActivity() {
             ViewCompat.setOnApplyWindowInsetsListener(
                 findViewById(R.id.root_container_layout), object : OnApplyWindowInsetsListener {
                     override fun onApplyWindowInsets(
-                        v: View?,
+                        v: View,
                         insets: WindowInsetsCompat
                     ): WindowInsetsCompat {
                         @Suppress("DEPRECATION")

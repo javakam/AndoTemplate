@@ -1,7 +1,5 @@
 package ando.toolkit.thread
 
-import ando.toolkit.ThreadUtils
-
 /**
  * Task，对回调做catch，防止崩溃
  *

@@ -138,6 +138,7 @@ class ShadowDrawable private constructor(
         mShadowPaint.colorFilter = colorFilter
     }
 
+    @Deprecated("Deprecated in Java")
     override fun getOpacity(): Int {
         return PixelFormat.TRANSLUCENT
     }

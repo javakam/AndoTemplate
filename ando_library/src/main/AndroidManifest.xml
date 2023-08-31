@@ -18,7 +18,7 @@
        ③ 在manifest的Application节点中加入
           android:maxAspectRatio="2.4"
 
-       ④ 升级targetSdkVersion为25以上版本
+       ④ 升级targetSdk为25以上版本
 
        播放器
        允许绘制到 oppo、vivo 刘海屏机型的刘海区域

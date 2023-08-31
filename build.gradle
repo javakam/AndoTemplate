@@ -2,7 +2,7 @@
 apply from: "config.gradle"
 
 buildscript {
-    ext.kotlin_version = "1.7.20"
+    ext.kotlin_version = '1.9.10'
     repositories {
         google()
         maven { url "https://jitpack.io" }
@@ -12,7 +12,7 @@ buildscript {
         jcenter() // Warning: this repository is going to shut down soon
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.3.1'
+        classpath 'com.android.tools.build:gradle:7.4.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 
         // NOTE: Do not place your application dependencies here; they belong

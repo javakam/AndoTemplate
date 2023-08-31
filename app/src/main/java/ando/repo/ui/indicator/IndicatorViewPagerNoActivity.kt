@@ -6,7 +6,7 @@ import ando.repo.ui.DisplayFragment
 import ando.repo.ui.indicator.adapter.IndicatorFixedNavAdapter
 import ando.repo.widget.indicator.MagicIndicatorHelper
 import ando.toolkit.thread.ThreadTask
-import ando.toolkit.ThreadUtils
+import ando.toolkit.thread.ThreadUtils
 import ando.widget.indicator.FragmentContainerHelper
 import ando.widget.indicator.MagicIndicator
 import android.os.Bundle

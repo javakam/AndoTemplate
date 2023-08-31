@@ -90,6 +90,7 @@ object PictureSelectorEngine : ImageEngine {
             })
     }
 
+    @Deprecated("Deprecated in Java")
     override fun loadImage(context: Context, url: String, imageView: ImageView, longImageView: SubsamplingScaleImageView) {
         loadImage(context, url, imageView, longImageView, object : OnImageCompleteCallback {
             override fun onShowLoading() {

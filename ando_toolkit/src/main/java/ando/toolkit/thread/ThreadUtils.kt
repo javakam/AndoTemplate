@@ -1,4 +1,4 @@
-package ando.toolkit
+package ando.toolkit.thread
 
 import android.os.Handler
 import android.os.Looper
@@ -1160,13 +1160,15 @@ object ThreadUtils {
                         LinkedBlockingQueue4Util(),
                         UtilsThreadFactory("single", priority)
                     )
+
                     TYPE_CACHED -> ThreadPoolExecutor4Util(
                         0, 128,
                         60L, TimeUnit.SECONDS,
                         LinkedBlockingQueue4Util(true),
                         UtilsThreadFactory("cached", priority)
                     )
-                    TYPE_IO     -> ThreadPoolExecutor4Util(
+
+                    TYPE_IO -> ThreadPoolExecutor4Util(
                         2 * CPU_COUNT + 1,
                         2 * CPU_COUNT + 1,
                         30,
@@ -1174,7 +1176,8 @@ object ThreadUtils {
                         LinkedBlockingQueue4Util(),
                         UtilsThreadFactory("io", priority)
                     )
-                    TYPE_CPU    -> ThreadPoolExecutor4Util(
+
+                    TYPE_CPU -> ThreadPoolExecutor4Util(
                         CPU_COUNT + 1,
                         2 * CPU_COUNT + 1,
                         30,
@@ -1182,7 +1185,8 @@ object ThreadUtils {
                         LinkedBlockingQueue4Util(true),
                         UtilsThreadFactory("cpu", priority)
                     )
-                    else        -> ThreadPoolExecutor4Util(
+
+                    else -> ThreadPoolExecutor4Util(
                         type, type,
                         0L, TimeUnit.MILLISECONDS,
                         LinkedBlockingQueue4Util(),
@@ -1250,8 +1254,12 @@ object ThreadUtils {
             return get().toByte()
         }
 
+        @Deprecated(
+            "Direct conversion to Char is deprecated. Use toInt().toChar() or Char constructor instead.\nIf you override toChar() function in your Number inheritor, it's recommended to gradually deprecate the overriding function and then remove it.\nSee https://youtrack.jetbrains.com/issue/KT-46465 for details about the migration",
+            replaceWith = ReplaceWith("this.toInt().toChar()")
+        )
         override fun toChar(): Char {
-            return get().toChar()
+            return get().toInt().toChar()
         }
 
         override fun toShort(): Short {

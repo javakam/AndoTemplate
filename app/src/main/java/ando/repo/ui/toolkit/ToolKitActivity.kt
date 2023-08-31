@@ -2,7 +2,7 @@ package ando.repo.ui.toolkit
 
 import ando.repo.R
 import ando.toolkit.http.NetworkUtils
-import ando.toolkit.ThreadUtils
+import ando.toolkit.thread.ThreadUtils
 import ando.toolkit.http.*
 import ando.toolkit.thread.ThreadTask
 import android.annotation.SuppressLint

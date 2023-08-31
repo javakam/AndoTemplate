@@ -12,19 +12,17 @@ def keystoreProperties = new Properties()
 keystoreProperties.load(new FileInputStream(keystoreFile))
 
 android {
-    compileSdkVersion config.compileSdkVersion
-    buildToolsVersion config.buildToolsVersion
+    compileSdk config.compileSdk
 
     defaultConfig {
-        minSdkVersion config.minSdkVersion
-        targetSdkVersion config.targetSdkVersion
+        minSdk config.minSdk
+        targetSdk config.targetSdk
         versionCode config.versionCode
         versionName config.versionName
 
         applicationId config.applicationId
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles 'consumer-rules.pro'
 
 //      ndk {
 //          // 'armeabi', 'armeabi-v7a', 'arm64-v8a' , 'x86' , 'x86_64', 'mips','mips64'
@@ -101,20 +99,20 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 
-    implementation "androidx.core:core-ktx:1.9.0"
-    implementation "androidx.appcompat:appcompat:1.4.1"
-    implementation "com.google.android.material:material:1.5.0"
+    implementation "androidx.core:core-ktx:1.10.1"
+    implementation "androidx.appcompat:appcompat:1.6.1"
+    implementation "com.google.android.material:material:1.9.0"
     implementation "androidx.constraintlayout:constraintlayout:2.1.4"
-    implementation "androidx.recyclerview:recyclerview:1.2.1"
-    implementation "androidx.annotation:annotation:1.3.0"
+    implementation "androidx.recyclerview:recyclerview:1.3.0"
+    implementation "androidx.annotation:annotation:1.6.0"
     implementation "androidx.viewpager2:viewpager2:1.0.0"
     //implementation "androidx.cardview:cardview:1.0.0"
 
     //Permission
     implementation "com.permissionx.guolindev:permissionx:1.4.0"
     //Glide  https://github.com/wasabeef/glide-transformations
-    implementation "com.github.bumptech.glide:glide:4.13.0"
-    kapt "com.github.bumptech.glide:compiler:4.13.0"
+    implementation "com.github.bumptech.glide:glide:4.16.0"
+    //kapt "com.github.bumptech.glide:compiler:4.16.0"
     implementation "jp.wasabeef:glide-transformations:4.3.0"
     //Pull Refresh 57KB
     implementation "com.scwang.smart:refresh-layout-kernel:2.0.3"
@@ -127,8 +125,8 @@ dependencies {
     //implementation "org.greenrobot:greendao:3.3.0"
 
     // OkHttp + retrofit + rxjava2
-    api "com.squareup.okhttp3:okhttp:5.0.0-alpha.4"
-    api "com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.4"
+    api "com.squareup.okhttp3:okhttp:5.0.0-alpha.11"
+    api "com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.11"
     api "com.squareup.retrofit2:retrofit:2.9.0"
     api "com.squareup.retrofit2:converter-gson:2.9.0"
     //api "io.reactivex.rxjava2:rxjava:2.2.21"
@@ -144,20 +142,21 @@ dependencies {
     //implementation 'com.github.javakam:webview:3.0.0@aar'
     implementation 'com.github.javakam:gallery:5.2.0@aar'
 
+    // https://github.com/javakam/FileOperator
     implementation 'androidx.documentfile:documentfile:1.0.1'
-    implementation 'com.github.javakam:file.core:3.0.0@aar'
-    implementation 'com.github.javakam:file.selector:3.0.0@aar'
-    implementation 'com.github.javakam:file.compressor:3.0.0@aar'
+    implementation 'com.github.javakam:file.core:3.9.0@aar'
+    implementation 'com.github.javakam:file.selector:3.9.0@aar'
+    implementation 'com.github.javakam:file.compressor:3.9.0@aar'
 
-    implementation 'com.github.javakam:dialog.core:3.0.0@aar'
-    implementation 'com.github.javakam:dialog.usage:3.0.0@aar'
-    implementation 'com.github.javakam:dialog.bottomsheet:3.6.0@aar'
+    implementation 'com.github.javakam:dialog.core:7.0.0@aar'  //核心库, 2个类
+    implementation 'com.github.javakam:dialog.usage:7.0.0@aar' //常用样式(如: 加载中弹窗)
+    implementation 'com.github.javakam:dialog.bottomsheet:7.0.0@aar' //底部弹窗(必需下面的 widget.optionview 框架)
+    implementation 'com.github.javakam:widget.optionview:7.0.0@aar'  //单选/多选的RecyclerView,基于EasyAdapter实现
 
-    implementation 'com.github.javakam:widget.optionview:3.7.0@aar'
-
-    //2022年8月15日 16:06:20 https://github.com/Bigkoo/Android-PickerView
-    implementation 'com.github.javakam:widget.wheelview:1.0.0@aar'
-    implementation 'com.github.javakam:widget.pickerview:1.0.0@aar'
+    //2022年8月15日 16:06:20 旧项目 https://github.com/Bigkoo/Android-PickerView
+    //2023年8月31日 15:25:45 新地址 https://github.com/javakam/PickerView
+    implementation 'com.github.javakam:widget.wheelview:1.6.0@aar'
+    implementation 'com.github.javakam:widget.pickerview:1.6.0@aar'
 
     //implementation 'com.github.javakam:library:8.9.2@aar'
     //implementation 'com.github.javakam:toolkit:8.8.8@aar'

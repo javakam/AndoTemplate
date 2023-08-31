@@ -83,7 +83,6 @@ public class WebViewUtils {
 
         settings.setTextZoom(100);
         settings.setDatabaseEnabled(true);
-        settings.setAppCacheEnabled(true);
         settings.setLoadsImagesAutomatically(true);
         /*
         2022年3月8日 10:11:44 解决带有 target="_blank" 的a标签链接无法打开的问题
@@ -119,10 +118,6 @@ public class WebViewUtils {
         settings.setGeolocationDatabasePath(dir);
         //noinspection deprecation
         settings.setDatabasePath(dir);
-        settings.setAppCachePath(dir);
-        //缓存文件最大值
-        //noinspection deprecation
-        settings.setAppCacheMaxSize(Long.MAX_VALUE);
 
         //设置是否打开 WebView 表单数据的保存功能
         settings.setSaveFormData(true);

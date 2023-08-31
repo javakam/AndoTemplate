@@ -1,17 +1,15 @@
 plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
-    //id 'kotlin-android'
 }
 
 def config = rootProject.ext.config
 
 android {
-    compileSdkVersion config.compileSdkVersion
-    buildToolsVersion config.buildToolsVersion
+    compileSdk config.compileSdk
     defaultConfig {
-        minSdkVersion config.minSdkVersion
-        targetSdkVersion config.targetSdkVersion
+        minSdk config.minSdk
+        targetSdk config.targetSdk
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
@@ -39,7 +37,7 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
-    compileOnly 'androidx.core:core-ktx:1.9.0'
+    compileOnly 'androidx.core:core-ktx:1.10.1'
     compileOnly 'androidx.viewpager:viewpager:1.0.0'
     compileOnly "androidx.viewpager2:viewpager2:1.0.0"
 

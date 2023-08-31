@@ -3,7 +3,7 @@ package ando.repo.ui.banner
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import ando.repo.R
-import ando.toolkit.ThreadUtils
+import ando.toolkit.thread.ThreadUtils
 import ando.toolkit.ext.noNull
 import ando.toolkit.ext.toastLong
 import ando.toolkit.ext.toastShort

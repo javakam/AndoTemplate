@@ -4,7 +4,7 @@ import ando.repo.R
 import ando.repo.bean.ChannelBean
 import ando.repo.ui.DisplayFragment
 import ando.repo.widget.indicator.MagicIndicatorHelper
-import ando.toolkit.ThreadUtils
+import ando.toolkit.thread.ThreadUtils
 import ando.toolkit.thread.ThreadTask
 import ando.widget.indicator.MagicIndicator
 import android.os.Bundle
