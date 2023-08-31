@@ -4,7 +4,7 @@
 
 ## 预览
 
-<img src="https://raw.githubusercontent.com/javakam/AndoTemplate/master/screenshot/Screenshot_20230831_165617.png"/>
+<img src="https://raw.githubusercontent.com/javakam/AndoTemplate/master/screenshot/Screenshot_20230831_165617.png" width="320" height="620"/>
 
 ## 全部导入
 
